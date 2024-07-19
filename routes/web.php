@@ -17,7 +17,7 @@ use App\Http\Controllers\Controller;
 Route::get('/signin', [Controller::class, 'index'])->name('signin');
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
 
