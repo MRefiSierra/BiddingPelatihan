@@ -19,11 +19,12 @@
 
         <div class="page-body">
             <div class="container-xl p-2">
-                <form class="px-5 pt-3">
-                    <div class="mb-3">
+                <form class="px-5 pt-3" method="POST" action="{{ route('storePelatihan') }}">
+                    @csrf
+                    {{-- <div class="mb-3">
                         <label class="form-label fs-1">PRL</label>
                         <input type="text" class="form-control" name="PRL" placeholder="Input placeholder" />
-                    </div>
+                    </div> --}}
                     <div class="mb-3">
                         <label class="form-label fs-1">Nama</label>
                         <input type="text" class="form-control" name="Nama" placeholder="Input placeholder" />
@@ -42,14 +43,18 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label fs-1">Kuota Instruktur</label>
-                        <input type="text" class="form-control" name="Kuota" placeholder="Input placeholder" />
+                        <input type="number" class="form-control" name="KuotaInstruktur" placeholder="Input placeholder" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fs-1">Kuota Instruktur</label>
+                        <input type="number" class="form-control" name="Kuota" placeholder="Input placeholder" />
                     </div>
                     <div class="mb-3">
                         <label class="form-label fs-1">Lokasi</label>
                         <input type="text" class="form-control" name="Lokasi" placeholder="Input placeholder" />
                     </div>
                     <div class="mt-auto text-right">
-                        <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
 
                 </form>
