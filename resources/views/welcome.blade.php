@@ -4,59 +4,7 @@
 
 @section('content')
     <div class="page">
-        <!-- Sidebar -->
-        <aside class="navbar navbar-vertical navbar-expand-sm navbar-dark">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu"
-                    aria-controls="sidebar-menu" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <h1 class="navbar-brand navbar-brand-autodark">
-                    <a href="#">
-                        {{-- <img src="..." width="110" height="32" alt="Tabler" class="navbar-brand-image"> --}}
-                        <h1>Bid Pelatihan</h1>
-                    </a>
-                </h1>
-                <div class="collapse navbar-collapse" id="sidebar-menu">
-                    <ul class="navbar-nav pt-lg-3">
-                        <li class="nav-item">
-                            <a class="nav-link" href="./">
-                                <div class="d-flex justify-content-center gap-2">
-                                    <i class="ti ti-layout-dashboard fs-1"></i>
-                                    <span class="nav-link-title fs-3">
-                                        Dashboard
-                                    </span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <div class="d-flex justify-content-center gap-2">
-                                    <i class="ti ti-ad-2 fs-1"></i>
-                                    <span class="nav-link-title fs-3">
-                                        Pelatihan
-                                    </span>
-                                </div>
-                            </a>
-                        </li>
-                        {{-- <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <span class="nav-link-title">
-                                    Management User
-                                </span>
-                            </a>
-                        </li> --}}
-                        {{-- <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <span class="nav-link-title">
-                                    Link 3
-                                </span>
-                            </a>
-                        </li> --}}
-                    </ul>
-                </div>
-            </div>
-        </aside>
+        
         <div class="page-wrapper">
             <div class="page-header d-print-none">
                 <div class="container-xl">

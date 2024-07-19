@@ -20,5 +20,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+route::get('/dashboard-admin', function (){
+    return view('admin.dashboard-admin');
+});
 
+route::get('/input-pelatihan', function(){
+    return view('admin.input-pelatihan');
+});
 
