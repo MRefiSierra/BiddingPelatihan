@@ -14,11 +14,12 @@ use App\Http\Controllers\Controller;
 */
 
 // auth
-Route::get('/signin', [Controller::class, 'index'])->name('signin');
+Route::get('/', [Controller::class, 'login'])->name('signin.view')->middleware('guest');
+Route::post('/login', [Controller::class, 'loginStore'])->name('signin.store');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/logout', [Controller::class, 'logout'])->name('logout')->middleware('auth');
+
+Route::get('/dashboard', [Controller::class, 'dashboard'])->name('dashboard')->middleware('auth');
 
 
 

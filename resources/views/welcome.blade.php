@@ -39,6 +39,15 @@
                                 </div>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('logout') }}">
+                                <div class="d-flex justify-content-center gap-2">
+                                    <i class="ti ti-logout fs-1"></i> <span class="nav-link-title fs-3">
+                                        Logout
+                                    </span>
+                                </div>
+                            </a>
+                        </li>
                         {{-- <li class="nav-item">
                             <a class="nav-link" href="#">
                                 <span class="nav-link-title">
