@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Controller;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,8 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// auth
+Route::get('/signin', [Controller::class, 'index'])->name('signin');
+
 Route::get('/', function () {
     return view('welcome');
 });
+
 
 
