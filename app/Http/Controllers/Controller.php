@@ -17,9 +17,11 @@ class Controller extends BaseController
         return view('signin', compact('title'));
     }
 
-    public function logout(){
+    public function logout(Request $request){
         Auth::logout();
-        return redirect()->route('signin.view');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/');
     }
     public function loginStore(Request $request){
         $credentials = $request->validate([
@@ -35,7 +37,7 @@ class Controller extends BaseController
     }
 
     public function dashboard(){
-        return view('welcome');
+        return view('index');
     }
 
 }
