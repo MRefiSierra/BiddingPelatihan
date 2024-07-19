@@ -19,16 +19,22 @@
                     <ul class="navbar-nav pt-lg-3">
                         <li class="nav-item">
                             <a class="nav-link" href="./">
-                                <span class="nav-link-title">
-                                    Dashboard
-                                </span>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <i class="ti ti-layout-dashboard fs-1"></i>
+                                    <span class="nav-link-title fs-3">
+                                        Dashboard
+                                    </span>
+                                </div>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">
-                                <span class="nav-link-title">
-                                    Pelatihan
-                                </span>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <i class="ti ti-ad-2 fs-1"></i>
+                                    <span class="nav-link-title fs-3">
+                                        Pelatihan
+                                    </span>
+                                </div>
                             </a>
                         </li>
                         {{-- <li class="nav-item">
@@ -186,7 +192,7 @@
                             </div>
                         </div>
                     </div> --}}
-                    {{-- <div class="row row-deck row-cards">
+                        {{-- <div class="row row-deck row-cards">
                         <div class="col-sm-6 col-lg-3">
                             <div class="card">
                                 <div class="card-body" style="height: 10rem"></div>
@@ -257,8 +263,8 @@
                             </div>
                         </div>
                     </div> --}}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-@endsection
+    @endsection
