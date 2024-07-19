@@ -20,6 +20,9 @@ Route::post('/login', [Controller::class, 'loginStore'])->name('signin.store');
 Route::get('/logout', [Controller::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::get('/dashboard', [Controller::class, 'dashboard'])->name('dashboard')->middleware('auth');
+Route::get('/', function () {
+    return view('index');
+});
 
 
 
