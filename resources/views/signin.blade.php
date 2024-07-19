@@ -24,17 +24,18 @@
             <div class="card card-md">
                 <div class="card-body">
                     <h2 class="h2 text-center mb-4">Login to your account</h2>
-                    <form action="./" method="get" autocomplete="off" novalidate="">
+                    <form action="{{ route('signin.store') }}" method="POST" autocomplete="off" novalidate="">
+                        @csrf
                         <div class="mb-3">
                             <label class="form-label">Email address</label>
-                            <input type="email" class="form-control" placeholder="your@email.com" autocomplete="off">
+                            <input type="email" name="email" class="form-control" placeholder="your@email.com" autocomplete="off">
                         </div>
                         <div class="mb-2">
                             <label class="form-label">
                                 Password
                             </label>
                             <div class="input-group input-group-flat">
-                                <input id="password" type="password" class="form-control" placeholder="Your password"
+                                <input id="password" type="password" name="password" class="form-control" placeholder="Your password"
                                     autocomplete="off">
                                 <span class="input-group-text">
                                     <a href="#" class="link-secondary" data-bs-toggle="tooltip"
