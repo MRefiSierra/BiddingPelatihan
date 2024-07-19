@@ -11,13 +11,13 @@
                     <div class="card w-100">
                         <div class="card-body shadow">
                             <p class="fs-1 fw-semibold text-center mb-4">Input Pelatihan</p>
-                            <form action="{{}}" method="POST" autocomplete="off" novalidate="">
+                            <form method="POST" action="{{ route('storePelatihan') }}">
                                 @csrf
-                                <div class="mb-3">
+                                {{-- <div class="mb-3">
                                     <label class="form-label fs-3">PRL</label>
                                     <input type="text" class="form-control fs-4" name="PRL"
                                         placeholder="Masukkan PRL" />
-                                </div>
+                                </div> --}}
                                 <div class="mb-3">
                                     <label class="form-label fs-3">Nama</label>
                                     <input type="text" class="form-control" name="Nama"
@@ -37,6 +37,11 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label fs-3">Kuota Instruktur</label>
+                                    <input type="text" class="form-control" name="KuotaInstruktur"
+                                        placeholder="Input placeholder" />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fs-3">Kuota</label>
                                     <input type="text" class="form-control" name="Kuota"
                                         placeholder="Input placeholder" />
                                 </div>
@@ -55,14 +60,14 @@
             </div>
         </div>
 
-        <div class="page-body">
+        {{-- <div class="page-body">
             <div class="container-xl p-2">
-                <form class="px-5 pt-3" method="POST" action="{{ route('storePelatihan') }}">
+                <form class="px-5 pt-3">
                     @csrf
-                    {{-- <div class="mb-3">
+                    <div class="mb-3">
                         <label class="form-label fs-1">PRL</label>
                         <input type="text" class="form-control" name="PRL" placeholder="Input placeholder" />
-                    </div> --}}
+                    </div>
                     <div class="mb-3">
                         <label class="form-label fs-1">Nama</label>
                         <input type="text" class="form-control" name="Nama" placeholder="Input placeholder" />
@@ -96,9 +101,10 @@
                     </div>
 
                 </form>
-                </div>
             </div>
-        </div>
+        </div> --}}
+    </div>
+    </div>
 
     </div>
 
