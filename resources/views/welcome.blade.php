@@ -1,5 +1,7 @@
 @extends('main-layout.main-layout')
 
+@section('title', 'Dashboard')
+
 @section('content')
     <div class="page">
         <!-- Sidebar -->
