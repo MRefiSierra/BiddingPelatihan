@@ -9,14 +9,27 @@ use Illuminate\Http\Request;
 class PelatihanController extends Controller
 {
 
+    // Instruktur
+
+    // Cari Pelatihan
     public function cariPelatihan(){
-        return view('cari-pelatihan');
+
+        $pelatihans = Pelatihans::with('relasiDenganRangeTanggal')->get();
+
+        return view('cari-pelatihan',['pelatihans' => $pelatihans]);
     }
 
+
+
+
+    // Admin
+
+    // Input Pelatihan
     public function create(){
         return view('admin.input-pelatihan');
     }
 
+    // Input Pelatihan Store
     public function store(Request $request){
         $request->validate([
             'Nama' => 'required|string|max:255',
