@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Pelatihans;
 use App\Models\RangeTanggal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PelatihanController extends Controller
 {
@@ -63,4 +65,25 @@ class PelatihanController extends Controller
 
         return redirect('/dashboard-admin');
     }
+
+    public function storeBidPelatihan(Request $request){
+        $instrukturId = $request->user()->id;
+        $pelatihanId = $request->input('pelatihan_id');
+        $remainingQuota = $request->attributes->get('remainingQuota');
+
+        $storeKeTablePelatihanInstruktur = DB::table('pelatihan_instruktur')->insert([
+            'id_pelatihan' => $pelatihanId,
+            'id_instruktur' => $instrukturId,
+            'tanggal_bid' => now(),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return redirect(route('cariPelatihan.view'))->with('success', 'Pendaftaran pelatihan berhasil');
+    }
+
+
+
+    
+    
 }

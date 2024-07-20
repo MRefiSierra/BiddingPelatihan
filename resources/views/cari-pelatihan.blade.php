@@ -35,18 +35,26 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $pelatihan->nama }}</td>
-                                    <td class="text-secondary">{{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_mulai)->format('d') }} -
-                                        {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_selesai)->format('d F Y') }}</td>
+                                    <td class="text-secondary">
+                                        {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_mulai)->format('d') }}
+                                        -
+                                        {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_selesai)->format('d F Y') }}
+                                    </td>
                                     <td class="text-secondary">{{ $pelatihan->lokasi }}</td>
                                     <td class="text-secondary">{{ $pelatihan->kuota }}</td>
                                     <td class="text-secondary">{{ $pelatihan->kuota_instruktur }}</td>
                                     <td>
-                                        <button class="btn btn-sm btn-primary rounded" href="#">Pilih
-                                            Pelatihan</button>
+                                        <form action="{{ route('cariPelatihan.store') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="pelatihan_id" value="{{ $pelatihan->id }}">
+                                            <button class="btn btn-sm btn-primary rounded" type="submit">Pilih
+                                                Pelatihan</button>
 
-                                        <button class="btn btn-sm btn-secondary rounded" href="#">Terpilih</button>
+                                            <button class="btn btn-sm btn-secondary rounded"
+                                                href="#">Terpilih</button>
 
-                                        <button class="btn btn-sm btn-danger rounded" href="#">Full</button>
+                                            <button class="btn btn-sm btn-danger rounded" href="#">Full</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

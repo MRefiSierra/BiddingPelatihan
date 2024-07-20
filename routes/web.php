@@ -22,10 +22,6 @@ Route::post('/login', [Controller::class, 'loginStore'])->name('signin.store');
 
 Route::get('/logout', [Controller::class, 'logout'])->name('logout')->middleware('auth');
 
-
-
-
-
 Route::get('/dashboard', [Controller::class, 'dashboard'])->name('dashboard');
 
 route::get('/dashboard-admin', function (){
@@ -41,4 +37,4 @@ Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('in
 route::post('/input-pelatihan/store', [PelatihanController::class, 'store'])->name('storePelatihan');
 
 Route::get('/cari-pelatihan', [PelatihanController::class, 'cariPelatihan'])->name('cariPelatihan.view');
-
+Route::post('/cari-pelatihan/store', [PelatihanController::class, 'storeBidPelatihan'])->name('cariPelatihan.store');
