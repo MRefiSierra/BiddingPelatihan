@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PelatihanController;
 
 /*
@@ -21,6 +22,10 @@ Route::post('/login', [Controller::class, 'loginStore'])->name('signin.store');
 
 Route::get('/logout', [Controller::class, 'logout'])->name('logout')->middleware('auth');
 
+
+
+
+
 Route::get('/dashboard', [Controller::class, 'dashboard'])->name('dashboard');
 
 route::get('/dashboard-admin', function (){
@@ -28,9 +33,10 @@ route::get('/dashboard-admin', function (){
 });
 
 
-route::get('/management-user', function(){
-    return view('admin.management-user');
-});
+route::get('/management-user', [AdminController::class, 'managementUser'])->name('managementUser.view');
+Route::get('/management-user/form', [AdminController::class, 'inputUser'])->name('managementUser.view.form');
+
+
 Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan')->middleware(['auth','khususAdmin']);
 route::post('/input-pelatihan/store', [PelatihanController::class, 'store'])->name('storePelatihan');
 

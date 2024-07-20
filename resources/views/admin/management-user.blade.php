@@ -13,10 +13,10 @@
                         </h2>
                     </div>
                     <div class="col text-end align-items-center">
-                        <button class="btn btn-large btn-success">
+                        <a class="btn btn-large btn-success" href="{{ route('managementUser.view.form') }}">
                             <i class="ti ti-plus pe-2 fs-2"></i>
-                            Tambah Instruktur
-                        </button>
+                            Tambah User
+                        </a>
                     </div>
                 </div>
             </div>
