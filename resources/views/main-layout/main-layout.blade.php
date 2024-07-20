@@ -61,7 +61,7 @@
                     </a>
                 </li>
                 @endif
-                {{-- @if (Auth::user()->role == 'instruktur') --}}
+                @if (Auth::user()->role == 'instruktur')
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('cariPelatihan.view') }}">
@@ -73,7 +73,7 @@
                             </div>
                         </a>
                     </li>
-                    {{-- @endif --}}
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link" href="/management-user">
                             <div class="d-flex justify-content-center gap-2">

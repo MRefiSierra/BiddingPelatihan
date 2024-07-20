@@ -21,6 +21,7 @@ class PelatihanController extends Controller
         $pelatihans = Pelatihans::with('relasiDenganRangeTanggal')->get();
         $user = Auth::user();
 
+
         foreach ($pelatihans as $pelatihan) {
             $pelatihan->sudahBid = pelatihanInstruktur::where('id_pelatihan', $pelatihan->id)
                 ->where('id_instruktur', $user->id)
@@ -28,7 +29,9 @@ class PelatihanController extends Controller
             $pelatihan->KuotaInstruktur = $pelatihan->kuota_instruktur <= 0;
         }
 
-        return view('cari-pelatihan',['pelatihans' => $pelatihans]);
+        return view('cari-pelatihan',[
+            'pelatihans' => $pelatihans
+        ]);
     }
 
     public function create(){
