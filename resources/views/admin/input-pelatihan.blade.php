@@ -19,36 +19,62 @@
                                         placeholder="Masukkan PRL" />
                                 </div> --}}
                                 <div class="mb-3">
-                                    <label class="form-label fs-3">Nama</label>
-                                    <input type="text" class="form-control" name="Nama"
-                                        placeholder="Masukkan nama pelatihan" />
+                                    <div class="has-validation">
+                                        <label class="form-label fs-3">Nama</label>
+                                        <input type="text" class="form-control @error('Nama') is-invalid @enderror"
+                                            name="Nama" placeholder="Masukkan nama pelatihan"
+                                            value="{{ old('Nama') }}" />
+                                        @error('Nama')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="d-flex gap-sm-3">
                                     <div class="mb-3 col-sm col-6">
                                         <label class="form-label fs-3">Tanggal Mulai</label>
-                                        <input type="date" class="form-control" name="TanggalMulai"
-                                            placeholder="Input placeholder" />
+                                        <input type="date" id="TanggalMulai"
+                                            class="form-control @error('TanggalMulai') is-invalid @enderror"
+                                            name="TanggalMulai" placeholder="Input placeholder"
+                                            value="{{ old('TanggalMulai') }}" />
+                                        @error('TanggalMulai')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="mb-3 col-sm col-6">
                                         <label class="form-label fs-3">Tanggal Akhir</label>
-                                        <input type="date" class="form-control" name="TanggalAkhir"
-                                            placeholder="Input placeholder" />
+                                        <input type="date" id="TanggalAkhir"
+                                            class="form-control @error('TanggalAkhir') is-invalid @enderror"
+                                            name="TanggalAkhir" placeholder="Input placeholder"
+                                            value="{{ old('TanggalAkhir') }}" />
+                                        @error('TanggalAkhir')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label fs-3">Kuota Instruktur</label>
-                                    <input type="text" class="form-control" name="KuotaInstruktur"
-                                        placeholder="Input placeholder" />
+                                    <input type="text"
+                                        class="form-control @error('KuotaInstruktur') is-invalid @enderror"
+                                        name="KuotaInstruktur" placeholder="Masukkan Kuota Instruktur" />
+                                    @error('KuotaInstruktur')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label fs-3">Kuota</label>
-                                    <input type="text" class="form-control" name="Kuota"
-                                        placeholder="Input placeholder" />
+                                    <input type="text" class="form-control @error('Kuota') is-invalid @enderror"
+                                        name="Kuota" placeholder="Masukkan Kuota" value="{{ old('Kuota') }}" />
+                                    @error('Kuota')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label fs-3">Lokasi</label>
-                                    <input type="text" class="form-control" name="Lokasi"
-                                        placeholder="Input placeholder" />
+                                    <input type="text" class="form-control @error('Lokasi') is-invalid @enderror"
+                                        name="Lokasi" placeholder="Masukkan Lokasi" />
+                                    @error('Lokasi')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="form-footer text-center">
                                     <button type="submit" class="btn btn-primary w-50 text-center shadow">Submit</button>
@@ -59,53 +85,23 @@
                 </div>
             </div>
         </div>
-
-        {{-- <div class="page-body">
-            <div class="container-xl p-2">
-                <form class="px-5 pt-3">
-                    @csrf
-                    <div class="mb-3">
-                        <label class="form-label fs-1">PRL</label>
-                        <input type="text" class="form-control" name="PRL" placeholder="Input placeholder" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fs-1">Nama</label>
-                        <input type="text" class="form-control" name="Nama" placeholder="Input placeholder" />
-                    </div>
-                    <div class="d-flex">
-                        <div class="mb-3 me-5">
-                            <label class="form-label fs-1">Tanggal Mulai</label>
-                            <input type="date" class="form-control" name="TanggalMulai"
-                                placeholder="Input placeholder" />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label fs-1">Tanggal Akhir</label>
-                            <input type="date" class="form-control" name="TanggalAkhir"
-                                placeholder="Input placeholder" />
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fs-1">Kuota Instruktur</label>
-                        <input type="number" class="form-control" name="KuotaInstruktur" placeholder="Input placeholder" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fs-1">Kuota Instruktur</label>
-                        <input type="number" class="form-control" name="Kuota" placeholder="Input placeholder" />
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fs-1">Lokasi</label>
-                        <input type="text" class="form-control" name="Lokasi" placeholder="Input placeholder" />
-                    </div>
-                    <div class="mt-auto text-right">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-
-                </form>
-            </div>
-        </div> --}}
     </div>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const startDateInput = document.getElementById('TanggalMulai');
+            const endDateInput = document.getElementById('TanggalAkhir');
+            const today = new Date().toISOString().split('T')[0];
+            startDateInput.min = today
 
-    </div>
+            startDateInput.addEventListener('change', function() {
+                endDateInput.min = startDateInput.value;
+            });
+
+            // Set initial min value for end date if start date is already selected
+            if (startDateInput.value) {
+                endDateInput.min = startDateInput.value;
+            }
+        });
+    </script>
 
 @endsection
