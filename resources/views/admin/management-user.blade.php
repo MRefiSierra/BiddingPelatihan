@@ -13,10 +13,12 @@
                         </h2>
                     </div>
                     <div class="col text-end align-items-center">
-                        <button class="btn btn-large btn-success">
-                            <i class="ti ti-plus pe-2 fs-2"></i>
-                            Tambah Instruktur
-                        </button>
+                        <a href="/add-user" class="text-light text-decoration-none">
+                            <button class="btn btn-large btn-success">
+                                <i class="ti ti-plus pe-2 fs-2"></i>
+                                Tambah Instruktur
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>

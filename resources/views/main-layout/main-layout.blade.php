@@ -48,11 +48,11 @@
 
                 @if (Auth::user()->role == 'admin')
                 <li class="nav-item">
-                    <a class="nav-link" href="/input-pelatihan">
+                    <a class="nav-link" href="/pelatihan">
                         <div class="d-flex justify-content-center gap-2">
                             <i class="ti ti-ad-2 fs-1"></i>
                             <span class="nav-link-title fs-3">
-                                Tambah Pelatihan
+                                Pelatihan
                             </span>
                         </div>
                     </a>
