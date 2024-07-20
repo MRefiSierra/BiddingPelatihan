@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PelatihanController;
 
 /*
@@ -20,6 +21,10 @@ Route::get('/', [Controller::class, 'login'])->name('signin.view')->middleware('
 Route::post('/login', [Controller::class, 'loginStore'])->name('signin.store');
 
 Route::get('/logout', [Controller::class, 'logout'])->name('logout')->middleware('auth');
+
+
+
+
 
 Route::get('/dashboard', [Controller::class, 'dashboard'])->name('dashboard');
 

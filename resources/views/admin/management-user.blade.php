@@ -13,11 +13,9 @@
                         </h2>
                     </div>
                     <div class="col text-end align-items-center">
-                        <a href="/add-user" class="text-light text-decoration-none">
-                            <button class="btn btn-large btn-success">
-                                <i class="ti ti-plus pe-2 fs-2"></i>
-                                Tambah Instruktur
-                            </button>
+                        <a class="btn btn-large btn-success" href="{{ route('managementUser.view.form') }}">
+                            <i class="ti ti-plus pe-2 fs-2"></i>
+                            Tambah User
                         </a>
                     </div>
                 </div>

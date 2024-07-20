@@ -16,7 +16,6 @@
             </div>
         </div>
         <div class="page-body">
-            {{$pelatihans}}
             <div class="container-xl">
                 <div class="table-responsive">
                     <table class="table table-vcenter">
@@ -33,29 +32,23 @@
                         </thead>
                         <tbody>
                             @foreach ($pelatihans as $pelatihan)
-                            <tr>
-                                <td>1</td>
-                                <td>{{$pelatihan->nama}}</td>
-                                <td class="text-secondary"><a href="#"
-                                        class="text-reset">{{$pelatihan->relasi_dengan_range_tanggal}}</a>
-                                </td>
-                                <td class="text-secondary"><a href="#"
-                                        class="text-reset">50</a>
-                                </td>
-                                <td class="text-secondary"><a href="#"
-                                        class="text-reset">50</a>
-                                </td>
-                                <td class="text-secondary"><a href="#"
-                                        class="text-reset">50</a>
-                                </td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary rounded" href="#">Pilih Pelatihan</button>
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $pelatihan->nama }}</td>
+                                    <td class="text-secondary">{{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_mulai)->format('d') }} -
+                                        {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_selesai)->format('d F Y') }}</td>
+                                    <td class="text-secondary">{{ $pelatihan->lokasi }}</td>
+                                    <td class="text-secondary">{{ $pelatihan->kuota }}</td>
+                                    <td class="text-secondary">{{ $pelatihan->kuota_instruktur }}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary rounded" href="#">Pilih
+                                            Pelatihan</button>
 
-                                    <button class="btn btn-sm btn-secondary rounded" href="#">Terpilih</button>
+                                        <button class="btn btn-sm btn-secondary rounded" href="#">Terpilih</button>
 
-                                    <button class="btn btn-sm btn-danger rounded" href="#">Full</button>
-                                </td>
-                            </tr>
+                                        <button class="btn btn-sm btn-danger rounded" href="#">Full</button>
+                                    </td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
