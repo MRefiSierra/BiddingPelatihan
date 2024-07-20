@@ -27,40 +27,40 @@
                                     <div class="mb-3 col-sm col-6">
                                         <label class="form-label fs-3">Tanggal Mulai</label>
                                         <input type="date" class="form-control" name="TanggalMulai"
-                                            placeholder="Input placeholder" />
+                                            placeholder="Input placeholder" min="{{ date('Y-m-d') }}" />
                                     </div>
                                     <div class="mb-3 col-sm col-6">
                                         <label class="form-label fs-3">Tanggal Akhir</label>
                                         <input type="date" class="form-control" name="TanggalAkhir"
+                                            placeholder="Input placeholder" min="{{ date('Y-m-d') }}" />
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fs-3">Kuota Instruktur</label>
+                                        <input type="text" class="form-control" name="KuotaInstruktur"
                                             placeholder="Input placeholder" />
                                     </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fs-3">Kuota Instruktur</label>
-                                    <input type="text" class="form-control" name="KuotaInstruktur"
-                                        placeholder="Input placeholder" />
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fs-3">Kuota</label>
-                                    <input type="text" class="form-control" name="Kuota"
-                                        placeholder="Input placeholder" />
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fs-3">Lokasi</label>
-                                    <input type="text" class="form-control" name="Lokasi"
-                                        placeholder="Input placeholder" />
-                                </div>
-                                <div class="form-footer text-center">
-                                    <button type="submit" class="btn btn-primary w-50 text-center shadow">Submit</button>
-                                </div>
-                            </form>
+                                    <div class="mb-3">
+                                        <label class="form-label fs-3">Kuota</label>
+                                        <input type="text" class="form-control" name="Kuota"
+                                            placeholder="Input placeholder" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fs-3">Lokasi</label>
+                                        <input type="text" class="form-control" name="Lokasi"
+                                            placeholder="Input placeholder" />
+                                    </div>
+                                    <div class="form-footer text-center">
+                                        <button type="submit" class="btn btn-primary w-50 text-center shadow">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        {{-- <div class="page-body">
+            {{-- <div class="page-body">
             <div class="container-xl p-2">
                 <form class="px-5 pt-3">
                     @csrf
@@ -103,13 +103,13 @@
                 </form>
             </div>
         </div> --}}
-    </div>
-    </div>
+        </div>
+        </div>
 
-    </div>
+        </div>
 
-    {{-- Numpang Debugging --}}
-    {{-- <script>
+        {{-- Numpang Debugging --}}
+        {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {

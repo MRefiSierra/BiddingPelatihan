@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class PelatihanController extends Controller
 {
+
+    public function cariPelatihan(){
+        return view('cari-pelatihan');
+    }
+
     public function create(){
         return view('admin.input-pelatihan');
     }
@@ -22,7 +27,7 @@ class PelatihanController extends Controller
             'TanggalAkhir' => 'required|date|after_or_equal:TanggalMulai',
         ]);
 
-    
+
         $range_tanggal = RangeTanggal::create([
             'tanggal_mulai' => $request->input('TanggalMulai'),
             'tanggal_selesai' => $request->input('TanggalAkhir')

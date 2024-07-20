@@ -27,6 +27,8 @@ route::get('/dashboard-admin', function (){
     return view('admin.dashboard-admin');
 });
 
-Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan');
+Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan')->middleware(['auth','khususAdmin']);
 route::post('/input-pelatihan/store', [PelatihanController::class, 'store'])->name('storePelatihan');
+
+Route::get('/cari-pelatihan', [PelatihanController::class, 'cariPelatihan'])->name('cariPelatihan.view');
 
