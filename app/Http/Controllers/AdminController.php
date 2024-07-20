@@ -8,31 +8,89 @@ use GuzzleHttp\Promise\Create;
 
 class AdminController extends Controller
 {
-        // Admin (Create User)
+    // Admin (Create User)
 
-        public function managementUser(){
-            return view('admin.management-user');
+    public function managementUser()
+    {
+        $users = User::where('role', '!=', 'admin')->get();
+        return view('admin.management-user', ['users' => $users]);
+    }
+
+    public function inputUser()
+    {
+        return view('admin.add-user');
+    }
+
+    public function storeUser(Request $request)
+    {
+
+        $request->validate([
+            'nama' => 'required',
+            'email' => 'required',
+            'role' => 'required',
+            'password' => 'required',
+        ]);
+
+        $user = User::Create([
+            'name' => $request->input('nama'),
+            'email' => $request->input('email'),
+            'role' => $request->input('role'),
+            'password' => bcrypt($request->input('password')),
+        ]);
+        return redirect()->route('managementUser.view')->with('success', 'User has been added');
+    }
+
+    public function editUser($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return redirect()->route('managementUser.view')->with('error', 'User not found');
         }
 
-        public function inputUser(){
-            return view('admin.add-user');
+
+        return view('admin.edit-user', ['user' => $user]);
+    }
+
+    public function updateUser(Request $request, $id)
+    {
+        $request->validate([
+            'nama' => 'required',
+            'email' => 'required',
+            'role' => 'required',
+            'password' => 'nullable',
+        ]);
+
+        // $user = User::find($id);
+        // // Update user properties
+        // $user->name = $validation['nama'];
+        // $user->email = $validation['email'];
+        // $user->role = $validation['role'];
+
+
+
+        // // Save the user
+        // $user->save();
+
+        $user = User::findOrFail($id);
+
+        $user->name = $request->input('nama');
+        $user->email = $request->input('email');
+        $user->role = $request->input('role');
+
+        // Update the password if provided
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request['password']);
         }
 
-        public function storeUser(Request $request){
+        $user->save();
+        return redirect()->route('managementUser.view')->with('success', 'User has been updated');
+    }
 
-            $request->validate([
-                'nama' => 'required',
-                'email' => 'required',
-                'password' => 'required',
-                'role' => 'required'
-            ]);
-
-            $user = User::Create([
-                'name' => $request->input('nama'),
-                'email' => $request->input('email'),
-                'password' => bcrypt($request->input('password')),
-                'role' => $request->input('role')
-            ]);
-            return back()->with('success', 'User has been added');
-        }
+    public function deleteUser($id)
+    {
+        $user = User::find($id);
+        $user->delete();
+        return redirect()->route('managementUser.view')->with('success', 'User has been deleted');
+    }
 }

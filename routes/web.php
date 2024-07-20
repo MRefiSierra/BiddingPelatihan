@@ -36,6 +36,9 @@ route::get('/dashboard-admin', function () {
 route::get('/management-user', [AdminController::class, 'managementUser'])->name('managementUser.view');
 Route::get('/management-user/form', [AdminController::class, 'inputUser'])->name('managementUser.view.form');
 Route::post('/management-user/form/store', [AdminController::class, 'storeUser'])->name('managementUser.store');
+Route::get('/management-user/edit/{id}', [AdminController::class, 'editUser'])->name('managementUser.view.form.edit');
+Route::put('/management-user/edit/{id}', [AdminController::class, 'updateUser'])->name('managementUser.update');
+Route::get('/management-user/delete/{id}', [AdminController::class, 'deleteUser'])->name('managementUser.delete');
 
 
 Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan')->middleware(['auth','khususAdmin']);
