@@ -28,4 +28,7 @@ route::get('/dashboard-admin', function (){
 route::get('/input-pelatihan', function(){
     return view('admin.input-pelatihan');
 });
+route::get('/management-user', function(){
+    return view('admin.management-user');
+});
 

@@ -57,39 +57,4 @@
 
     </div>
 
-    {{-- Numpang Debugging --}}
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                events: function(fetchInfo, successCallback, failureCallback) {
-                    fetch('/api/pelatihan/' + fetchInfo.start.getFullYear() + '/' + (fetchInfo.start
-                            .getMonth() + 1))
-                        .then(response => response.json())
-                        .then(data => {
-                            let events = data.map(pelatihan => {
-                                return {
-                                    title: pelatihan.name,
-                                    start: pelatihan.start_date,
-                                    end: pelatihan.end_date,
-                                    color: pelatihan.quota_instruktur > pelatihan
-                                        .selected_instruktur_count ? 'green' : 'red'
-                                };
-                            });
-                            successCallback(events);
-                        });
-                }
-            });
-            calendar.render();
-        });
-    </script>
-    <div class="page-wrapper">
-        <div class="page-body">
-            <div class="container-xl">
-                <div id='calendar'></div>
-            </div>
-        </div>
-    </div> --}}
-
 @endsection
