@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PelatihanController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,7 +21,7 @@ Route::post('/login', [Controller::class, 'loginStore'])->name('signin.store');
 
 Route::get('/logout', [Controller::class, 'logout'])->name('logout')->middleware('auth');
 
-Route::get('/dashboard', [Controller::class, 'dashboard'])->name('dashboard')->middleware('auth');
+Route::get('/dashboard', [Controller::class, 'dashboard'])->name('dashboard');
 
 route::get('/dashboard-admin', function (){
     return view('admin.dashboard-admin');
@@ -31,4 +33,6 @@ route::get('/input-pelatihan', function(){
 route::get('/management-user', function(){
     return view('admin.management-user');
 });
+Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan');
+route::post('/input-pelatihan/store', [PelatihanController::class, 'store'])->name('storePelatihan');
 
