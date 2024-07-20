@@ -30,33 +30,24 @@
                                 <th>No</th>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Role</th>
                                 <th>Aksi</th>
                                 <th class="w-1"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Paweł Kuna</td>
-                                <td class="text-secondary"><a href="#"
-                                        class="text-reset">paweluna@howstuffworks.com</a>
-                                </td>
-                                <td>
-                                    <button class="btn btn-sm btn-success rounded" href="#">Edit</button>
-                                    <button class="btn btn-sm btn-danger rounded" href="#">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Paweł Kuna</td>
-                                <td class="text-secondary"><a href="#"
-                                        class="text-reset">paweluna@howstuffworks.com</a>
-                                </td>
-                                <td>
-                                    <button class="btn btn-sm btn-success rounded" href="#">Edit</button>
-                                    <button class="btn btn-sm btn-danger rounded" href="#">Delete</button>
-                                </td>
-                            </tr>
+                            @foreach ($users as $user)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td class="text-secondary">{{ $user->email }}</td>
+                                    <td class="text-secondary">{{ $user->role }}</td>
+                                    <td>
+                                        <a class="btn btn-sm btn-success rounded" href="{{ route('managementUser.view.form.edit', ['id' => $user->id]) }}">Edit</button>
+                                        <a class="btn btn-sm btn-danger rounded" href="{{ route('managementUser.delete', ['id' => $user->id]) }}">Delete</button>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

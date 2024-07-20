@@ -24,16 +24,27 @@ Route::get('/logout', [Controller::class, 'logout'])->name('logout')->middleware
 
 Route::get('/dashboard', [Controller::class, 'dashboard'])->name('dashboard');
 
-route::get('/dashboard-admin', function (){
+route::get('/dashboard-admin', function () {
     return view('admin.dashboard-admin');
 });
 
 
 route::get('/management-user', [AdminController::class, 'managementUser'])->name('managementUser.view');
 Route::get('/management-user/form', [AdminController::class, 'inputUser'])->name('managementUser.view.form');
+Route::post('/management-user/form/store', [AdminController::class, 'storeUser'])->name('managementUser.store');
+Route::get('/management-user/edit/{id}', [AdminController::class, 'editUser'])->name('managementUser.view.form.edit');
+Route::put('/management-user/edit/{id}', [AdminController::class, 'updateUser'])->name('managementUser.update');
+Route::get('/management-user/delete/{id}', [AdminController::class, 'deleteUser'])->name('managementUser.delete');
 
 
 Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan')->middleware(['auth','khususAdmin']);
+route::get('/pelatihan', function () {
+    return view('admin.pelatihan');
+});
+route::get('/add-user', function () {
+    return view('admin.add-user');
+});
+Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan')->middleware(['auth', 'khususAdmin']);
 route::post('/input-pelatihan/store', [PelatihanController::class, 'store'])->name('storePelatihan');
 
 Route::get('/cari-pelatihan', [PelatihanController::class, 'cariPelatihan'])->name('cariPelatihan.view');
