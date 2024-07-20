@@ -15,7 +15,7 @@
                     </div>
                     <div class="col text-end align-items-center">
                         <a href="/input-pelatihan" class="text-light text-decoration-none">
-                        <button class="btn btn-large btn-success" >
+                            <button class="btn btn-large btn-success">
                                 <i class="ti ti-plus pe-2 fs-2"></i>
                                 Tambah Pelatihan
                             </button>
@@ -72,12 +72,16 @@
                                 <td>
                                     <div class="d-flex gap-1">
                                         <i>Tidak ada</i>
-                                        <button class="btn btn-sm btn-success">
-                                            <i class="ti ti-eye"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-danger">
-                                            <i class="ti ti-trash"></i>
-                                        </button>
+                                        <a href="/user-detail" class="align-items-center d-flex text-decoration-none">
+                                            <button class="btn btn-sm btn-success py-1">
+                                                <i class="ti ti-eye"></i>
+                                            </button>
+                                        </a>
+                                        <a href="" class="align-items-center d-flex text-decoration-none">
+                                            <button class="btn btn-sm btn-danger py-1">
+                                                <i class="ti ti-trash"></i>
+                                            </button>
+                                        </a>
                                     </div>
                                 </td>
                                 <td>

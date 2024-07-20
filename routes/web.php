@@ -42,6 +42,12 @@ route::get('/pelatihan', function () {
 route::get('/add-user', function () {
     return view('admin.add-user');
 });
+
+route::get('/user-detail', function () {
+    return view('admin.user-detail');
+});
+
+
 Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan')->middleware(['auth', 'khususAdmin']);
 route::post('/input-pelatihan/store', [PelatihanController::class, 'store'])->name('storePelatihan');
 
