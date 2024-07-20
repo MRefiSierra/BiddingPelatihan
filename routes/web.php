@@ -35,6 +35,7 @@ route::get('/dashboard-admin', function (){
 
 route::get('/management-user', [AdminController::class, 'managementUser'])->name('managementUser.view');
 Route::get('/management-user/form', [AdminController::class, 'inputUser'])->name('managementUser.view.form');
+Route::post('/management-user/form/store', [AdminController::class, 'storeUser'])->name('managementUser.store');
 
 
 Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan')->middleware(['auth','khususAdmin']);

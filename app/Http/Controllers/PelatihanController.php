@@ -53,7 +53,7 @@ class PelatihanController extends Controller
             'tanggal_selesai' => $request->input('TanggalAkhir')
         ]);
 
-        $akhirnya = Pelatihans::create([
+        $pelatihan = Pelatihans::create([
             'nama' => $request->input('Nama'),
             'lokasi' => $request->input('Lokasi'),
             'kuota_instruktur' => $request->input('KuotaInstruktur'),

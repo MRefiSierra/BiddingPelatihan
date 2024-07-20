@@ -12,7 +12,7 @@
                 <div class="card w-100">
                     <div class="card-body shadow">
                         <p class="fs-1 fw-semibold text-center mb-4">Tambah User</p>
-                        <form method="POST" action="{{ route('storePelatihan') }}">
+                        <form method="POST" action="{{route('managementUser.store')}} " enctype="multipart/form-data">
                             @csrf
                             {{-- <div class="mb-3">
                                 <label class="form-label fs-3">PRL</label>
@@ -22,43 +22,33 @@
                             <div class="mb-3">
                                 <div class="has-validation">
                                     <label class="form-label fs-3">Nama</label>
-                                    <input type="text" class="form-control @error('Nama') is-invalid @enderror"
-                                        name="Nama" placeholder="Masukkan nama pelatihan"
-                                        value="{{ old('Nama') }}" />
-                                    @error('Nama')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <input type="text" class="form-control" name="nama" placeholder="Nama Lengkap"/>
                                 </div>
                             </div>
                             <div class="d-flex gap-sm-3">
                                 <div class="mb-3 col-sm col-6">
                                     <label class="form-label fs-3">Email</label>
-                                    <input type="date" id="TanggalMulai"
-                                        class="form-control @error('TanggalMulai') is-invalid @enderror"
-                                        name="TanggalMulai" placeholder="Input placeholder" min="{{ date('Y-m-d') }}"
-                                        value="{{ old('TanggalMulai') }}" />
-                                    @error('TanggalMulai')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <input type="email" id="TanggalMulai" name="email"
+                                        class="form-control"/>
                                 </div>
                                 <div class="mb-3 col-sm col-6">
                                     <label class="form-label fs-3">Password</label>
-                                    <input type="date" id="TanggalAkhir"
-                                        class="form-control @error('TanggalAkhir') is-invalid @enderror"
-                                        name="TanggalAkhir" placeholder="Input placeholder"
-                                        value="{{ old('TanggalAkhir') }}" />
-                                    @error('TanggalAkhir')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <input type="password" id="TanggalAkhir" name="password"
+                                        class="form-control" />
                                 </div>
                             </div>
-                            <div class="mb-3">
-                                <label class="form-label fs-3">Kuota Instruktur</label>
-                                <input type="text"
-                                    class="form-control @error('KuotaInstruktur') is-invalid @enderror"
-                                    name="KuotaInstruktur" placeholder="Masukkan Kuota Instruktur" />
-                                @error('KuotaInstruktur')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                            <div>
+                                <label for="role">Role:</label>
+                                <div>
+                                    <input type="radio" id="admin" name="role" value="admin" {{ old('role') == 'admin' ? 'checked' : '' }}>
+                                    <label for="admin">Admin</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="instruktur" name="role" value="instruktur" {{ old('role') == 'instruktur' ? 'checked' : '' }}>
+                                    <label for="instruktur">instruktur</label>
+                                </div>
+                                @error('role')
+                                    <div>{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="form-footer text-center">

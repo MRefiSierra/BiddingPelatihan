@@ -39,7 +39,7 @@
             <div class="collapse navbar-collapse" id="sidebar-menu">
                 <ul class="navbar-nav pt-lg-3">
                     <li class="nav-item">
-                        <a class="nav-link" href="./">
+                        <a class="nav-link" href="/">
                             <div class="d-flex justify-content-center gap-2">
                                 <i class="ti ti-layout-dashboard fs-1"></i>
                                 <span class="nav-link-title fs-3">

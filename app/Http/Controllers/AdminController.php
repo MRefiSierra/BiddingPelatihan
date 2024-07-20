@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use GuzzleHttp\Promise\Create;
 
 class AdminController extends Controller
 {
@@ -17,10 +19,20 @@ class AdminController extends Controller
         }
 
         public function storeUser(Request $request){
-            $validatedData = $request->validate([
-                'name' => 'required|max:255',
-                'email' => 'required|email:dns|unique:users',
-                'password' => 'required|min:5|max:255'
+
+            $request->validate([
+                'nama' => 'required',
+                'email' => 'required',
+                'password' => 'required',
+                'role' => 'required'
             ]);
-            
+
+            $user = User::Create([
+                'name' => $request->input('nama'),
+                'email' => $request->input('email'),
+                'password' => bcrypt($request->input('password')),
+                'role' => $request->input('role')
+            ]);
+            return back()->with('success', 'User has been added');
+        }
 }
