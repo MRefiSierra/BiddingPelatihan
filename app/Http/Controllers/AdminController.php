@@ -94,4 +94,3 @@ class AdminController extends Controller
         return redirect()->route('managementUser.view')->with('success', 'User has been deleted');
     }
 }
-}

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\pelatihanInstruktur;
 use Carbon\Carbon;
 use App\Models\Pelatihans;
 use App\Models\RangeTanggal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PelatihanController extends Controller
@@ -17,6 +19,14 @@ class PelatihanController extends Controller
     public function cariPelatihan(){
 
         $pelatihans = Pelatihans::with('relasiDenganRangeTanggal')->get();
+        $user = Auth::user();
+
+        foreach ($pelatihans as $pelatihan) {
+            $pelatihan->sudahBid = pelatihanInstruktur::where('id_pelatihan', $pelatihan->id)
+                ->where('id_instruktur', $user->id)
+                ->exists();
+            $pelatihan->KuotaInstruktur = $pelatihan->kuota_instruktur <= 0;
+        }
 
         return view('cari-pelatihan',['pelatihans' => $pelatihans]);
     }
@@ -66,24 +76,44 @@ class PelatihanController extends Controller
         return redirect('/dashboard-admin');
     }
 
-    public function storeBidPelatihan(Request $request){
-        $instrukturId = $request->user()->id;
-        $pelatihanId = $request->input('pelatihan_id');
-        $remainingQuota = $request->attributes->get('remainingQuota');
+    // public function storeBidPelatihan(Request $request){
+    //     $instrukturId = $request->user()->id;
+    //     $pelatihanId = $request->input('pelatihan_id');
+    //     $remainingQuota = $request->attributes->get('remainingQuota');
 
-        $storeKeTablePelatihanInstruktur = DB::table('pelatihan_instruktur')->insert([
-            'id_pelatihan' => $pelatihanId,
-            'id_instruktur' => $instrukturId,
+    //     $storeKeTablePelatihanInstruktur = DB::table('pelatihan_instruktur')->insert([
+    //         'id_pelatihan' => $pelatihanId,
+    //         'id_instruktur' => $instrukturId,
+    //         'tanggal_bid' => now(),
+    //         'created_at' => now(),
+    //         'updated_at' => now(),
+    //     ]);
+
+    //     return redirect(route('cariPelatihan.view'))->with('success', 'Pendaftaran pelatihan berhasil');
+    // }
+
+    public function storeBidPelatihan(Request $request, $id){
+        $user = Auth::user();
+        $pelatihan = Pelatihans::findOrFail($id);
+
+        if($user->role != 'instruktur'){
+            return response()->json(['message' => 'Unauthorized'], 403);
+        };
+
+        if($pelatihan->kuota_instruktur <= 0){
+         return response()->json(['message' => 'Kuota Abis'], 403);
+        
+        }
+
+        DB::table('pelatihan_instruktur')->insert([
+            'id_pelatihan' => $pelatihan->id,
+            'id_instruktur' => $user->id,
             'tanggal_bid' => now(),
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
 
+        $pelatihan->decrement('kuota_instruktur');
+        
         return redirect(route('cariPelatihan.view'))->with('success', 'Pendaftaran pelatihan berhasil');
-    }
+}
 
-
-
-    
-    
 }

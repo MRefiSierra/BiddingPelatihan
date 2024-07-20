@@ -48,4 +48,4 @@ Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('in
 route::post('/input-pelatihan/store', [PelatihanController::class, 'store'])->name('storePelatihan');
 
 Route::get('/cari-pelatihan', [PelatihanController::class, 'cariPelatihan'])->name('cariPelatihan.view');
-Route::post('/cari-pelatihan/store', [PelatihanController::class, 'storeBidPelatihan'])->name('cariPelatihan.store');
+Route::post('/cari-pelatihan/store/{id}', [PelatihanController::class, 'storeBidPelatihan'])->name('cariPelatihan.store');

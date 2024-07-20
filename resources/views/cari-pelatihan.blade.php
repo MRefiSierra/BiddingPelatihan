@@ -44,16 +44,19 @@
                                     <td class="text-secondary">{{ $pelatihan->kuota }}</td>
                                     <td class="text-secondary">{{ $pelatihan->kuota_instruktur }}</td>
                                     <td>
-                                        <form action="{{ route('cariPelatihan.store') }}" method="POST">
+                                        <form action="{{ route('cariPelatihan.store', ['id' => $pelatihan->id]) }}"
+                                            method="POST">
                                             @csrf
                                             <input type="hidden" name="pelatihan_id" value="{{ $pelatihan->id }}">
-                                            <button class="btn btn-sm btn-primary rounded" type="submit">Pilih
-                                                Pelatihan</button>
-
-                                            <button class="btn btn-sm btn-secondary rounded"
-                                                href="#">Terpilih</button>
-
-                                            <button class="btn btn-sm btn-danger rounded" href="#">Full</button>
+                                            @if ($pelatihan->KuotaInstruktur)
+                                                <p class="btn btn-sm btn-danger rounded" href="#">Full</p>
+                                            @elseif($pelatihan->sudahBid)
+                                                <p class="btn btn-sm btn-secondary rounded"
+                                                    href="#">Terpilih</p>
+                                            @else
+                                                <button class="btn btn-sm btn-primary rounded" type="submit">Pilih
+                                                    Pelatihan</button>
+                                            @endif
                                         </form>
                                     </td>
                                 </tr>
