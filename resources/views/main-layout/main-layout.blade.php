@@ -49,19 +49,19 @@
                         </a>
                     </li>
 
-                    @if (Auth::user()->role == 'admin')
-                        <li class="nav-item">
-                            <a class="nav-link" href="/input-pelatihan">
-                                <div class="d-flex justify-content-center gap-2">
-                                    <i class="ti ti-ad-2 fs-1"></i>
-                                    <span class="nav-link-title fs-3">
-                                        Tambah Pelatihan
-                                    </span>
-                                </div>
-                            </a>
-                        </li>
-                    @endif
-                    {{-- @if (Auth::user()->role == 'instruktur') --}}
+                @if (Auth::user()->role == 'admin')
+                <li class="nav-item">
+                    <a class="nav-link" href="/pelatihan">
+                        <div class="d-flex justify-content-center gap-2">
+                            <i class="ti ti-ad-2 fs-1"></i>
+                            <span class="nav-link-title fs-3">
+                                Pelatihan
+                            </span>
+                        </div>
+                    </a>
+                </li>
+                @endif
+                {{-- @if (Auth::user()->role == 'instruktur') --}}
 
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('cariPelatihan.view') }}">
