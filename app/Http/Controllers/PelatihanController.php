@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class PelatihanController extends Controller
 {
+
+    public function cariPelatihan(){
+        return view('cari-pelatihan');
+    }
+
     public function create()
     {
         return view('admin.input-pelatihan');

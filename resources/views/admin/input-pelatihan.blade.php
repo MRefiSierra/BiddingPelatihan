@@ -34,7 +34,7 @@
                                         <label class="form-label fs-3">Tanggal Mulai</label>
                                         <input type="date" id="TanggalMulai"
                                             class="form-control @error('TanggalMulai') is-invalid @enderror"
-                                            name="TanggalMulai" placeholder="Input placeholder"
+                                            name="TanggalMulai" placeholder="Input placeholder" min="{{ date('Y-m-d') }}"
                                             value="{{ old('TanggalMulai') }}" />
                                         @error('TanggalMulai')
                                             <div class="invalid-feedback">{{ $message }}</div>

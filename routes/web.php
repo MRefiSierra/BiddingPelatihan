@@ -27,12 +27,12 @@ route::get('/dashboard-admin', function (){
     return view('admin.dashboard-admin');
 });
 
-route::get('/input-pelatihan', function(){
-    return view('admin.input-pelatihan');
-});
+
 route::get('/management-user', function(){
     return view('admin.management-user');
 });
-Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan');
+Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan')->middleware(['auth','khususAdmin']);
 route::post('/input-pelatihan/store', [PelatihanController::class, 'store'])->name('storePelatihan');
+
+Route::get('/cari-pelatihan', [PelatihanController::class, 'cariPelatihan'])->name('cariPelatihan.view');
 

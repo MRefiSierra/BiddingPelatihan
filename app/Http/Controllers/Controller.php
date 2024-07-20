@@ -17,6 +17,7 @@ class Controller extends BaseController
         return view('signin', compact('title'));
     }
 
+
     public function logout(Request $request){
         Auth::logout();
         $request->session()->invalidate();
@@ -32,9 +33,19 @@ class Controller extends BaseController
         if(Auth::attempt($credentials)){
             $request->session()->regenerate();
             return redirect()->route('dashboard');
+
         }
-        return redirect()->route('dashboard');
+
+        return back()->with('loginError', 'Email atau Password Salah!');
     }
+
+    // protected function redirectRole(){
+    //     if(Auth::user()->role == 'admin'){
+    //         return redirect('/dashboard-admin');
+    //     }else{
+    //         return redirect('/dashboard');
+    //     }
+    // }
 
     public function dashboard(){
         return view('index');
