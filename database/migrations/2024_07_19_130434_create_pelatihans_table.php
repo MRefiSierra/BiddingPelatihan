@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('pelatihans', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
+            $table->string('prl')->nullable();
             $table->string('lokasi');
             $table->integer('kuota_instruktur');
             $table->integer('kuota');

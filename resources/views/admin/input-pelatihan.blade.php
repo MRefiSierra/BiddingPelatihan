@@ -52,29 +52,45 @@
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label fs-3">Kuota Instruktur</label>
-                                    <input type="text"
-                                        class="form-control @error('KuotaInstruktur') is-invalid @enderror"
-                                        name="KuotaInstruktur" placeholder="Masukkan Kuota Instruktur" />
-                                    @error('KuotaInstruktur')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <div class="d-flex gap-3">
+                                        <div class="col">
+                                            <label class="form-label fs-3">Kuota Instruktur</label>
+                                            <input type="text"
+                                                class="form-control @error('KuotaInstruktur') is-invalid @enderror"
+                                                name="KuotaInstruktur" placeholder="Masukkan Kuota Instruktur" />
+                                            @error('KuotaInstruktur')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col">
+                                            <label class="form-label fs-3">Kuota</label>
+                                            <input type="text" class="form-control @error('Kuota') is-invalid @enderror"
+                                                name="Kuota" placeholder="Masukkan Kuota" value="{{ old('Kuota') }}" />
+                                            @error('Kuota')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label fs-3">Kuota</label>
-                                    <input type="text" class="form-control @error('Kuota') is-invalid @enderror"
-                                        name="Kuota" placeholder="Masukkan Kuota" value="{{ old('Kuota') }}" />
-                                    @error('Kuota')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label fs-3">Lokasi</label>
-                                    <input type="text" class="form-control @error('Lokasi') is-invalid @enderror"
-                                        name="Lokasi" placeholder="Masukkan Lokasi" />
-                                    @error('Lokasi')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <div class="d-flex gap-3">
+                                        <div class="col">
+                                            <label class="form-label fs-3">Lokasi</label>
+                                            <input type="text" class="form-control @error('Lokasi') is-invalid @enderror"
+                                                name="Lokasi" placeholder="Masukkan Lokasi" />
+                                            @error('Lokasi')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col">
+                                            <label class="form-label fs-3">PRL</label>
+                                            <input type="text" class="form-control @error('PRL') is-invalid @enderror"
+                                                name="PRL" placeholder="Masukkan PRL" />
+                                            @error('PRL')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-footer text-center">
                                     <button type="submit" class="btn btn-primary w-50 text-center shadow">Submit</button>

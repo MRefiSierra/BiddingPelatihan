@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\pelatihanInstruktur;
 use Carbon\Carbon;
 use App\Models\Pelatihans;
+use App\Models\User;
 use App\Models\RangeTanggal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,8 @@ class PelatihanController extends Controller
     // Instruktur
 
     // Cari Pelatihan
-    public function cariPelatihan(){
+    public function cariPelatihan()
+    {
 
         $pelatihans = Pelatihans::with('relasiDenganRangeTanggal')->get();
         $user = Auth::user();
@@ -28,10 +30,22 @@ class PelatihanController extends Controller
             $pelatihan->KuotaInstruktur = $pelatihan->kuota_instruktur <= 0;
         }
 
-        return view('cari-pelatihan',['pelatihans' => $pelatihans]);
+        return view('cari-pelatihan', ['pelatihans' => $pelatihans]);
     }
 
-    public function create(){
+    // admin
+    public function listingPelatihan()
+    {
+        $pelatihans = Pelatihans::with('relasiDenganRangeTanggal', 'relasiDenganInstruktur.user')->get();
+        foreach ($pelatihans as $pelatihan) {
+            foreach ($pelatihan->relasiDenganInstruktur as $instruktur){
+                
+            }
+        }
+        return view('admin.pelatihan', ['pelatihans' => $pelatihans, 'instruktur' => $instruktur]);
+    }
+    public function create()
+    {
         return view('admin.input-pelatihan');
     }
 
@@ -52,6 +66,7 @@ class PelatihanController extends Controller
 
         $request->validate([
             'Nama' => 'required|string|max:255',
+            'PRL' => 'string|max:255',
             'Lokasi' => 'required|string|max:255',
             'KuotaInstruktur' => 'required|integer|min:1|max:2',
             'Kuota' => 'required|integer|min:1|max:1000',
@@ -70,6 +85,7 @@ class PelatihanController extends Controller
             'lokasi' => $request->input('Lokasi'),
             'kuota_instruktur' => $request->input('KuotaInstruktur'),
             'kuota' => $request->input('Kuota'),
+            'prl' => $request->input('PRL'),
             'id_range_tanggal' => $range_tanggal->id
         ]);
 
@@ -92,17 +108,17 @@ class PelatihanController extends Controller
     //     return redirect(route('cariPelatihan.view'))->with('success', 'Pendaftaran pelatihan berhasil');
     // }
 
-    public function storeBidPelatihan(Request $request, $id){
+    public function storeBidPelatihan(Request $request, $id)
+    {
         $user = Auth::user();
         $pelatihan = Pelatihans::findOrFail($id);
 
-        if($user->role != 'instruktur'){
+        if ($user->role != 'instruktur') {
             return response()->json(['message' => 'Unauthorized'], 403);
         };
 
-        if($pelatihan->kuota_instruktur <= 0){
-         return response()->json(['message' => 'Kuota Abis'], 403);
-        
+        if ($pelatihan->kuota_instruktur <= 0) {
+            return response()->json(['message' => 'Kuota Abis'], 403);
         }
 
         DB::table('pelatihan_instruktur')->insert([
@@ -112,8 +128,7 @@ class PelatihanController extends Controller
         ]);
 
         $pelatihan->decrement('kuota_instruktur');
-        
-        return redirect(route('cariPelatihan.view'))->with('success', 'Pendaftaran pelatihan berhasil');
-}
 
+        return redirect(route('cariPelatihan.view'))->with('success', 'Pendaftaran pelatihan berhasil');
+    }
 }

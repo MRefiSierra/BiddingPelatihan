@@ -37,10 +37,8 @@ Route::put('/management-user/edit/{id}', [AdminController::class, 'updateUser'])
 Route::get('/management-user/delete/{id}', [AdminController::class, 'deleteUser'])->name('managementUser.delete');
 
 
-Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan')->middleware(['auth','khususAdmin']);
-route::get('/pelatihan', function () {
-    return view('admin.pelatihan');
-});
+Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan')->middleware(['auth', 'khususAdmin']);
+ROute::get('/pelatihan', [PelatihanController::class, 'listingPelatihan'])->name('pelatihan')->middleware(['auth'], 'khususAdmin');
 route::get('/add-user', function () {
     return view('admin.add-user');
 });

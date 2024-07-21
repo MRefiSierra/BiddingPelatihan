@@ -43,54 +43,64 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Melatih keasabaran</td>
-                                <td class="text-secondary">
-                                    20-12-2022 s/d 29-12-2022
-                                </td>
-                                <td>
-                                    Amerika
-                                </td>
-                                <td>
-                                    120
-                                </td>
-                                <td>
-                                    2
-                                </td>
-                                <td>
-                                    <div class="d-flex gap-1">
-                                        <i>Tidak ada</i>
-                                        <button class="btn btn-sm btn-success">
-                                            <i class="ti ti-eye"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-danger">
-                                            <i class="ti ti-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="d-flex gap-1">
-                                        <i>Tidak ada</i>
-                                        <a href="/user-detail" class="align-items-center d-flex text-decoration-none">
-                                            <button class="btn btn-sm btn-success py-1">
+                            @foreach ($pelatihans as $pelatihan)
+                                {{-- @foreach ($pelatihan->relasiDenganInstruktur as $instruktur) --}}
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $pelatihan->nama }}</td>
+                                    <td class="text-secondary">
+                                        {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_mulai)->format('d') }}
+                                        -
+                                        {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_selesai)->format('d F Y') }}
+                                    </td>
+                                    <td>
+                                        {{ $pelatihan->lokasi }}
+                                    </td>
+                                    <td>
+                                        {{ $pelatihan->kuota }}
+                                    </td>
+                                    <td>
+                                        {{ $pelatihan->kuota_instruktur }}
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            @if ($pelatihan->id == $instruktur->id_pelatihan)
+                                                {{ $instruktur->user->name }}
+                                            @endif
+                                            <button class="btn btn-sm btn-success">
                                                 <i class="ti ti-eye"></i>
                                             </button>
-                                        </a>
-                                        <a href="" class="align-items-center d-flex text-decoration-none">
-                                            <button class="btn btn-sm btn-danger py-1">
+                                            <button class="btn btn-sm btn-danger">
                                                 <i class="ti ti-trash"></i>
                                             </button>
-                                        </a>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div>
-                                        <button class="btn btn-sm btn-warning">Edit</button>
-                                        <button class="btn btn-sm btn-danger">Delete</button>
-                                    </div>
-                                </td>
-                            </tr>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            @if ($instruktur->id_pelatihan == $pelatihan->id)
+                                                {{ $instruktur->user->name }}
+                                            @endif
+                                            <a href="/user-detail" class="align-items-center d-flex text-decoration-none">
+                                                <button class="btn btn-sm btn-success py-1">
+                                                    <i class="ti ti-eye"></i>
+                                                </button>
+                                            </a>
+                                            <a href="" class="align-items-center d-flex text-decoration-none">
+                                                <button class="btn btn-sm btn-danger py-1">
+                                                    <i class="ti ti-trash"></i>
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <button class="btn btn-sm btn-warning">Edit</button>
+                                            <button class="btn btn-sm btn-danger">Delete</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {{-- @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

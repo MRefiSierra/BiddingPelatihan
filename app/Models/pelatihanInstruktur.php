@@ -19,4 +19,11 @@ class pelatihanInstruktur extends Model
         'updated_at',
     ];
 
+    public function relasiDenganPelatihans(){
+        return $this->hasMany(Pelatihans::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class, 'id');
+    }
 }

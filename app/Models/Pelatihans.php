@@ -11,13 +11,20 @@ class Pelatihans extends Model
 
     protected $fillable = [
         'nama',
+        'prl',
         'lokasi',
         'kuota_instruktur',
         'kuota',
         'id_range_tanggal',
     ];
 
-    public function relasiDenganRangeTanggal(){
+    public function relasiDenganRangeTanggal()
+    {
         return $this->belongsTo(RangeTanggal::class, 'id_range_tanggal');
+    }
+
+    public function relasiDenganInstruktur()
+    {
+        return $this->hasMany(pelatihanInstruktur::class, 'id_instruktur');
     }
 }
