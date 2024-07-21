@@ -39,7 +39,7 @@ class AdminController extends Controller
             'role' => $request->input('role'),
             'password' => bcrypt($request->input('password')),
         ]);
-        return redirect()->route('managementUser.view')->with('success', 'User has been added');
+        return redirect()->route('managementUser.view')->with('success', 'User berhasil dibuat');
     }
 
     public function editUser($id)
@@ -47,7 +47,7 @@ class AdminController extends Controller
         $user = User::find($id);
 
         if (!$user) {
-            return redirect()->route('managementUser.view')->with('error', 'User not found');
+            return redirect()->route('managementUser.view')->with('error', 'User tidak ditemukan');
         }
 
 
@@ -86,7 +86,7 @@ class AdminController extends Controller
         }
 
         $user->save();
-        return redirect()->route('managementUser.view')->with('success', 'User has been updated');
+        return redirect()->route('managementUser.view')->with('success', 'User berhasil di-update');
     }
 
     public function deleteUser($id)

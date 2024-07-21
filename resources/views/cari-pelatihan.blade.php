@@ -6,6 +6,20 @@
     <div class="page-wrapper">
         <div class="page-header d-print-none">
             <div class="container-xl">
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <h4 class="alert-title fs-2">Congrats, </h4>
+                        <div class="text-secondary">{{ session('success') }}</div>
+                        <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div class="alert alert-warning alert-dismissible" role="alert">
+                        <h4 class="alert-title fs-2">Oopss, </h4>
+                        <div class="text-secondary">{{ session('error') }}</div>
+                        <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+                    </div>
+                @endif
                 <div class="row g-2 align-items-center">
                     <div class="col">
                         <h2 class="page-title">
@@ -37,12 +51,13 @@
                                     <td>{{ $pelatihan->nama }}</td>
                                     <td class="text-secondary">
                                         @if (is_null($pelatihan->relasiDenganRangeTanggal))
-                                            <p>Belum ada</p>
-                                        @else
-                                            {{ \Carbon\Carbon::parse(optional($pelatihan->relasiDenganRangeTanggal)->tanggal_mulai)->format('d') }}
-                                            -
-                                            {{ \Carbon\Carbon::parse(optional($pelatihan->relasiDenganRangeTanggal)->tanggal_selesai)->format('d F Y') }}
-                                        @endif
+                                                <p>Belum ada</p>
+                                            @else
+                                                {{ \Carbon\Carbon::parse(optional($pelatihan->relasiDenganRangeTanggal)->tanggal_mulai)->format('d') }}
+                                                -
+                                                {{ \Carbon\Carbon::parse(optional($pelatihan->relasiDenganRangeTanggal)->tanggal_selesai)->format('d F Y') }}
+                                            @endif
+                                    
                                     </td>
                                     <td class="text-secondary">{{ $pelatihan->lokasi }}</td>
                                     <td class="text-secondary">{{ $pelatihan->kuota }}</td>

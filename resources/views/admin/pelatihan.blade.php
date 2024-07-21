@@ -14,6 +14,13 @@
                         <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
                     </div>
                 @endif
+                @if (session('error'))
+                    <div class="alert alert-warning alert-dismissible" role="alert">
+                        <h4 class="alert-title fs-2">Oopss, </h4>
+                        <div class="text-secondary">{{ session('error') }}</div>
+                        <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+                    </div>
+                @endif
                 <div class="row g-2 align-items-center">
                     <div class="col">
                         <h2 class="page-title">
