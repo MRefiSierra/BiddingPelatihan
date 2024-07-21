@@ -141,15 +141,15 @@ class PelatihanController extends Controller
         $sisaKuotaBid = $kuotaPerBulan - $totalBid;
 
         if ($user->role != 'instruktur') {
-            return response()->json(['message' => 'Unauthorized'], 403);
+            return redirect(route('cariPelatihan.view'))->with('error', 'Aksi Dilarang');
         };
 
         if ($sisaKuotaBid == 0) {
-            return redirect(route('cariPelatihan.view'))->with('Fail', 'Bid melebihi batas(3)');
+            return redirect(route('cariPelatihan.view'))->with('error', 'Bid melebihi batas(3)');
         }
 
         if ($pelatihan->kuota_instruktur == 0) {
-            return response()->json(['message' => 'Kuota Abis'], 403);
+            return redirect(route('cariPelatihan.view'))->with('error', 'Kuota habis');
         }
 
         DB::table('pelatihan_instruktur')->insert([
