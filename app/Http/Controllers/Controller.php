@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Log;
 
 class Controller extends BaseController
 {
@@ -54,23 +55,50 @@ class Controller extends BaseController
     public function dashboard()
     {
         $user = Auth::user();
-        $bulanIni = Carbon::now()->month;
+
+        // Ubah bulan dan tahun untuk pengujian
+        $bulanIni = 8; // Bulan Agustus
         $tahunIni = Carbon::now()->year;
 
+        Log::info('Bulan Sekarang: ' . $bulanIni);
+        Log::info('Tahun Sekarang: ' . $tahunIni);
+
+        // Periksa apakah ada bid untuk bulan saat ini
         $totalBid = pelatihanInstruktur::where('id_instruktur', $user->id)
             ->whereYear('tanggal_bid', $tahunIni)
             ->whereMonth('tanggal_bid', $bulanIni)
             ->count();
 
+        Log::info('Total Bid Bulan Ini: ' . $totalBid);
+
+        // Tetapkan kuota per bulan menjadi 3
         $kuotaPerBulan = 3;
 
-        $sisaKuotaBid = $kuotaPerBulan - $totalBid;
+        // Jika tidak ada bid untuk bulan saat ini, tetapkan sisa kuota menjadi 3
+        // Jika ada, hitung sisa kuota
+        if ($totalBid == 0) {
+            $sisaKuotaBid = $kuotaPerBulan;
+        } else {
+            $sisaKuotaBid = $kuotaPerBulan - $totalBid;
+        }
 
+        Log::info('Sisa Kuota: ' . $sisaKuotaBid);
+
+        // Dapatkan total jumlah bid
         $allBid = pelatihanInstruktur::where('id_instruktur', $user->id)->count();
 
-        $allPelatihan = pelatihanInstruktur::where('id_instruktur', $user->id)->pluck('id_pelatihan')->count();
+        // Dapatkan total jumlah pelatihan hanya untuk bulan saat ini
+        $allPelatihan = pelatihanInstruktur::where('id_instruktur', $user->id)
+            ->whereYear('tanggal_bid', $tahunIni)
+            ->whereMonth('tanggal_bid', $bulanIni)
+            ->count();
 
+        Log::info('Total Pelatihan Bulan Ini: ' . $allPelatihan);
 
-        return view('index', ['sisaKuotaBid' => $sisaKuotaBid, 'allBid' => $allBid, 'allPelatihan' => $allPelatihan]);
+        return view('index', [
+            'sisaKuotaBid' => $sisaKuotaBid,
+            'allBid' => $allBid,
+            'allPelatihan' => $allPelatihan
+        ]);
     }
 }

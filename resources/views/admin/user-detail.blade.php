@@ -4,20 +4,21 @@
 
 @section('content')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
+            document.addEventListener('DOMContentLoaded', function() {
+                var calendarEl = document.getElementById('calendar');
+                var userId = '{{ $user->id }}'; // Ambil user ID dari blade
 
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                timeZone: 'UTC',
-                initialView: 'multiMonthYear',
-                multiMonthMaxColumns: 4,
-                multiMonthMinWidth: 550,
-                editable: true,
-                events: 'https://fullcalendar.io/api/demo-feeds/events.json'
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    timeZone: 'UTC',
+                    initialView: 'multiMonthYear',
+                    multiMonthMaxColumns: 4,
+                    multiMonthMinWidth: 550,
+                    editable: true,
+                    events: `/user-detail/${userId}/calendar` // Panggil endpoint berdasarkan user ID
+                });
+
+                calendar.render();
             });
-
-            calendar.render();
-        });
     </script>
     <div class="page-wrapper">
         <div class="page-header d-print-none">

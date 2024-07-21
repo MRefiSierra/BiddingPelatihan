@@ -39,6 +39,8 @@ Route::get('/management-user/delete/{id}', [AdminController::class, 'deleteUser'
 
 // Admin (Calendar Pelatihan)
 route::get('/admin/calendar', [AdminController::class, 'calendarPelatihan'])->name('dashboard.calendar.view');
+// Instruktur
+route::get('/instruktur/calendar', [PelatihanController::class, 'calendarInstruktur'])->name('dashboard.calendar.instruktur.view');
 
 // Admin (Input Pelatihan)
 Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan')->middleware(['auth', 'khususAdmin']);
@@ -51,6 +53,7 @@ ROute::get('/pelatihan', [PelatihanController::class, 'listingPelatihan'])->name
 
 Route::get('/user-detail/{id}', [AdminController::class, 'userDetail']);
 Route::get('/user-detail/delete/{id}', [AdminController::class, 'deleteInstruktur']);
+Route::get('/user-detail/{userId}/calendar', [AdminController::class, 'userCalendar']);
 
 
 Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan')->middleware(['auth', 'khususAdmin']);

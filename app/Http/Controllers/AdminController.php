@@ -102,6 +102,42 @@ class AdminController extends Controller
         return view('admin.user-detail', ['user' => $user]);
     }
 
+    public function userCalendar($userId)
+    {
+        // Ambil pelatihan yang terkait dengan instruktur berdasarkan userId
+        $events = Pelatihans::whereHas('relasiDenganInstruktur', function ($query) use ($userId) {
+            $query->where('id_instruktur', $userId);
+        })
+            ->with(['relasiDenganInstruktur.user', 'relasiDenganRangeTanggal'])
+            ->get()
+            ->map(function ($pelatihan) {
+
+                $start = $pelatihan->relasiDenganRangeTanggal->tanggal_mulai;
+                $end = $pelatihan->relasiDenganRangeTanggal->tanggal_selesai;
+                $end = date('Y-m-d', strtotime($end . ' +1 day'));
+
+                $instrukturs = $pelatihan->relasiDenganInstruktur->map(function ($pelatihanInstruktur) {
+                    return $pelatihanInstruktur->user ? $pelatihanInstruktur->user->name : 'Unknown';
+                })->toArray();
+
+                // Generate warna acak
+                $backgroundColor = $this->generateRandomColor();
+                $textColor = $this->getContrastColor($backgroundColor);
+
+                return [
+                    'title' => $pelatihan->nama,
+                    'start' => $start,
+                    'end' => $end,
+                    'instrukturs' => $instrukturs,
+                    'backgroundColor' => $backgroundColor,
+                    'borderColor' => $backgroundColor, // Jika ingin border juga memiliki warna yang sama
+                    'color' => $textColor, // Warna teks yang kontras
+                ];
+            });
+
+        return response()->json($events);
+    }
+
     public function deleteInstruktur($id)
     {
         $instruktur = pelatihanInstruktur::find($id);
@@ -109,20 +145,55 @@ class AdminController extends Controller
         return redirect()->route('admin.pelatihan')->with('success', 'user has been deleted');
     }
 
-    public function calendarPelatihan(){
-        $events = Pelatihans::with(['relasiDenganInstruktur','relasiDenganRangeTanggal'])->get()->map(function($pelatihan) {
+    private function generateRandomColor()
+    {
+        return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+    }
+
+    // Fungsi untuk menentukan warna teks kontras
+    private function getContrastColor($hex)
+    {
+        $hex = str_replace('#', '', $hex);
+        $r = hexdec(substr($hex, 0, 2));
+        $g = hexdec(substr($hex, 2, 2));
+        $b = hexdec(substr($hex, 4, 2));
+
+        // Menggunakan rumus luminansi untuk menentukan kontras
+        $contrast = (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
+        return ($contrast > 127) ? '#000000' : '#FFFFFF'; // Hitam jika terang, putih jika gelap
+    }
+
+    public function calendarPelatihan()
+    {
+        $events = Pelatihans::with(['relasiDenganInstruktur.user', 'relasiDenganRangeTanggal'])->get()->map(function ($pelatihan) {
 
             $start = $pelatihan->relasiDenganRangeTanggal->tanggal_mulai;
             $end = $pelatihan->relasiDenganRangeTanggal->tanggal_selesai;
 
             // Pastikan end diatur satu hari setelah tanggal selesai
             $end = date('Y-m-d', strtotime($end . ' +1 day'));
+            // Generate warna acak
+            $backgroundColor = $this->generateRandomColor();
+            $textColor = $this->getContrastColor($backgroundColor);
+
+
+            // dd($pelatihan->relasiDenganInstruktur->map(function ($pelatihanInstruktur) {
+            //     return $pelatihanInstruktur->user->name;
+            // }));
+
+            $instrukturs = $pelatihan->relasiDenganInstruktur->map(function ($pelatihanInstruktur) {
+                // Pastikan relasi `user` ada dan dapat diakses
+                return $pelatihanInstruktur->user ? $pelatihanInstruktur->user->name : 'Unknown';
+            })->toArray();
 
             return [
                 'title' => $pelatihan->nama,
                 'start' => $start,
                 'end' => $end,
-                'instrukturs' => $pelatihan->relasiDenganInstruktur->pluck('name')->toArray()
+                'instrukturs' => $instrukturs,
+                'backgroundColor' => $backgroundColor,
+                'borderColor' => $backgroundColor, // Jika ingin border juga memiliki warna yang sama
+                'color' => $textColor, // Warna teks yang kontras
             ];
         });
 

@@ -169,24 +169,48 @@
                 calendar.render();
             });
         </script> --}}
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var calendarEl = document.getElementById('calendar');
+        @if (Auth::user()->role == 'admin')
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var calendarEl = document.getElementById('calendar');
 
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: 'dayGridMonth',
-                    events: '/admin/calendar',
-                    eventClick: function(info) {
-                        var instrukturs = info.event.extendedProps.instrukturs.join(', ');
-                        document.getElementById('eventModalLabel').textContent = info.event.title;
-                        document.getElementById('instrukturList').textContent = instrukturs;
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        initialView: 'dayGridMonth',
+                        events: '/admin/calendar',
+                        eventClick: function(info) {
+                            var instrukturs = info.event.extendedProps.instrukturs.join(', ');
+                            document.getElementById('eventModalLabel').textContent = info.event.title;
+                            document.getElementById('instrukturList').textContent = instrukturs;
+                            var myModal = new bootstrap.Modal(document.getElementById('eventModal'));
+                            myModal.show();
+                        }
+                    });
 
-                        var myModal = new bootstrap.Modal(document.getElementById('eventModal'));
-                        myModal.show();
-                    }
+                    calendar.render();
                 });
+            </script>
+        @endif
+        @if (Auth::user()->role == 'instruktur')
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var calendarEl = document.getElementById('calendar');
 
-                calendar.render();
-            });
-        </script>
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        initialView: 'dayGridMonth',
+                        events: '/instruktur/calendar',
+                        eventClick: function(info) {
+                            var instrukturs = info.event.extendedProps.instrukturs.join(', ');
+                            document.getElementById('eventModalLabel').textContent = info.event.title;
+                            document.getElementById('instrukturList').textContent = instrukturs;
+
+                            var myModal = new bootstrap.Modal(document.getElementById('eventModal'));
+                            myModal.show();
+                        }
+                    });
+
+                    calendar.render();
+                });
+            </script>
+        @endif
+
     @endsection
