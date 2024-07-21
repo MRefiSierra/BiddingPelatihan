@@ -36,10 +36,13 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $pelatihan->nama }}</td>
                                     <td class="text-secondary">
-                                        {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_mulai)->format('d') }}
+                                        @if (is_null($pelatihan->relasiDenganRangeTanggal))
+                                        <p>Belum ada</p>
+                                    @else
+                                        {{ \Carbon\Carbon::parse(optional($pelatihan->relasiDenganRangeTanggal)->tanggal_mulai)->format('d') }}
                                         -
-                                        {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_selesai)->format('d F Y') }}
-                                    </td>
+                                        {{ \Carbon\Carbon::parse(optional($pelatihan->relasiDenganRangeTanggal)->tanggal_selesai)->format('d F Y') }}
+                                    @endif</td>
                                     <td class="text-secondary">{{ $pelatihan->lokasi }}</td>
                                     <td class="text-secondary">{{ $pelatihan->kuota }}</td>
                                     <td class="text-secondary">{{ $pelatihan->kuota_instruktur }}</td>

@@ -36,12 +36,16 @@ class PelatihanController extends Controller
     // admin
     public function listingPelatihan()
     {
-        $pelatihans = Pelatihans::with('relasiDenganRangeTanggal', 'relasiDenganInstruktur.user')->get();
-        foreach ($pelatihans as $pelatihan) {
-            foreach ($pelatihan->relasiDenganInstruktur as $instruktur) {
-            }
-        }
-        return view('admin.pelatihan', ['pelatihans' => $pelatihans, 'instruktur' => $instruktur]);
+        // $pelatihans = Pelatihans::with('relasiDenganRangeTanggal', 'relasiDenganInstruktur.user')->get();
+        // foreach ($pelatihans as $pelatihan) {
+        //     foreach ($pelatihan->relasiDenganInstruktur as $instruktur) {
+        //     }
+        // }
+        // return view('admin.pelatihan', ['pelatihans' => $pelatihans, 'instruktur' => $instruktur]);
+
+        // Mengambil data pelatihan beserta relasi tanggal dan instruktur
+        $pelatihans = Pelatihans::with(['relasiDenganRangeTanggal', 'relasiDenganInstruktur.user'])->get();
+        return view('admin.pelatihan', compact('pelatihans'));
     }
     public function create()
     {
