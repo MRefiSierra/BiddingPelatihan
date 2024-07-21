@@ -70,6 +70,10 @@ class PelatihanController extends Controller
             'KuotaInstruktur.min' => '*Kuota instruktur minimal 1',
             'KuotaInstruktur.max' => '*Kuota instruktur maksimal 2',
             'Kuota.required' => '*Kuota instruktur wajib diisi',
+            'Kuota.required' => '*Kuota instruktur wajib diisi',
+            'Lokasi.required' => '*Lokasi wajib diisi',
+            'PRL.required' => '*PRL wajib diisi',
+            'PRL.string' => '*PRL wajib diisi',
             'Kuota.min' => '*Kuota minimal 1',
             'Kuota.max' => '*Kuota maksimal 1000',
             'TanggalMulai.required' => '*Tanggal mulai pelatihan harus diisi',
@@ -101,7 +105,7 @@ class PelatihanController extends Controller
             'id_range_tanggal' => $range_tanggal->id
         ]);
 
-        return redirect('/dashboard-admin');
+        return redirect('/pelatihan')->with('success', 'Pelatihan berhasil dibuat');
     }
 
     // public function storeBidPelatihan(Request $request){

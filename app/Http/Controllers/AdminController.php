@@ -93,7 +93,7 @@ class AdminController extends Controller
     {
         $user = User::find($id);
         $user->delete();
-        return redirect()->route('managementUser.view')->with('success', 'User has been deleted');
+        return redirect()->route('managementUser.view')->with('success', 'User berhasil dihapus');
     }
 
     public function userDetail($id)
