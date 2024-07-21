@@ -42,7 +42,7 @@
                                     <td>{{ $user->name }}</td>
                                     <td class="text-secondary">{{ $user->email }}</td>
                                     <td class="text-secondary">{{ $user->role }}</td>
-                                    <td>
+                                    <td class="d-flex gap-1">
                                         <a class="btn btn-sm btn-success rounded" href="{{ route('managementUser.view.form.edit', ['id' => $user->id]) }}">Edit</button>
                                         <a class="btn btn-sm btn-danger rounded" href="{{ route('managementUser.delete', ['id' => $user->id]) }}">Delete</button>
                                     </td>
