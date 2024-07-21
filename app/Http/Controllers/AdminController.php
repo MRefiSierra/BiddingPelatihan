@@ -140,10 +140,29 @@ class AdminController extends Controller
 
     public function deleteInstruktur($id)
     {
+        // Temukan instruktur yang akan dihapus
         $instruktur = pelatihanInstruktur::find($id);
-        $instruktur->delete();
-        return redirect()->route('admin.pelatihan')->with('success', 'user has been deleted');
+
+        // Cek apakah instruktur ditemukan
+        if ($instruktur) {
+            // Temukan pelatihan yang terkait
+            $pelatihan = Pelatihans::find($instruktur->id_pelatihan);
+
+            // Tambahkan kuota instruktur pada pelatihan yang terkait
+            if ($pelatihan) {
+                $pelatihan->kuota_instruktur += 1; // Tambahkan kuota instruktur
+                $pelatihan->save();
+            }
+
+            // Hapus instruktur
+            $instruktur->delete();
+
+            return redirect()->route('pelatihan')->with('success', 'Instruktur telah dihapus dan kuota telah diperbarui.');
+        } else {
+            return redirect()->route('pelatihan')->with('error', 'Instruktur tidak ditemukan.');
+        }
     }
+
 
     private function generateRandomColor()
     {

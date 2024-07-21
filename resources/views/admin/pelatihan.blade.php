@@ -67,25 +67,27 @@
                                     <td>{{ $pelatihan->kuota }}</td>
                                     <td>{{ $pelatihan->kuota_instruktur }}</td>
                                     <td>
-                                        <div class="d-flex gap-1">
+                                        <div class="d-flex justify-content-between">
                                             @if ($pelatihan->relasiDenganInstruktur->isEmpty())
                                                 <p>Belum ada yang bid</p>
                                             @else
                                                 @foreach ($pelatihan->relasiDenganInstruktur as $index => $instruktur)
                                                     @if ($index == 0)
                                                         {{ $instruktur->user->name }}
-                                                        <a href="/user-detail/{{ $instruktur->user->id }}"
-                                                            class="align-items-center d-flex text-decoration-none">
-                                                            <button class="btn btn-sm btn-success py-1">
-                                                                <i class="ti ti-eye"></i>
-                                                            </button>
-                                                        </a>
-                                                        <a href="/user-detail/delete/{{ $instruktur->id }}"
-                                                            class="align-items-center d-flex text-decoration-none">
-                                                            <button class="btn btn-sm btn-danger py-1">
-                                                                <i class="ti ti-trash"></i>
-                                                            </button>
-                                                        </a>
+                                                        <div class="d-flex gap-1">
+                                                            <a href="/user-detail/{{ $instruktur->user->id }}"
+                                                                class="align-items-center d-flex text-decoration-none">
+                                                                <button class="btn btn-sm btn-success py-1">
+                                                                    <i class="ti ti-eye"></i>
+                                                                </button>
+                                                            </a>
+                                                            <a href="/user-detail/delete/{{ $instruktur->id }}"
+                                                                class="align-items-center d-flex text-decoration-none">
+                                                                <button class="btn btn-sm btn-danger py-1">
+                                                                    <i class="ti ti-trash"></i>
+                                                                </button>
+                                                            </a>
+                                                        </div>
                                                     @endif
                                                 @endforeach
                                             @endif
@@ -119,17 +121,18 @@
 
                                     <td>
                                         <div class="d-flex gap-1">
-                                            <a href="/user-detail/delete/"
+                                            {{-- <a href="/user-detail/delete/"
                                                 class="align-items-center d-flex text-decoration-none">
                                                 <button class="btn btn-sm btn-warning py-1">
                                                     <i class="ti ti-edit"></i>
                                                 </button>
-                                                <a href="/user-detail/delete/"
-                                                    class="align-items-center d-flex text-decoration-none">
-                                                    <button class="btn btn-sm btn-danger py-1">
-                                                        <i class="ti ti-trash"></i>
-                                                    </button>
-                                                </a>
+                                            </a> --}}
+                                            <a href="{{route('pelatihan.delete.store', ['id' => $pelatihan->id])}}"
+                                                class="align-items-center d-flex text-decoration-none">
+                                                <button class="btn btn-sm btn-danger py-1">
+                                                    <i class="ti ti-trash"></i>
+                                                </button>
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>

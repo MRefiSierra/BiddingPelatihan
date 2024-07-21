@@ -57,7 +57,7 @@ class Controller extends BaseController
         $user = Auth::user();
 
         // Ubah bulan dan tahun untuk pengujian
-        $bulanIni = 8; // Bulan Agustus
+        $bulanIni = Carbon::now()->month; // Bulan Agustus
         $tahunIni = Carbon::now()->year;
 
         Log::info('Bulan Sekarang: ' . $bulanIni);
@@ -85,7 +85,7 @@ class Controller extends BaseController
         Log::info('Sisa Kuota: ' . $sisaKuotaBid);
 
         // Dapatkan total jumlah bid
-        $allBid = pelatihanInstruktur::where('id_instruktur', $user->id)->count();
+        $allBid = pelatihanInstruktur::withTrashed()->where('id_instruktur', $user->id)->count();
 
         // Dapatkan total jumlah pelatihan hanya untuk bulan saat ini
         $allPelatihan = pelatihanInstruktur::where('id_instruktur', $user->id)

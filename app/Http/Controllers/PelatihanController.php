@@ -17,9 +17,33 @@ class PelatihanController extends Controller
     // Instruktur
 
     // Cari Pelatihan
+    // public function cariPelatihan()
+    // {
+
+    //     $currentMonth = date('m');
+    //     $currentYear = date('Y');
+
+    //     $pelatihans = Pelatihans::with('relasiDenganRangeTanggal')
+    //         ->whereHas('relasiDenganRangeTanggal', function ($query) use ($currentMonth, $currentYear) {
+    //             $query->whereMonth('tanggal_mulai', $currentMonth)
+    //                 ->whereYear('tanggal_mulai', $currentYear);
+    //         })
+    //         ->get();
+
+    //     $user = Auth::user();
+
+    //     foreach ($pelatihans as $pelatihan) {
+    //         $pelatihan->sudahBid = pelatihanInstruktur::where('id_pelatihan', $pelatihan->id)
+    //             ->where('id_instruktur', $user->id)
+    //             ->exists();
+    //         $pelatihan->KuotaInstruktur = $pelatihan->kuota_instruktur <= 0;
+    //     }
+
+    //     return view('cari-pelatihan', ['pelatihans' => $pelatihans]);
+    // }
+
     public function cariPelatihan()
     {
-
         $currentMonth = date('m');
         $currentYear = date('Y');
 
@@ -33,14 +57,43 @@ class PelatihanController extends Controller
         $user = Auth::user();
 
         foreach ($pelatihans as $pelatihan) {
+            // Cek apakah instruktur sudah bid pada pelatihan ini
             $pelatihan->sudahBid = pelatihanInstruktur::where('id_pelatihan', $pelatihan->id)
                 ->where('id_instruktur', $user->id)
                 ->exists();
-            $pelatihan->KuotaInstruktur = $pelatihan->kuota_instruktur <= 0;
+
+            // Hitung jumlah instruktur yang aktif (tidak dihapus)
+            $activeInstructorsCount = pelatihanInstruktur::where('id_pelatihan', $pelatihan->id)
+                ->whereNull('deleted_at')
+                ->count();
+
+            // Hitung jumlah instruktur yang dihapus
+            $deletedInstructorsCount = pelatihanInstruktur::where('id_pelatihan', $pelatihan->id)
+                ->whereNotNull('deleted_at')
+                ->count();
+
+            // Tambahkan ke kuota instruktur jika ada instruktur yang dihapus
+            $pelatihan->KuotaInstruktur = ($pelatihan->kuota_instruktur - $activeInstructorsCount) + $deletedInstructorsCount;
         }
 
-        return view('cari-pelatihan', ['pelatihans' => $pelatihans]);
+        // Cek flash message untuk notifikasi
+        $message = session('status');
+
+        return view('cari-pelatihan', [
+            'pelatihans' => $pelatihans,
+            'message' => $message
+        ]);
     }
+
+
+
+    public function deletePelatihan($id)
+    {
+        $pelatihan = Pelatihans::find($id);
+        $pelatihan->delete();
+        return redirect()->route('pelatihan')->with('success', 'Pelatihan berhasil dihapus');
+    }
+
 
     // admin
     public function listingPelatihan()
@@ -70,10 +123,6 @@ class PelatihanController extends Controller
             'KuotaInstruktur.min' => '*Kuota instruktur minimal 1',
             'KuotaInstruktur.max' => '*Kuota instruktur maksimal 2',
             'Kuota.required' => '*Kuota instruktur wajib diisi',
-            'Kuota.required' => '*Kuota instruktur wajib diisi',
-            'Lokasi.required' => '*Lokasi wajib diisi',
-            'PRL.required' => '*PRL wajib diisi',
-            'PRL.string' => '*PRL wajib diisi',
             'Kuota.min' => '*Kuota minimal 1',
             'Kuota.max' => '*Kuota maksimal 1000',
             'TanggalMulai.required' => '*Tanggal mulai pelatihan harus diisi',
@@ -105,7 +154,7 @@ class PelatihanController extends Controller
             'id_range_tanggal' => $range_tanggal->id
         ]);
 
-        return redirect('/pelatihan')->with('success', 'Pelatihan berhasil dibuat');
+        return redirect('/dashboard-admin');
     }
 
     // public function storeBidPelatihan(Request $request){

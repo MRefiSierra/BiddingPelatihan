@@ -17,8 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('id_pelatihan');
             $table->unsignedBigInteger('id_instruktur');
             $table->date('tanggal_bid')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->foreign('id_pelatihan')->references('id')->on('pelatihans');
-            $table->foreign('id_instruktur')->references('id')->on('users');
+            $table->foreign('id_pelatihan')->references('id')->on('pelatihans')->onDelete('cascade');
+            $table->foreign('id_instruktur')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
