@@ -6,6 +6,13 @@
     <div class="page-wrapper">
         <div class="page-header d-print-none">
             <div class="container-xl">
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <h4 class="alert-title fs-2">Congrats, </h4>
+                        <div class="text-secondary">{{ session('success') }}</div>
+                        <a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+                    </div>
+                @endif
                 <div class="row g-2 align-items-center">
                     <div class="col">
                         <h2 class="page-title">
@@ -43,8 +50,10 @@
                                     <td class="text-secondary">{{ $user->email }}</td>
                                     <td class="text-secondary">{{ $user->role }}</td>
                                     <td class="d-flex gap-1">
-                                        <a class="btn btn-sm btn-success rounded" href="{{ route('managementUser.view.form.edit', ['id' => $user->id]) }}">Edit</button>
-                                        <a class="btn btn-sm btn-danger rounded" href="{{ route('managementUser.delete', ['id' => $user->id]) }}">Delete</button>
+                                        <a class="btn btn-sm btn-success rounded"
+                                            href="{{ route('managementUser.view.form.edit', ['id' => $user->id]) }}">Edit</button>
+                                            <a class="btn btn-sm btn-danger rounded"
+                                                href="{{ route('managementUser.delete', ['id' => $user->id]) }}">Delete</button>
                                     </td>
                                 </tr>
                             @endforeach
