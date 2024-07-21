@@ -81,7 +81,7 @@
                                         </div>
                                         <div class="col">
                                             <div class="font-weight-medium">
-                                                Kuota Bid
+                                                Kuota Bid : {{ $sisaKuotaBid }}
                                             </div>
                                             {{-- <div class="text-secondary">
                                                 32 shipped

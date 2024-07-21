@@ -23,6 +23,7 @@ class PelatihanController extends Controller
         $pelatihans = Pelatihans::with('relasiDenganRangeTanggal')->get();
         $user = Auth::user();
 
+
         foreach ($pelatihans as $pelatihan) {
             $pelatihan->sudahBid = pelatihanInstruktur::where('id_pelatihan', $pelatihan->id)
                 ->where('id_instruktur', $user->id)

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\pelatihanInstruktur;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -48,7 +50,21 @@ class Controller extends BaseController
     // }
 
     public function dashboard(){
-        return view('index');
+        $user = Auth::user();
+        $bulanIni = Carbon::now()->month;
+        $tahunIni = Carbon::now()->year;
+
+        $totalBid = pelatihanInstruktur::where('id_instruktur', $user->id)
+                    ->whereYear('tanggal_bid', $tahunIni)
+                    ->whereMonth('tanggal_bid', $bulanIni)
+                    ->count();
+
+        $kuotaPerBulan = 3;
+
+        $sisaKuotaBid = $kuotaPerBulan - $totalBid;
+ 
+        
+        return view('index', ['sisaKuotaBid' => $sisaKuotaBid]);
     }
 
 }
