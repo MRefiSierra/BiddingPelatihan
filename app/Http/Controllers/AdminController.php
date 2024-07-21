@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\pelatihanInstruktur;
+use App\Models\Pelatihans;
 use App\Models\User;
 use Illuminate\Http\Request;
 use GuzzleHttp\Promise\Create;
@@ -106,5 +107,26 @@ class AdminController extends Controller
         $instruktur = pelatihanInstruktur::find($id);
         $instruktur->delete();
         return redirect()->route('admin.pelatihan')->with('success', 'user has been deleted');
+    }
+
+    public function calendarPelatihan(){
+        $pelatihans = Pelatihans::with('relasiDenganInstruktur.user', 'relasiDenganRangeTanggal')->get();
+        $events = [];
+
+        foreach ($pelatihans as $pelatihan){
+            $events[] = [
+                'id' => $pelatihan->id,
+                'title' => $pelatihan->nama,
+                'start' => $pelatihan->relasiDenganRangeTanggal->tanggal_mulai,
+                'end' => $pelatihan->relasiDenganRangeTanggal->tanggal_selesai,
+                'quota_instruktur' => $pelatihan->kuota_instruktur,
+                'instrukturs' => $pelatihan->instrukturs->map(function ($instruktur) {
+                    return $instruktur->user->name;
+                })->toArray()
+            ];
+        }
+
+
+        return response()->json($events);
     }
 }

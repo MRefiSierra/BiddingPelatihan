@@ -20,7 +20,7 @@ class pelatihanInstruktur extends Model
     ];
 
     public function relasiDenganPelatihans(){
-        return $this->hasMany(Pelatihans::class);
+        return $this->belongsTo(Pelatihans::class);
     }
 
     public function user(){

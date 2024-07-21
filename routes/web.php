@@ -29,6 +29,7 @@ route::get('/dashboard-admin', function () {
 });
 
 
+// Admin (Management User)
 route::get('/management-user', [AdminController::class, 'managementUser'])->name('managementUser.view');
 Route::get('/management-user/form', [AdminController::class, 'inputUser'])->name('managementUser.view.form');
 Route::post('/management-user/form/store', [AdminController::class, 'storeUser'])->name('managementUser.store');
@@ -36,12 +37,17 @@ Route::get('/management-user/edit/{id}', [AdminController::class, 'editUser'])->
 Route::put('/management-user/edit/{id}', [AdminController::class, 'updateUser'])->name('managementUser.update');
 Route::get('/management-user/delete/{id}', [AdminController::class, 'deleteUser'])->name('managementUser.delete');
 
+// Admin (Calendar Pelatihan)
+route::get('/admin/calendar', [AdminController::class, 'calendarPelatihan'])->name('dashboard.calendar.view');
 
+// Admin (Input Pelatihan)
 Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan')->middleware(['auth', 'khususAdmin']);
 ROute::get('/pelatihan', [PelatihanController::class, 'listingPelatihan'])->name('pelatihan')->middleware(['auth'], 'khususAdmin');
-route::get('/add-user', function () {
-    return view('admin.add-user');
-});
+// route::get('/add-user', function () {
+//     return view('admin.add-user');
+// });
+
+
 
 Route::get('/user-detail/{id}', [AdminController::class, 'userDetail']);
 Route::get('/user-detail/delete/{id}', [AdminController::class, 'deleteInstruktur']);

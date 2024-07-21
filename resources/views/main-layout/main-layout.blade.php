@@ -118,8 +118,9 @@
     @yield('content')
 
     {{-- Tabler.IO --}}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>    
     <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0-beta17/dist/js/tabler.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
 </body>
 
 
