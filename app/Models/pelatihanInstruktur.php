@@ -20,10 +20,10 @@ class pelatihanInstruktur extends Model
     ];
 
     public function relasiDenganPelatihans(){
-        return $this->belongsTo(Pelatihans::class);
+        return $this->belongsTo(Pelatihans::class, 'id_pelatihan');
     }
 
     public function user(){
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class, 'id_instruktur');
     }
 }
