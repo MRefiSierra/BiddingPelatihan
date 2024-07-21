@@ -25,6 +25,6 @@ class Pelatihans extends Model
 
     public function relasiDenganInstruktur()
     {
-        return $this->hasMany(pelatihanInstruktur::class, 'id_pelatihan');
+        return $this->hasMany(pelatihanInstruktur::class,'id_pelatihan','id_instruktur');
     }
 }

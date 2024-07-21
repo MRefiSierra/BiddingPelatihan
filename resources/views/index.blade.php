@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('content')
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -11,7 +11,7 @@
             });
             calendar.render();
         });
-    </script>
+    </script> --}}
     <div class="page">
         <!-- Sidebar -->
         <div class="page-wrapper">
@@ -124,28 +124,23 @@
                         @endif
                         <div id='calendar'></div>
                         <!-- Modal -->
-                        <div class="modal fade" id="pelatihanModal" tabindex="-1" aria-labelledby="pelatihanModalLabel"
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel"
                             aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="pelatihanModalLabel">Detail Pelatihan</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
+                                        <h5 class="modal-title" id="eventModalLabel">Event Details</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <p><strong>Nama Pelatihan:</strong> <span id="modalPelatihanNama"></span></p>
-                                        <p><strong>Tanggal Mulai:</strong> <span id="modalPelatihanTanggalMulai"></span></p>
-                                        <p><strong>Tanggal Selesai:</strong> <span id="modalPelatihanTanggalSelesai"></span>
-                                        </p>
-                                        <p><strong>Kuota Instruktur:</strong> <span
-                                                id="modalPelatihanKuotaInstruktur"></span></p>
-                                        <p><strong>Instruktur:</strong></p>
-                                        <ul id="modalPelatihanInstrukturs"></ul>
+                                        <p><strong>Instruktur:</strong> <span id="instrukturList"></span></p>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
                                     </div>
                                 </div>
                             </div>
@@ -159,32 +154,39 @@
                 var calendarEl = document.getElementById('calendar');
 
                 var calendar = new FullCalendar.Calendar(calendarEl, {
-                    plugins: ['dayGrid', 'interaction'],
-                    events: '/api/pelatihan-events',
-                    eventClick: function(info) {
-                        var event = info.event;
-
-                        // Mengisi data ke dalam modal
-                        document.getElementById('modalPelatihanNama').innerText = event.title;
-                        document.getElementById('modalPelatihanTanggalMulai').innerText = event.startStr;
-                        document.getElementById('modalPelatihanTanggalSelesai').innerText = event.endStr;
-                        document.getElementById('modalPelatihanKuotaInstruktur').innerText = event
-                            .extendedProps.quota_instruktur;
-
-                        var instruktursList = document.getElementById('modalPelatihanInstrukturs');
-                        instruktursList.innerHTML = '';
-                        event.extendedProps.instrukturs.forEach(function(instruktur) {
-                            var li = document.createElement('li');
-                            li.innerText = instruktur;
-                            instruktursList.appendChild(li);
-                        });
-
-                        // Menampilkan modal
-                        $('#pelatihanModal').modal('show');
+                    initialView: 'dayGridMonth',
+                    events: '/admin/calendar',
+                    eventContent: function(arg) {
+                        let instrukturs = arg.event.extendedProps.instrukturs.join(', ');
+                        let content = document.createElement('div');
+                        content.innerHTML = `<b>${arg.event.title}</b><br>${instrukturs}`;
+                        return {
+                            domNodes: [content]
+                        }
                     }
                 });
 
                 calendar.render();
             });
         </script> --}}
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var calendarEl = document.getElementById('calendar');
+
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    events: '/admin/calendar',
+                    eventClick: function(info) {
+                        var instrukturs = info.event.extendedProps.instrukturs.join(', ');
+                        document.getElementById('eventModalLabel').textContent = info.event.title;
+                        document.getElementById('instrukturList').textContent = instrukturs;
+
+                        var myModal = new bootstrap.Modal(document.getElementById('eventModal'));
+                        myModal.show();
+                    }
+                });
+
+                calendar.render();
+            });
+        </script>
     @endsection

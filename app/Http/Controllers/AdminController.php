@@ -110,22 +110,21 @@ class AdminController extends Controller
     }
 
     public function calendarPelatihan(){
-        $pelatihans = Pelatihans::with('relasiDenganInstruktur.user', 'relasiDenganRangeTanggal')->get();
-        $events = [];
+        $events = Pelatihans::with(['relasiDenganInstruktur','relasiDenganRangeTanggal'])->get()->map(function($pelatihan) {
 
-        foreach ($pelatihans as $pelatihan){
-            $events[] = [
-                'id' => $pelatihan->id,
+            $start = $pelatihan->relasiDenganRangeTanggal->tanggal_mulai;
+            $end = $pelatihan->relasiDenganRangeTanggal->tanggal_selesai;
+
+            // Pastikan end diatur satu hari setelah tanggal selesai
+            $end = date('Y-m-d', strtotime($end . ' +1 day'));
+
+            return [
                 'title' => $pelatihan->nama,
-                'start' => $pelatihan->relasiDenganRangeTanggal->tanggal_mulai,
-                'end' => $pelatihan->relasiDenganRangeTanggal->tanggal_selesai,
-                'quota_instruktur' => $pelatihan->kuota_instruktur,
-                'instrukturs' => $pelatihan->instrukturs->map(function ($instruktur) {
-                    return $instruktur->user->name;
-                })->toArray()
+                'start' => $start,
+                'end' => $end,
+                'instrukturs' => $pelatihan->relasiDenganInstruktur->pluck('name')->toArray()
             ];
-        }
-
+        });
 
         return response()->json($events);
     }
