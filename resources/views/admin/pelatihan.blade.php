@@ -73,9 +73,12 @@
                                                             <i class="ti ti-eye"></i>
                                                         </button>
                                                     </a>
-                                                    <button class="btn btn-sm btn-danger">
-                                                        <i class="ti ti-trash"></i>
-                                                    </button>
+                                                    <a href="/user-detail/delete/{{ $instruktur->id }}"
+                                                        class="align-items-center d-flex text-decoration-none">
+                                                        <button class="btn btn-sm btn-danger py-1">
+                                                            <i class="ti ti-trash"></i>
+                                                        </button>
+                                                    </a>
                                                 @endif
                                             @endforeach
                                         @endif
@@ -86,7 +89,7 @@
                                         @if ($pelatihan->relasiDenganInstruktur->isEmpty())
                                             <p>Belum ada yang bid</p>
                                         @else
-                                            @foreach ($pelatihan->relasiDenganInstruktur as $index => $instruktur)
+                                            {{-- @foreach ($pelatihan->relasiDenganInstruktur as $index => $instruktur) --}}
                                                 @if ($index == 1)
                                                     {{ $instruktur->user->name }}
                                                     <a href="/user-detail/{{ $instruktur->user->id }}"
@@ -102,38 +105,24 @@
                                                         </button>
                                                     </a>
                                                 @endif
-                                            @endforeach
+                                            {{-- @endforeach --}}
                                         @endif
                                     </div>
                                 </td>
                                 
                                 <td>
                                     <div class="d-flex gap-1">
-                                        @if ($pelatihan->relasiDenganInstruktur->isEmpty())
-                                            <p>Belum ada yang bid</p>
-                                        @else
-                                            @if (isset($pelatihan->relasiDenganInstruktur[1]))
-                                                {{ $pelatihan->relasiDenganInstruktur[1]->user->name }}
-                                                <a href="/user-detail/{{ $pelatihan->relasiDenganInstruktur[1]->user->id }}"
-                                                    class="align-items-center d-flex text-decoration-none">
-                                                    <button class="btn btn-sm btn-success py-1">
-                                                        <i class="ti ti-eye"></i>
-                                                    </button>
-                                                </a>
-                                                <a href="/user-detail/delete/{{ $pelatihan->relasiDenganInstruktur[1]->id }}"
-                                                    class="align-items-center d-flex text-decoration-none">
-                                                    <button class="btn btn-sm btn-danger py-1">
-                                                        <i class="ti ti-trash"></i>
-                                                    </button>
-                                                </a>
-                                            @endif
-                                        @endif
-                                    </div>
-                                </td>
-                                <td>
-                                    <div>
-                                        <button class="btn btn-sm btn-warning">Edit</button>
-                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                        <a href="/user-detail/delete/"
+                                            class="align-items-center d-flex text-decoration-none">
+                                            <button class="btn btn-sm btn-warning py-1">
+                                                <i class="ti ti-edit"></i>
+                                            </button>
+                                        <a href="/user-detail/delete/"
+                                            class="align-items-center d-flex text-decoration-none">
+                                            <button class="btn btn-sm btn-danger py-1">
+                                                <i class="ti ti-trash"></i>
+                                            </button>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
