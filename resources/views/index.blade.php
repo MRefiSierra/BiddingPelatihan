@@ -52,9 +52,9 @@
                                             <div class="font-weight-medium">
                                                 Jumlah Bid
                                             </div>
-                                            {{-- <div class="text-secondary">
-                                                3 Bid di bulan ini
-                                            </div> --}}
+                                            <div class="text-secondary">
+                                             Total {{ $allBid }} bid
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -81,11 +81,11 @@
                                         </div>
                                         <div class="col">
                                             <div class="font-weight-medium">
-                                                Kuota Bid : {{ $sisaKuotaBid }}
+                                                Kuota Bid
                                             </div>
-                                            {{-- <div class="text-secondary">
-                                                32 shipped
-                                            </div> --}}
+                                            <div class="text-secondary">
+                                                {{ $sisaKuotaBid }} tersisa
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -112,9 +112,9 @@
                                             <div class="font-weight-medium">
                                                 Jumlah Pelatihan
                                             </div>
-                                            {{-- <div class="text-secondary">
-                                                16 today
-                                            </div> --}}
+                                            <div class="text-secondary">
+                                                {{ $allPelatihan }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\pelatihanInstruktur;
 use App\Models\User;
 use Illuminate\Http\Request;
 use GuzzleHttp\Promise\Create;
@@ -92,5 +93,18 @@ class AdminController extends Controller
         $user = User::find($id);
         $user->delete();
         return redirect()->route('managementUser.view')->with('success', 'User has been deleted');
+    }
+
+    public function userDetail($id)
+    {
+        $user = User::find($id);
+        return view('admin.user-detail', ['user' => $user]);
+    }
+
+    public function deleteInstruktur($id)
+    {
+        $instruktur = pelatihanInstruktur::find($id);
+        $instruktur->delete();
+        return redirect()->route('admin.pelatihan')->with('success', 'user has been deleted');
     }
 }

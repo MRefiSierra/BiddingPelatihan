@@ -43,9 +43,8 @@ route::get('/add-user', function () {
     return view('admin.add-user');
 });
 
-route::get('/user-detail', function () {
-    return view('admin.user-detail');
-});
+Route::get('/user-detail/{id}', [AdminController::class, 'userDetail']);
+Route::get('/user-detail/delete/{id}', [AdminController::class, 'deleteInstruktur']);
 
 
 Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan')->middleware(['auth', 'khususAdmin']);

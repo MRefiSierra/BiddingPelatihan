@@ -64,12 +64,13 @@
                                     </td>
                                     <td>
                                         <div class="d-flex gap-1">
-                                            @if ($pelatihan->id == $instruktur->id_pelatihan)
-                                                {{ $instruktur->user->name }}
-                                            @endif
-                                            <button class="btn btn-sm btn-success">
-                                                <i class="ti ti-eye"></i>
-                                            </button>
+                                            {{ $instruktur->user->name }}
+                                            <a href="/user-detail/{{ $instruktur->user->id }}"
+                                                class="align-items-center d-flex text-decoration-none">
+                                                <button class="btn btn-sm btn-success py-1">
+                                                    <i class="ti ti-eye"></i>
+                                                </button>
+                                            </a>
                                             <button class="btn btn-sm btn-danger">
                                                 <i class="ti ti-trash"></i>
                                             </button>
@@ -77,15 +78,15 @@
                                     </td>
                                     <td>
                                         <div class="d-flex gap-1">
-                                            @if ($instruktur->id_pelatihan == $pelatihan->id)
-                                                {{ $instruktur->user->name }}
-                                            @endif
-                                            <a href="/user-detail" class="align-items-center d-flex text-decoration-none">
+                                            {{ $instruktur->user->name }}
+                                            <a href="/user-detail/{{ $instruktur->user->id }}"
+                                                class="align-items-center d-flex text-decoration-none">
                                                 <button class="btn btn-sm btn-success py-1">
                                                     <i class="ti ti-eye"></i>
                                                 </button>
                                             </a>
-                                            <a href="" class="align-items-center d-flex text-decoration-none">
+                                            <a href="/user-detail/delete/{{ $instruktur->id_instruktur }}"
+                                                class="align-items-center d-flex text-decoration-none">
                                                 <button class="btn btn-sm btn-danger py-1">
                                                     <i class="ti ti-trash"></i>
                                                 </button>

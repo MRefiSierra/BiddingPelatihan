@@ -23,7 +23,6 @@ class PelatihanController extends Controller
         $pelatihans = Pelatihans::with('relasiDenganRangeTanggal')->get();
         $user = Auth::user();
 
-
         foreach ($pelatihans as $pelatihan) {
             $pelatihan->sudahBid = pelatihanInstruktur::where('id_pelatihan', $pelatihan->id)
                 ->where('id_instruktur', $user->id)
@@ -39,8 +38,7 @@ class PelatihanController extends Controller
     {
         $pelatihans = Pelatihans::with('relasiDenganRangeTanggal', 'relasiDenganInstruktur.user')->get();
         foreach ($pelatihans as $pelatihan) {
-            foreach ($pelatihan->relasiDenganInstruktur as $instruktur){
-                
+            foreach ($pelatihan->relasiDenganInstruktur as $instruktur) {
             }
         }
         return view('admin.pelatihan', ['pelatihans' => $pelatihans, 'instruktur' => $instruktur]);
@@ -113,12 +111,27 @@ class PelatihanController extends Controller
     {
         $user = Auth::user();
         $pelatihan = Pelatihans::findOrFail($id);
+        $bulanIni = Carbon::now()->month;
+        $tahunIni = Carbon::now()->year;
+
+        $totalBid = pelatihanInstruktur::where('id_instruktur', $user->id)
+            ->whereYear('tanggal_bid', $tahunIni)
+            ->whereMonth('tanggal_bid', $bulanIni)
+            ->count();
+
+        $kuotaPerBulan = 3;
+
+        $sisaKuotaBid = $kuotaPerBulan - $totalBid;
 
         if ($user->role != 'instruktur') {
             return response()->json(['message' => 'Unauthorized'], 403);
         };
 
-        if ($pelatihan->kuota_instruktur <= 0) {
+        if ($sisaKuotaBid == 0) {
+            return redirect(route('cariPelatihan.view'))->with('Fail', 'Bid melebihi batas(3)');
+        }
+
+        if ($pelatihan->kuota_instruktur == 0) {
             return response()->json(['message' => 'Kuota Abis'], 403);
         }
 

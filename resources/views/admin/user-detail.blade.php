@@ -25,7 +25,7 @@
                 <div class="row g-2 align-items-center">
                     <div class="col">
                         <p class="page-title fs-1">
-                            Randi
+                            {{ $user->name }}
                         </p>
                     </div>
                 </div>
