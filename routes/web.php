@@ -48,19 +48,20 @@ route::get('/instruktur/calendar', [PelatihanController::class, 'calendarInstruk
 Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan')->middleware(['auth', 'khususAdmin']);
 ROute::get('/pelatihan', [PelatihanController::class, 'listingPelatihan'])->name('pelatihan')->middleware(['auth'], 'khususAdmin');
 Route::get('/pelatihan/delete/{id}', [PelatihanController::class, 'deletePelatihan'])->name('pelatihan.delete.store');
+Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan')->middleware(['auth', 'khususAdmin']);
+route::post('/input-pelatihan/store', [PelatihanController::class, 'store'])->name('storePelatihan');
+Route::get('/edit-pelatihan/{id}', [PelatihanController::class, 'edit'])->name('editPelatihan')->middleware(['auth', 'khususAdmin']);
 // route::get('/add-user', function () {
 //     return view('admin.add-user');
 // });
 
-
+Route::get('/export-excel', [PelatihanController::class,'exportExcel'])->name('exportExcel.store');
 
 Route::get('/user-detail/{id}', [AdminController::class, 'userDetail']);
 Route::get('/user-detail/delete/{id}', [AdminController::class, 'deleteInstruktur'])->name('deleteInstrukturPelatihan.store');
 Route::get('/user-detail/{userId}/calendar', [AdminController::class, 'userCalendar']);
 
 
-Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan')->middleware(['auth', 'khususAdmin']);
-route::post('/input-pelatihan/store', [PelatihanController::class, 'store'])->name('storePelatihan');
 
 Route::get('/cari-pelatihan', [PelatihanController::class, 'cariPelatihan'])->name('cariPelatihan.view');
 Route::post('/cari-pelatihan/store/{id}', [PelatihanController::class, 'storeBidPelatihan'])->name('cariPelatihan.store');

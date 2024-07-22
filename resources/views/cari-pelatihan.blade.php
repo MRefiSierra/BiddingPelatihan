@@ -26,6 +26,14 @@
                             Cari Pelatihan
                         </h2>
                     </div>
+                    <div class="col-auto">
+                        <form action="" method="GET">
+                            <div class="input-group">
+                                <input type="text" name="keyword" class="form-control" placeholder="Cari pelatihan...">
+                                <button type="submit" class="btn btn-primary">Cari</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -37,6 +45,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Pelatihan</th>
+                                <th>PRL</th>
                                 <th>Tanggal</th>
                                 <th>Lokasi</th>
                                 <th>Kuota</th>
@@ -47,8 +56,9 @@
                         <tbody>
                             @foreach ($pelatihans as $pelatihan)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $loop->iteration + $pelatihans->firstItem() - 1 }}</td>
                                     <td>{{ $pelatihan->nama }}</td>
+                                    <td>{{ $pelatihan->prl }}</td>
                                     <td class="text-secondary">
                                         @if (is_null($pelatihan->relasiDenganRangeTanggal))
                                             <p>Belum ada</p>
@@ -81,6 +91,9 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="my-3">
+                        {{ $pelatihans->withQueryString()->links() }}
+                    </div>
                 </div>
 
             </div>

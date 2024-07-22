@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\pelatihanInstruktur;
+use App\Exports\PelatihanInstrukturExport;
 use Carbon\Carbon;
-use App\Models\Pelatihans;
 use App\Models\User;
+use App\Models\Pelatihans;
 use App\Models\RangeTanggal;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\pelatihanInstruktur;
+use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PelatihanController extends Controller
 {
@@ -42,17 +44,25 @@ class PelatihanController extends Controller
     //     return view('cari-pelatihan', ['pelatihans' => $pelatihans]);
     // }
 
-    public function cariPelatihan()
+    // Instruktur (Cari Pelatihan)
+    public function cariPelatihan(Request $request)
     {
+        $keyword = $request->input('keyword');
+
         $currentMonth = date('m');
         $currentYear = date('Y');
 
         $pelatihans = Pelatihans::with('relasiDenganRangeTanggal')
+            ->where('nama', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('prl', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('lokasi', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('kuota_instruktur', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('kuota', 'LIKE', '%' . $keyword . '%')
             // ->whereHas('relasiDenganRangeTanggal', function ($query) use ($currentMonth, $currentYear) {
             //     $query->whereMonth('tanggal_mulai', $currentMonth)
             //         ->whereYear('tanggal_mulai', $currentYear);
             // })
-            ->get();
+            ->paginate(10);
 
         $user = Auth::user();
 
@@ -106,12 +116,31 @@ class PelatihanController extends Controller
         // return view('admin.pelatihan', ['pelatihans' => $pelatihans, 'instruktur' => $instruktur]);
 
         // Mengambil data pelatihan beserta relasi tanggal dan instruktur
-        $pelatihans = Pelatihans::with(['relasiDenganRangeTanggal', 'relasiDenganInstruktur.user'])->get();
+        $pelatihans = Pelatihans::with(['relasiDenganRangeTanggal', 'relasiDenganInstruktur.user'])->paginate(10);
         return view('admin.pelatihan', compact('pelatihans'));
     }
+
+    public function exportExcel(Request $request)
+    {
+        $bulan = $request->input('bulan');
+        return Excel::download(new PelatihanInstrukturExport($bulan), 'data-pelatihan-bulan-' . Carbon::now()->month . '-' . Carbon::now()->timestamp . '.xlsx');
+    }
+
     public function create()
     {
         return view('admin.input-pelatihan');
+    }
+    public function edit(Request $request, $id)
+    {
+
+        $pelatihan = Pelatihans::findOrFail($id);
+        $pelatihan->Nama = $request->input('nama');
+        $pelatihan->PRL = $request->input('prl');
+        $pelatihan->Lokasi = $request->input('lokasi');
+        $pelatihan->KuotaInstruktur = $request->input('kuota_instruktur');
+        $pelatihan->Kuota = $request->input('kuota');
+
+        return view('admin.edit-pelatihan');
     }
 
     // Input Pelatihan Store
