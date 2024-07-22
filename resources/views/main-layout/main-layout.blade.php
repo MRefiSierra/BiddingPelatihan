@@ -38,7 +38,7 @@
             </h1>
             <div class="collapse navbar-collapse" id="sidebar-menu">
                 <ul class="navbar-nav pt-lg-3">
-                    <li class="nav-item">
+                    <li class="nav-item {{ Request::route()->named('dashboard') ? 'active' : '' }}">
                         <a class="nav-link" href="/">
                             <div class="d-flex justify-content-center gap-2">
                                 <i class="ti ti-layout-dashboard fs-1"></i>
@@ -50,8 +50,8 @@
                     </li>
 
                     @if (Auth::user()->role == 'admin')
-                        <li class="nav-item">
-                            <a class="nav-link" href="/pelatihan">
+                        <li class="nav-item {{ Request::route()->named('pelatihan') ? 'active' : '' }}">
+                            <a class="nav-link"  href="/pelatihan">
                                 <div class="d-flex justify-content-center gap-2">
                                     <i class="ti ti-ad-2 fs-1"></i>
                                     <span class="nav-link-title fs-3">
@@ -62,7 +62,7 @@
                         </li>
                     @endif
                     @if (Auth::user()->role == 'instruktur')
-                        <li class="nav-item">
+                        <li class="nav-item {{ Request::route()->named('cariPelatihan.view') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('cariPelatihan.view') }}">
                                 <div class="d-flex justify-content-center gap-2">
                                     <i class="ti ti-ad-2 fs-1"></i>
@@ -74,8 +74,8 @@
                         </li>
                     @endif
                     @if (Auth::user()->role == 'admin')
-                        <li class="nav-item">
-                            <a class="nav-link" href="/management-user">
+                        <li class="nav-item {{ Request::route()->named('managementUser.view') ? 'active' : '' }}">
+                            <a class="nav-link"  href="/management-user">
                                 <div class="d-flex justify-content-center gap-2">
                                     <i class="ti ti-user-cog fs-1"></i>
                                     <span class="nav-link-title fs-3">
@@ -100,14 +100,14 @@
                             Management User
                         </span>
                     </a>
-                </li> --}}
+                    </li> --}}
                     {{-- <li class="nav-item">
                     <a class="nav-link" href="#">
                         <span class="nav-link-title">
                             Link 3
                         </span>
                     </a>
-                </li> --}}
+                    </li> --}}
                 </ul>
             </div>
         </div>

@@ -26,6 +26,15 @@
                             Cari Pelatihan
                         </h2>
                     </div>
+                    <div class="col-auto">
+                        <form action="" method="GET">
+                            <div class="input-group">
+                                <input type="text" name="keyword" class="form-control" placeholder="Cari pelatihan..."
+                                    value="{{ request('search') }}">
+                                <button type="submit" class="btn btn-primary">Cari</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

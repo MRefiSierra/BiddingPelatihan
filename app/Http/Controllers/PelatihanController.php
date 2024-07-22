@@ -44,12 +44,16 @@ class PelatihanController extends Controller
     //     return view('cari-pelatihan', ['pelatihans' => $pelatihans]);
     // }
 
-    public function cariPelatihan()
+    // Instruktur (Cari Pelatihan)
+    public function cariPelatihan(Request $request)
     {
+        $keyword = $request->input('keyword');
+
         $currentMonth = date('m');
         $currentYear = date('Y');
 
         $pelatihans = Pelatihans::with('relasiDenganRangeTanggal')
+            ->where('nama', 'LIKE', '%' . $keyword . '%')
             // ->whereHas('relasiDenganRangeTanggal', function ($query) use ($currentMonth, $currentYear) {
             //     $query->whereMonth('tanggal_mulai', $currentMonth)
             //         ->whereYear('tanggal_mulai', $currentYear);
