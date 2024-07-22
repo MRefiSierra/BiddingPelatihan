@@ -69,7 +69,7 @@
                                             method="POST">
                                             @csrf
                                             <input type="hidden" name="pelatihan_id" value="{{ $pelatihan->id }}">
-                                            @if ($pelatihan->sudahBid)
+                                            @if ($pelatihan->sudahBid && $pelatihan->kuota_instruktur != 0)
                                                 <p class="btn btn-sm btn-secondary rounded" href="#">Terpilih</p>
                                             @elseif ($pelatihan->sudahBid == 0)
                                                 <button class="btn btn-sm btn-primary rounded" type="submit">Pilih
