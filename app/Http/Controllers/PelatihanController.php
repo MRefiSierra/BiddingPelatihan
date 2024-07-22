@@ -54,6 +54,10 @@ class PelatihanController extends Controller
 
         $pelatihans = Pelatihans::with('relasiDenganRangeTanggal')
             ->where('nama', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('prl', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('lokasi', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('kuota_instruktur', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('kuota', 'LIKE', '%' . $keyword . '%')
             // ->whereHas('relasiDenganRangeTanggal', function ($query) use ($currentMonth, $currentYear) {
             //     $query->whereMonth('tanggal_mulai', $currentMonth)
             //         ->whereYear('tanggal_mulai', $currentYear);

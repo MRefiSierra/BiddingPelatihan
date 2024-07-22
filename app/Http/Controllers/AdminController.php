@@ -12,9 +12,10 @@ class AdminController extends Controller
 {
     // Admin (Create User)
 
-    public function managementUser()
+    public function managementUser(Request $request)
     {
-        $users = User::all();
+        $keyword = $request->input('keyword');
+        $users = User::where('name', 'LIKE', '%'.$keyword.'%')->paginate(10);
         return view('admin.management-user', ['users' => $users]);
     }
 

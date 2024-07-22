@@ -47,6 +47,8 @@ route::get('/instruktur/calendar', [PelatihanController::class, 'calendarInstruk
 Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan')->middleware(['auth', 'khususAdmin']);
 ROute::get('/pelatihan', [PelatihanController::class, 'listingPelatihan'])->name('pelatihan')->middleware(['auth'], 'khususAdmin');
 Route::get('/pelatihan/delete/{id}', [PelatihanController::class, 'deletePelatihan'])->name('pelatihan.delete.store');
+Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan')->middleware(['auth', 'khususAdmin']);
+route::post('/input-pelatihan/store', [PelatihanController::class, 'store'])->name('storePelatihan');
 // route::get('/add-user', function () {
 //     return view('admin.add-user');
 // });
@@ -58,8 +60,6 @@ Route::get('/user-detail/delete/{id}', [AdminController::class, 'deleteInstruktu
 Route::get('/user-detail/{userId}/calendar', [AdminController::class, 'userCalendar']);
 
 
-Route::get('/input-pelatihan', [PelatihanController::class, 'create'])->name('inputPelatihan')->middleware(['auth', 'khususAdmin']);
-route::post('/input-pelatihan/store', [PelatihanController::class, 'store'])->name('storePelatihan');
 
 Route::get('/cari-pelatihan', [PelatihanController::class, 'cariPelatihan'])->name('cariPelatihan.view');
 Route::post('/cari-pelatihan/store/{id}', [PelatihanController::class, 'storeBidPelatihan'])->name('cariPelatihan.store');

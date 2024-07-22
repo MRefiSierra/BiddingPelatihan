@@ -29,8 +29,7 @@
                     <div class="col-auto">
                         <form action="" method="GET">
                             <div class="input-group">
-                                <input type="text" name="keyword" class="form-control" placeholder="Cari pelatihan..."
-                                    value="{{ request('search') }}">
+                                <input type="text" name="keyword" class="form-control" placeholder="Cari pelatihan...">
                                 <button type="submit" class="btn btn-primary">Cari</button>
                             </div>
                         </form>
@@ -93,7 +92,7 @@
                         </tbody>
                     </table>
                     <div class="my-3">
-                        {{ $pelatihans->links() }}
+                        {{ $pelatihans->withQueryString()->links() }}
                     </div>
                 </div>
 
