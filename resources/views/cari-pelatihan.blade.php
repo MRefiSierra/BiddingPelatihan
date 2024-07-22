@@ -37,6 +37,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Pelatihan</th>
+                                <th>PRL</th>
                                 <th>Tanggal</th>
                                 <th>Lokasi</th>
                                 <th>Kuota</th>
@@ -47,17 +48,18 @@
                         <tbody>
                             @foreach ($pelatihans as $pelatihan)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $loop->iteration + $pelatihans->firstItem() - 1 }}</td>
                                     <td>{{ $pelatihan->nama }}</td>
+                                    <td>{{ $pelatihan->prl }}</td>
                                     <td class="text-secondary">
                                         @if (is_null($pelatihan->relasiDenganRangeTanggal))
-                                                <p>Belum ada</p>
-                                            @else
-                                                {{ \Carbon\Carbon::parse(optional($pelatihan->relasiDenganRangeTanggal)->tanggal_mulai)->format('d') }}
-                                                -
-                                                {{ \Carbon\Carbon::parse(optional($pelatihan->relasiDenganRangeTanggal)->tanggal_selesai)->format('d F Y') }}
-                                            @endif
-                                    
+                                            <p>Belum ada</p>
+                                        @else
+                                            {{ \Carbon\Carbon::parse(optional($pelatihan->relasiDenganRangeTanggal)->tanggal_mulai)->format('d F') }}
+                                            -
+                                            {{ \Carbon\Carbon::parse(optional($pelatihan->relasiDenganRangeTanggal)->tanggal_selesai)->format('d F Y') }}
+                                        @endif
+
                                     </td>
                                     <td class="text-secondary">{{ $pelatihan->lokasi }}</td>
                                     <td class="text-secondary">{{ $pelatihan->kuota }}</td>
@@ -81,6 +83,9 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="my-3">
+                        {{ $pelatihans->links() }}
+                    </div>
                 </div>
 
             </div>

@@ -34,6 +34,7 @@
                                 Tambah Pelatihan
                             </button>
                         </a>
+                        {{-- <a href="{{ route('exportExcel.store') }}"class="btn btn-large btn-success">Print dsini</a> --}}
                     </div>
                 </div>
             </div>
@@ -46,6 +47,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Pelatihan</th>
+                                <th>PRL</th>
                                 <th>Tanggal Pelatihan</th>
                                 <th>Lokasi</th>
                                 <th>Kuota</th>
@@ -59,11 +61,12 @@
                         <tbody>
                             @foreach ($pelatihans as $pelatihan)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $loop->iteration + $pelatihans->firstItem() - 1 }}</td>
                                     <td>{{ $pelatihan->nama }}</td>
+                                    <td>{{ $pelatihan->prl }}</td>
                                     <td class="text-secondary">
                                         @if ($pelatihan->relasiDenganRangeTanggal)
-                                            {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_mulai)->format('d') }}
+                                            {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_mulai)->format('d F') }}
                                             -
                                             {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_selesai)->format('d F Y') }}
                                         @else
@@ -134,7 +137,7 @@
                                                     <i class="ti ti-edit"></i>
                                                 </button>
                                             </a> --}}
-                                            <a href="{{route('pelatihan.delete.store', ['id' => $pelatihan->id])}}"
+                                            <a href="{{ route('pelatihan.delete.store', ['id' => $pelatihan->id]) }}"
                                                 class="align-items-center d-flex text-decoration-none">
                                                 <button class="btn btn-sm btn-danger py-1">
                                                     <i class="ti ti-trash"></i>
@@ -146,6 +149,20 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="my-3">
+                        {{ $pelatihans->links() }}
+                    </div>
+                    <div class="text-end">
+                        <form action="{{ route('exportExcel.store') }}" method="GET" class="d-inline-block">
+                            <div class="input-group">
+                                <input type="month" name="bulan" class="form-control">
+                                <button type="submit" class="btn btn-large btn-success">
+                                    <i class="ti ti-file-excel pe-2 fs-2"></i>
+                                    Print Excel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
 
             </div>
