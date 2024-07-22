@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\pelatihanInstruktur;
+use App\Models\Pelatihans;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -87,6 +88,13 @@ class Controller extends BaseController
         // Dapatkan total jumlah bid
         $allBid = pelatihanInstruktur::withTrashed()->where('id_instruktur', $user->id)->count();
 
+        $pelatihans = Pelatihans::whereHas('relasiDenganInstruktur', function ($query) use ($user) {
+            $query->where('id_instruktur', $user->id);
+        })
+            ->with(['relasiDenganRangeTanggal', 'relasiDenganInstruktur.user'])
+            ->take(3)
+            ->get();
+
         // Dapatkan total jumlah pelatihan hanya untuk bulan saat ini
         $allPelatihan = pelatihanInstruktur::where('id_instruktur', $user->id)
             ->whereYear('tanggal_bid', $tahunIni)
@@ -99,6 +107,25 @@ class Controller extends BaseController
             'sisaKuotaBid' => $sisaKuotaBid,
             'allBid' => $allBid,
             'allPelatihan' => $allPelatihan
-        ]);
+        ], compact('pelatihans'));
+    }
+
+    public function pelatihanAktif()
+    {
+        $user = Auth::user();
+        $pelatihans = Pelatihans::whereHas('relasiDenganInstruktur', function ($query) use ($user) {
+            $query->where('id_instruktur', $user->id);
+        })
+            ->with(['relasiDenganRangeTanggal' => function ($query) {
+                $query->orderBy('tanggal_mulai', 'asc');
+            }, 'relasiDenganInstruktur.user'])
+            ->get();
+
+        // Urutkan pelatihan berdasarkan tanggal mulai dari range tanggal pertama
+        $pelatihans = $pelatihans->sortBy(function ($pelatihan) {
+            return $pelatihan->relasiDenganRangeTanggal->first()->tanggal_mulai ?? Carbon::now();
+        });
+
+        return view('pelatihan-aktif', compact('pelatihans'));
     }
 }

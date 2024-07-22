@@ -48,10 +48,10 @@ class PelatihanController extends Controller
         $currentYear = date('Y');
 
         $pelatihans = Pelatihans::with('relasiDenganRangeTanggal')
-            ->whereHas('relasiDenganRangeTanggal', function ($query) use ($currentMonth, $currentYear) {
-                $query->whereMonth('tanggal_mulai', $currentMonth)
-                    ->whereYear('tanggal_mulai', $currentYear);
-            })
+            // ->whereHas('relasiDenganRangeTanggal', function ($query) use ($currentMonth, $currentYear) {
+            //     $query->whereMonth('tanggal_mulai', $currentMonth)
+            //         ->whereYear('tanggal_mulai', $currentYear);
+            // })
             ->get();
 
         $user = Auth::user();
@@ -154,7 +154,7 @@ class PelatihanController extends Controller
             'id_range_tanggal' => $range_tanggal->id
         ]);
 
-        return redirect('/dashboard-admin');
+        return redirect()->route('pelatihan')->with('success', 'Pelatihan berhasil ditambahkan');
     }
 
     // public function storeBidPelatihan(Request $request){
@@ -176,17 +176,18 @@ class PelatihanController extends Controller
     public function storeBidPelatihan(Request $request, $id)
     {
         $user = Auth::user();
-        $pelatihan = Pelatihans::findOrFail($id);
-        $bulanIni = Carbon::now()->month;
-        $tahunIni = Carbon::now()->year;
+        $pelatihan = Pelatihans::with('relasiDenganRangeTanggal')->findOrFail($id);
 
+        $bulanPelatihan = Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_mulai)->month;
+        $tahunPelatihan = Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_mulai)->year;
+
+        // Hitung jumlah bid yang sudah dilakukan user untuk pelatihan di bulan dan tahun yang sama
         $totalBid = pelatihanInstruktur::where('id_instruktur', $user->id)
-            ->whereYear('tanggal_bid', $tahunIni)
-            ->whereMonth('tanggal_bid', $bulanIni)
+            ->whereYear('tanggal_bid', $tahunPelatihan)
+            ->whereMonth('tanggal_bid', $bulanPelatihan)
             ->count();
 
         $kuotaPerBulan = 3;
-
         $sisaKuotaBid = $kuotaPerBulan - $totalBid;
 
         if ($user->role != 'instruktur') {

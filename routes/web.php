@@ -23,6 +23,7 @@ Route::post('/login', [Controller::class, 'loginStore'])->name('signin.store');
 Route::get('/logout', [Controller::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::get('/dashboard', [Controller::class, 'dashboard'])->name('dashboard');
+Route::get('/pelatihan-aktif', [Controller::class, 'pelatihanAktif'])->name('pelatihan-aktif');
 
 route::get('/dashboard-admin', function () {
     return view('admin.dashboard-admin');

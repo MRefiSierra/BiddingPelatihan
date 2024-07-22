@@ -14,7 +14,7 @@ class AdminController extends Controller
 
     public function managementUser()
     {
-        $users = User::where('role', '!=', 'admin')->get();
+        $users = User::all();
         return view('admin.management-user', ['users' => $users]);
     }
 
