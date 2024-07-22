@@ -53,7 +53,7 @@
                                         @if (is_null($pelatihan->relasiDenganRangeTanggal))
                                                 <p>Belum ada</p>
                                             @else
-                                                {{ \Carbon\Carbon::parse(optional($pelatihan->relasiDenganRangeTanggal)->tanggal_mulai)->format('d') }}
+                                                {{ \Carbon\Carbon::parse(optional($pelatihan->relasiDenganRangeTanggal)->tanggal_mulai)->format('d F') }}
                                                 -
                                                 {{ \Carbon\Carbon::parse(optional($pelatihan->relasiDenganRangeTanggal)->tanggal_selesai)->format('d F Y') }}
                                             @endif

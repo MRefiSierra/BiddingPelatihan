@@ -54,51 +54,91 @@ class Controller extends BaseController
 
     public function dashboard()
     {
+        // $user = Auth::user();
+
+        // // Ubah bulan dan tahun untuk pengujian
+        // $bulanIni = Carbon::now()->month; // Bulan Agustus
+        // $tahunIni = Carbon::now()->year;
+
+        // Log::info('Bulan Sekarang: ' . $bulanIni);
+        // Log::info('Tahun Sekarang: ' . $tahunIni);
+
+        // // Periksa apakah ada bid untuk bulan saat ini
+        // $totalBid = pelatihanInstruktur::where('id_instruktur', $user->id)
+        //     ->whereYear('tanggal_bid', $tahunIni)
+        //     ->whereMonth('tanggal_bid', $bulanIni)
+        //     ->count();
+
+        // Log::info('Total Bid Bulan Ini: ' . $totalBid);
+
+        // // Tetapkan kuota per bulan menjadi 3
+        // $kuotaPerBulan = 3;
+
+        // // Jika tidak ada bid untuk bulan saat ini, tetapkan sisa kuota menjadi 3
+        // // Jika ada, hitung sisa kuota
+        // if ($totalBid == 0) {
+        //     $sisaKuotaBid = $kuotaPerBulan;
+        // } else {
+        //     $sisaKuotaBid = $kuotaPerBulan - $totalBid;
+        // }
+
+        // Log::info('Sisa Kuota: ' . $sisaKuotaBid);
+
+        // // Dapatkan total jumlah bid
+        // $allBid = pelatihanInstruktur::withTrashed()->where('id_instruktur', $user->id)->count();
+
+        // // Dapatkan total jumlah pelatihan hanya untuk bulan saat ini
+        // $allPelatihan = pelatihanInstruktur::where('id_instruktur', $user->id)
+        //     ->whereYear('tanggal_bid', $tahunIni)
+        //     ->whereMonth('tanggal_bid', $bulanIni)
+        //     ->count();
+
+        // Log::info('Total Pelatihan Bulan Ini: ' . $allPelatihan);
+
+        // return view('index', [
+        //     'sisaKuotaBid' => $sisaKuotaBid,
+        //     'allBid' => $allBid,
+        //     'allPelatihan' => $allPelatihan
+        // ]);
+
         $user = Auth::user();
-
-        // Ubah bulan dan tahun untuk pengujian
-        $bulanIni = Carbon::now()->month; // Bulan Agustus
         $tahunIni = Carbon::now()->year;
-
-        Log::info('Bulan Sekarang: ' . $bulanIni);
-        Log::info('Tahun Sekarang: ' . $tahunIni);
-
-        // Periksa apakah ada bid untuk bulan saat ini
-        $totalBid = pelatihanInstruktur::where('id_instruktur', $user->id)
-            ->whereYear('tanggal_bid', $tahunIni)
-            ->whereMonth('tanggal_bid', $bulanIni)
-            ->count();
-
-        Log::info('Total Bid Bulan Ini: ' . $totalBid);
-
-        // Tetapkan kuota per bulan menjadi 3
         $kuotaPerBulan = 3;
 
-        // Jika tidak ada bid untuk bulan saat ini, tetapkan sisa kuota menjadi 3
-        // Jika ada, hitung sisa kuota
-        if ($totalBid == 0) {
-            $sisaKuotaBid = $kuotaPerBulan;
-        } else {
-            $sisaKuotaBid = $kuotaPerBulan - $totalBid;
+        // Array untuk menyimpan sisa kuota per bulan
+        $sisaKuotaBidPerBulan = [];
+
+        // Loop untuk 6 bulan ke depan
+        for ($i = 0; $i < 6; $i++) {
+            $bulan = Carbon::now()->addMonths($i)->month;
+            $tahun = Carbon::now()->addMonths($i)->year;
+            $sisaKuotaBidPerBulan[$bulan] = $this->hitungSisaKuota($user->id, $bulan, $tahun, $kuotaPerBulan);
         }
 
-        Log::info('Sisa Kuota: ' . $sisaKuotaBid);
+        // Log untuk debugging
+        foreach ($sisaKuotaBidPerBulan as $bulan => $sisaKuota) {
+            Log::info('Sisa Kuota Bulan ' . $bulan . ': ' . $sisaKuota);
+        }
 
-        // Dapatkan total jumlah bid
         $allBid = pelatihanInstruktur::withTrashed()->where('id_instruktur', $user->id)->count();
 
-        // Dapatkan total jumlah pelatihan hanya untuk bulan saat ini
         $allPelatihan = pelatihanInstruktur::where('id_instruktur', $user->id)
             ->whereYear('tanggal_bid', $tahunIni)
-            ->whereMonth('tanggal_bid', $bulanIni)
             ->count();
 
-        Log::info('Total Pelatihan Bulan Ini: ' . $allPelatihan);
-
         return view('index', [
-            'sisaKuotaBid' => $sisaKuotaBid,
+            'sisaKuotaBidPerBulan' => $sisaKuotaBidPerBulan,
             'allBid' => $allBid,
             'allPelatihan' => $allPelatihan
         ]);
+    }
+    private function hitungSisaKuota($instrukturId, $bulan, $tahun, $kuotaPerBulan)
+    {
+        $totalBid = pelatihanInstruktur::where('id_instruktur', $instrukturId)
+            ->whereYear('tanggal_bid', $tahun)
+            ->whereMonth('tanggal_bid', $bulan)
+            ->count();
+
+        return $kuotaPerBulan - $totalBid;
     }
 }

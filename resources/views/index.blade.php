@@ -84,9 +84,11 @@
                                                 <div class="font-weight-medium">
                                                     Kuota Bid
                                                 </div>
-                                                <div class="text-secondary">
-                                                    {{ $sisaKuotaBid }} tersisa
-                                                </div>
+                                                @foreach ($sisaKuotaBidPerBulan as $item)
+                                                    <div class="text-secondary">
+                                                        {{ $item }}
+                                                    </div>
+                                                @endforeach
                                             </div>
                                         </div>
                                     </div>
