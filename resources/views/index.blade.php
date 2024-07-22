@@ -141,7 +141,7 @@
                                     </div>
                                 </div>
                                 @foreach ($pelatihans as $pelatihan)
-                                    <div class="col">
+                                    <div class="col-4">
                                         <div class="card">
                                             <div class="card-status-top bg-info"></div>
                                             <div class="card-body">
