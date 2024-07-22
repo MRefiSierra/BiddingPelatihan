@@ -3,7 +3,6 @@
 @section('title', 'Input Pelatihan')
 
 @section('content')
-
     <div class="page-wrapper">
         <div class="page-header d-print-none">
             <div class="container-xl">
@@ -27,9 +26,20 @@
                             Listing Pelatihan
                         </h2>
                     </div>
-                    <div class="col text-end align-items-center">
+                    <div class="col d-flex justify-content-end gap-2">
+                        <div class="text-end ">
+                            <form action="{{ route('exportExcel.store') }}" method="GET" class="d-inline-block">
+                                <div class="input-group">
+                                    <input type="month" name="bulan" class="form-control">
+                                    <button type="submit" class="btn btn-large btn-success">
+                                        <i class="ti ti-file-excel pe-2 fs-2"></i>
+                                        Print Excel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                         <a href="/input-pelatihan" class="text-light text-decoration-none">
-                            <button class="btn btn-large btn-success">
+                            <button class="btn btn-large btn-info">
                                 <i class="ti ti-plus pe-2 fs-2"></i>
                                 Tambah Pelatihan
                             </button>
@@ -149,22 +159,10 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="my-3">
-                        {{ $pelatihans->links() }}
-                    </div>
-                    <div class="text-end">
-                        <form action="{{ route('exportExcel.store') }}" method="GET" class="d-inline-block">
-                            <div class="input-group">
-                                <input type="month" name="bulan" class="form-control">
-                                <button type="submit" class="btn btn-large btn-success">
-                                    <i class="ti ti-file-excel pe-2 fs-2"></i>
-                                    Print Excel
-                                </button>
-                            </div>
-                        </form>
-                    </div>
                 </div>
-
+                <div class="my-3">
+                    {{ $pelatihans->links() }}
+                </div>
             </div>
         </div>
     </div>

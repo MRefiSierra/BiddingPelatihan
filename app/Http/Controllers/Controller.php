@@ -161,13 +161,4 @@ class Controller extends BaseController
 
         return $kuotaPerBulan - $totalBid;
     }
-    // private function hitungSisaKuota($instrukturId, $bulan, $tahun, $kuotaPerBulan)
-    // {
-    //     $totalBid = pelatihanInstruktur::where('id_instruktur', $instrukturId)
-    //         ->whereYear('tanggal_bid', $tahun)
-    //         ->whereMonth('tanggal_bid', $bulan)
-    //         ->count();
-
-    //     return $kuotaPerBulan - $totalBid;
-    // }
 }
