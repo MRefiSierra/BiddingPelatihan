@@ -130,17 +130,65 @@ class PelatihanController extends Controller
     {
         return view('admin.input-pelatihan');
     }
-    public function edit(Request $request, $id)
+    public function edit($id)
     {
 
-        $pelatihan = Pelatihans::findOrFail($id);
-        $pelatihan->Nama = $request->input('nama');
-        $pelatihan->PRL = $request->input('prl');
-        $pelatihan->Lokasi = $request->input('lokasi');
-        $pelatihan->KuotaInstruktur = $request->input('kuota_instruktur');
-        $pelatihan->Kuota = $request->input('kuota');
+        $pelatihan = Pelatihans::with('relasiDenganRangeTanggal')->findOrFail($id);
 
-        return view('admin.edit-pelatihan');
+        if (!$pelatihan) {
+            return redirect('pelatihan')->with('error', 'Pelatihan tidak ditemukan');
+        }
+
+        return view('admin.edit-pelatihan', ['pelatihan' => $pelatihan]);
+    }
+
+    public function update(Request $request, $id)
+    {
+
+        $pelatihan = Pelatihans::find($id);
+        $request->validate([
+            'KuotaInstruktur' => 'min:1|max:2',
+            'TanggalMulai' => 'date',
+            'TanggalAkhir' => 'date|after_or_equal:TanggalMulai'
+        ]);
+
+        // Check if the dates have been changed
+        $tanggalMulaiLama = $pelatihan->relasiDenganRangeTanggal->tanggal_mulai;
+        $tanggalAkhirLama = $pelatihan->relasiDenganRangeTanggal->tanggal_akhir;
+
+        $tanggalMulaiBaru = $request->input('TanggalMulai');
+        $tanggalAkhirBaru = $request->input('TanggalAkhir');
+
+        // Jika tanggal mulai atau akhir berubah, hapus data di tabel pelatihan_instruktur yang terkait dengan id pelatihan
+        if ($request->filled('TanggalMulai') && $request->filled('TanggalAkhir')) {
+            if ($tanggalMulaiLama !== $tanggalMulaiBaru || $tanggalAkhirLama !== $tanggalAkhirBaru) {
+                // Periksa apakah ada entri terkait di tabel pelatihan_instruktur
+                $exists = DB::table('pelatihan_instruktur')->where('id_pelatihan', $id)->exists();
+                if ($exists) {
+                    DB::table('pelatihan_instruktur')->where('id_pelatihan', $id)->delete();
+                }
+            }
+        }
+
+        $pelatihan->nama = $request->input('nama');
+        $pelatihan->prl = $request->input('PRL');
+        $pelatihan->lokasi = $request->input('Lokasi');
+        $pelatihan->kuota_instruktur = $request->input('KuotaInstruktur');
+        $pelatihan->kuota = $request->input('Kuota');
+
+        // Update tanggal mulai dan akhir
+        if ($request->filled('TanggalMulai')) {
+            $pelatihan->relasiDenganRangeTanggal->tanggal_mulai = $tanggalMulaiBaru;
+        }
+        if ($request->filled('TanggalAkhir')) {
+            $pelatihan->relasiDenganRangeTanggal->tanggal_selesai = $tanggalAkhirBaru;
+        }
+        $pelatihan->relasiDenganRangeTanggal->save();
+
+        // Simpan perubahan ke database
+        $pelatihan->save();
+
+        return redirect()->route('pelatihan')->with('success', 'Pelatihan berhasil Diperbarui!');
     }
 
     // Input Pelatihan Store
