@@ -1,6 +1,6 @@
 @extends('main-layout.main-layout')
 
-@section('title', 'Pelatihan Aktif')
+@section('title', 'History Pelatihan')
 
 @section('content')
     <div class="page">
@@ -10,11 +10,11 @@
                     <div class="row g-2 align-items-center">
                         <div class="col">
                             <p class="page-title fs-1">
-                                Pelatihan Aktif
+                                History Pelatihan
                             </p>
                         </div>
                         <div class="col text-end">
-                            <a href="{{ route('pelatihan-history') }}" class="btn btn-secondary">Lihat History Pelatihan</a>
+                            <a href="{{ route('pelatihan-aktif') }}" class="btn btn-secondary">Kembali ke Pelatihan Aktif</a>
                         </div>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                             @foreach ($pelatihans as $pelatihan)
                                 <div class="col-3 mb-3">
                                     <div class="card">
-                                        <div class="card-status-top bg-info"></div>
+                                        <div class="card-status-top bg-secondary"></div>
                                         <div class="card-body">
                                             <h3 class="card-title">{{ $pelatihan->nama }}</h3>
                                             <p class="text-secondary">

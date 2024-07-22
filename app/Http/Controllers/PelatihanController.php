@@ -254,40 +254,46 @@ class PelatihanController extends Controller
     {
         $user = Auth::user();
         $pelatihan = Pelatihans::with('relasiDenganRangeTanggal')->findOrFail($id);
-
+    
+        // Ambil bulan dan tahun pelatihan
         $bulanPelatihan = Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_mulai)->month;
         $tahunPelatihan = Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_mulai)->year;
-
-        // Hitung jumlah bid yang sudah dilakukan user untuk pelatihan di bulan dan tahun yang sama
+    
+        // Hitung total bid instruktur untuk bulan dan tahun yang sama
         $totalBid = pelatihanInstruktur::where('id_instruktur', $user->id)
             ->whereYear('tanggal_bid', $tahunPelatihan)
             ->whereMonth('tanggal_bid', $bulanPelatihan)
             ->count();
-
+    
         $kuotaPerBulan = 3;
         $sisaKuotaBid = $kuotaPerBulan - $totalBid;
-
+    
+        // Validasi role
         if ($user->role != 'instruktur') {
             return redirect(route('cariPelatihan.view'))->with('error', 'Aksi Dilarang');
-        };
-
-        if ($sisaKuotaBid == 0) {
-            return redirect(route('cariPelatihan.view'))->with('error', 'Bid melebihi batas(3)');
         }
-
-        if ($pelatihan->kuota_instruktur == 0) {
-            return redirect(route('cariPelatihan.view'))->with('error', 'Kuota habis');
+    
+        // Validasi sisa kuota
+        if ($sisaKuotaBid <= 0) {
+            return redirect(route('cariPelatihan.view'))->with('error', 'Kuota bulanan Anda sudah habis.');
         }
-
+    
+        // Validasi kuota instruktur pelatihan
+        if ($pelatihan->kuota_instruktur <= 0) {
+            return redirect(route('cariPelatihan.view'))->with('error', 'Kuota instruktur pelatihan ini sudah habis.');
+        }
+    
+        // Simpan bid
         DB::table('pelatihan_instruktur')->insert([
             'id_pelatihan' => $pelatihan->id,
             'id_instruktur' => $user->id,
             'tanggal_bid' => now(),
         ]);
-
+    
+        // Kurangi kuota instruktur pelatihan
         $pelatihan->decrement('kuota_instruktur');
-
-        return redirect(route('cariPelatihan.view'))->with('success', 'Pendaftaran pelatihan berhasil');
+    
+        return redirect(route('cariPelatihan.view'))->with('success', 'Pendaftaran pelatihan berhasil.');
     }
 
     // Fungsi untuk menghasilkan warna acak

@@ -61,13 +61,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class=" col">
+                            <div class="col">
                                 <div class="card card-sm">
                                     <div class="card-body">
                                         <div class="row align-items-center">
                                             <div class="col-auto">
-                                                <span
-                                                    class="bg-green text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/shopping-cart -->
+                                                <span class="bg-green text-white avatar">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -80,15 +79,40 @@
                                                     </svg>
                                                 </span>
                                             </div>
-                                            <div class="col">
-                                                <div class="font-weight-medium">
-                                                    Kuota Bid
-                                                </div>
-                                                @foreach ($sisaKuotaBidPerBulan as $item)
-                                                    <div class="text-secondary">
-                                                        {{ $item }}
+                                            <div class="col d-flex justify-content-between align-items-center">
+                                                <div id="kuotaDisplay" class="">
+                                                    <div class="font-weight-medium" id="kuotaBulan">
+                                                        Pilih bulan untuk melihat sisa kuota.
                                                     </div>
-                                                @endforeach
+                                                    <div class="text-secondary" id="kuotaSisa">
+                                                        <!-- Sisa kuota akan ditampilkan di sini -->
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown">
+                                                    <button class="btn dropdown-toggle py-3 px-4" type="button"
+                                                        id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                                        aria-expanded="false">
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        @foreach ($sisaKuotaBidPerBulan as $key => $sisaKuota)
+                                                            @php
+                                                                [$bulan, $tahun] = explode('-', $key);
+                                                                $namaBulan = \Carbon\Carbon::create()
+                                                                    ->month($bulan)
+                                                                    ->format('F');
+                                                            @endphp
+                                                            <li>
+                                                                <a class="dropdown-item" href="#"
+                                                                    data-bulan="{{ $bulan }}"
+                                                                    data-tahun="{{ $tahun }}"
+                                                                    onclick="updateKuota('{{ $bulan }}', '{{ $tahun }}', '{{ $namaBulan }}', '{{ $sisaKuota }}')">
+                                                                    Kuota Bid Bulan {{ $namaBulan }} {{ $tahun }}
+                                                                </a>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -263,5 +287,12 @@
             });
         </script>
     @endif
+
+    <script>
+        function updateKuota(bulan, tahun, namaBulan, sisaKuota) {
+            document.getElementById('kuotaBulan').textContent = 'Kuota Bid Bulan ' + namaBulan + ' ' + tahun;
+            document.getElementById('kuotaSisa').textContent = sisaKuota + ' kuota tersisa';
+        }
+    </script>
 
 @endsection

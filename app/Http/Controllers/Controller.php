@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use App\Models\pelatihanInstruktur;
 use App\Models\Pelatihans;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\pelatihanInstruktur;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Log;
 
 class Controller extends BaseController
 {
@@ -105,60 +106,110 @@ class Controller extends BaseController
         $user = Auth::user();
         $tahunIni = Carbon::now()->year;
         $kuotaPerBulan = 3;
-
+    
         // Array untuk menyimpan sisa kuota per bulan
         $sisaKuotaBidPerBulan = [];
-
+    
         // Loop untuk 6 bulan ke depan
         for ($i = 0; $i < 6; $i++) {
             $bulan = Carbon::now()->addMonths($i)->month;
             $tahun = Carbon::now()->addMonths($i)->year;
-            $sisaKuotaBidPerBulan[$bulan] = $this->hitungSisaKuota($user->id, $bulan, $tahun, $kuotaPerBulan);
+            $key = $bulan . '-' . $tahun; // Membuat key dari bulan dan tahun
+            $sisaKuotaBidPerBulan[$key] = $this->hitungSisaKuota($user->id, $bulan, $tahun, $kuotaPerBulan);
         }
-
+    
         // Log untuk debugging
-        foreach ($sisaKuotaBidPerBulan as $bulan => $sisaKuota) {
-            Log::info('Sisa Kuota Bulan ' . $bulan . ': ' . $sisaKuota);
+        foreach ($sisaKuotaBidPerBulan as $key => $sisaKuota) {
+            Log::info('Sisa Kuota Bulan ' . $key . ': ' . $sisaKuota);
         }
-
+    
         $allBid = pelatihanInstruktur::withTrashed()->where('id_instruktur', $user->id)->count();
-
+    
         $pelatihans = Pelatihans::whereHas('relasiDenganInstruktur', function ($query) use ($user) {
             $query->where('id_instruktur', $user->id);
         })
             ->with(['relasiDenganRangeTanggal', 'relasiDenganInstruktur.user'])
             ->take(3)
             ->get();
-
+    
         $allPelatihan = pelatihanInstruktur::where('id_instruktur', $user->id)
             ->whereYear('tanggal_bid', $tahunIni)
             ->count();
-
+    
         return view('index', [
             'sisaKuotaBidPerBulan' => $sisaKuotaBidPerBulan,
             'allBid' => $allBid,
-            'allPelatihan' => $allPelatihan
-        ], compact('pelatihans'));
+            'allPelatihan' => $allPelatihan,
+            'pelatihans' => $pelatihans
+        ]);
     }
-
-    public function pelatihanAktif()
-    {
-        $user = Auth::user();
-        $pelatihans = Pelatihans::whereHas('relasiDenganInstruktur', function ($query) use ($user) {
-            $query->where('id_instruktur', $user->id);
-        })
-            ->with(['relasiDenganRangeTanggal', 'relasiDenganInstruktur.user'])
-            ->get();
-
-        return view('pelatihan-aktif', compact('pelatihans'));
-    }
+    
     private function hitungSisaKuota($instrukturId, $bulan, $tahun, $kuotaPerBulan)
     {
-        $totalBid = pelatihanInstruktur::where('id_instruktur', $instrukturId)
-            ->whereYear('tanggal_bid', $tahun)
-            ->whereMonth('tanggal_bid', $bulan)
+        // Menghitung total bid berdasarkan tanggal_mulai pelatihan
+        $totalBid = DB::table('pelatihan_instruktur')
+            ->join('pelatihans', 'pelatihan_instruktur.id_pelatihan', '=', 'pelatihans.id')
+            ->join('range_tanggal', 'pelatihans.id_range_tanggal', '=', 'range_tanggal.id')
+            ->where('pelatihan_instruktur.id_instruktur', $instrukturId)
+            ->whereYear('range_tanggal.tanggal_mulai', $tahun)
+            ->whereMonth('range_tanggal.tanggal_mulai', $bulan)
             ->count();
-
+    
         return $kuotaPerBulan - $totalBid;
     }
+    public function pelatihanAktif()
+{
+    $user = Auth::user();
+    $pelatihans = Pelatihans::whereHas('relasiDenganInstruktur', function ($query) use ($user) {
+        $query->where('id_instruktur', $user->id);
+    })
+    ->with(['relasiDenganRangeTanggal', 'relasiDenganInstruktur.user'])
+    ->get();
+
+    // Mengurutkan pelatihan berdasarkan tanggal mulai
+    $pelatihans = $pelatihans->sortBy(function($item) {
+        return Carbon::parse($item->relasiDenganRangeTanggal->tanggal_mulai);
+    });
+
+    // Pisahkan pelatihan yang sudah lewat
+    $hariIni = Carbon::now();
+    $pelatihanAkanDatang = $pelatihans->filter(function($item) use ($hariIni) {
+        return Carbon::parse($item->relasiDenganRangeTanggal->tanggal_mulai)->isFuture();
+    });
+
+    // Kelompokkan pelatihan berdasarkan bulan dan tahun
+    $pelatihanPerBulan = $pelatihanAkanDatang->groupBy(function($item) {
+        return Carbon::parse($item->relasiDenganRangeTanggal->tanggal_mulai)->format('F Y');
+    });
+
+    return view('pelatihan-aktif', [
+        'pelatihanPerBulan' => $pelatihanPerBulan,
+    ]);
+}
+
+public function pelatihanHistory(){
+    $user = Auth::user();
+    $pelatihans = Pelatihans::whereHas('relasiDenganInstruktur', function ($query) use ($user) {
+        $query->where('id_instruktur', $user->id);
+    })
+    ->with(['relasiDenganRangeTanggal', 'relasiDenganInstruktur.user'])
+    ->get();
+
+    // Pisahkan pelatihan yang sudah lewat
+    $hariIni = Carbon::now();
+    $pelatihanLewat = $pelatihans->filter(function($item) use ($hariIni) {
+        return Carbon::parse($item->relasiDenganRangeTanggal->tanggal_mulai)->isPast();
+    });
+
+    // Kelompokkan pelatihan yang sudah lewat berdasarkan bulan dan tahun
+    $pelatihanPerBulan = $pelatihanLewat->groupBy(function($item) {
+        return Carbon::parse($item->relasiDenganRangeTanggal->tanggal_mulai)->format('F Y');
+    });
+
+    return view('pelatihan-history', [
+        'pelatihanPerBulan' => $pelatihanPerBulan,
+    ]);
+}
+
+
 }
