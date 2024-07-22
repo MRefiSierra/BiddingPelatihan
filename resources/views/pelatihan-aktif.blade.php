@@ -28,10 +28,9 @@
             </div>
             <div class="page-body">
                 <div class="container-xl">
-                    <div class="row">
-
+                    <div class="row mb-3">
                         @foreach ($pelatihans as $pelatihan)
-                            <div class="col">
+                            <div class="col-3 mb-3">
                                 <div class="card">
                                     <div class="card-status-top bg-info"></div>
                                     <div class="card-body">

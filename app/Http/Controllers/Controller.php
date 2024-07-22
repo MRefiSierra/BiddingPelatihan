@@ -116,15 +116,8 @@ class Controller extends BaseController
         $pelatihans = Pelatihans::whereHas('relasiDenganInstruktur', function ($query) use ($user) {
             $query->where('id_instruktur', $user->id);
         })
-            ->with(['relasiDenganRangeTanggal' => function ($query) {
-                $query->orderBy('tanggal_mulai', 'asc');
-            }, 'relasiDenganInstruktur.user'])
+            ->with(['relasiDenganRangeTanggal', 'relasiDenganInstruktur.user'])
             ->get();
-
-        // Urutkan pelatihan berdasarkan tanggal mulai dari range tanggal pertama
-        $pelatihans = $pelatihans->sortBy(function ($pelatihan) {
-            return $pelatihan->relasiDenganRangeTanggal->first()->tanggal_mulai ?? Carbon::now();
-        });
 
         return view('pelatihan-aktif', compact('pelatihans'));
     }

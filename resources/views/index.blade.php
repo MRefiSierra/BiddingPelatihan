@@ -122,41 +122,54 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row row-cards mb-3">
-                            <div class="page-header d-print-none">
-                                <div class="row justify-content-between align-items-center">
-                                    <div class="col-2">
-                                        <p class="page-title fs-1">
-                                            Pelatihan Aktif
-                                        </p>
-                                    </div>
-                                    <div class="col-2">
-                                        <a href="/pelatihan-aktif" class="text-decoration-none text-secondary">
-                                            <p class="page-title fs-4">
-                                                Lihat Selengkapnya...
+                        @if ($pelatihans->isNotEmpty())
+                            <div class="row row-cards mb-3">
+                                <div class="page-header d-print-none">
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col-2">
+                                            <p class="page-title fs-1">
+                                                Pelatihan Aktif
                                             </p>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            @foreach ($pelatihans as $pelatihan)
-                                <div class="col">
-                                    <div class="card">
-                                        <div class="card-status-top bg-info"></div>
-                                        <div class="card-body">
-                                            <h3 class="card-title">{{ $pelatihan->nama }}</h3>
-                                            <p class="text-secondary">Tanggal :
-                                                {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_mulai)->format('d') }}
-                                                -
-                                                {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_selesai)->format('d F Y') }}
-                                                <br>
-                                                Lokasi : {{ $pelatihan->lokasi }} <br>
-                                                PRL : {{ $pelatihan->prl }}
+                                        </div>
+                                        <div class="col-2">
+                                            <a href="/pelatihan-aktif" class="text-decoration-none text-secondary">
+                                                <p class="page-title fs-4">
+                                                    Lihat Selengkapnya...
+                                                </p>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
-                        </div>
+                                @foreach ($pelatihans as $pelatihan)
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-status-top bg-info"></div>
+                                            <div class="card-body">
+                                                <h3 class="card-title">{{ $pelatihan->nama }}</h3>
+                                                <p class="text-secondary">
+                                                    Tanggal:
+                                                    {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->first()->tanggal_mulai)->format('d') }}
+                                                    -
+                                                    {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->first()->tanggal_selesai)->format('d F Y') }}
+                                                    <br>
+                                                    Lokasi: {{ $pelatihan->lokasi }} <br>
+                                                    PRL: {{ $pelatihan->prl }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <div class="row row-cards mb-3">
+                                <div class="page-header d-print-none">
+                                    <p class="page-title fs-1">
+                                        Tidak ada pelatihan aktif
+                                    </p>
+                                </div>
+                            </div>
+                        @endif
+
                     @endif
                     <div id='calendar'></div>
                     <!-- Modal -->
