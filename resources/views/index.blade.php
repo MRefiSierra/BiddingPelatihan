@@ -79,12 +79,19 @@
                                                     </svg>
                                                 </span>
                                             </div>
-                                            <div class="col">
+                                            <div class="col d-flex justify-content-between align-items-center">
+                                                <div id="kuotaDisplay" class="">
+                                                    <div class="font-weight-medium" id="kuotaBulan">
+                                                        Pilih bulan untuk melihat sisa kuota.
+                                                    </div>
+                                                    <div class="text-secondary" id="kuotaSisa">
+                                                        <!-- Sisa kuota akan ditampilkan di sini -->
+                                                    </div>
+                                                </div>
                                                 <div class="dropdown">
-                                                    <button class="btn btn-primary dropdown-toggle" type="button"
+                                                    <button class="btn dropdown-toggle py-3 px-4" type="button"
                                                         id="dropdownMenuButton" data-bs-toggle="dropdown"
                                                         aria-expanded="false">
-                                                        Pilih Bulan
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                         @foreach ($sisaKuotaBidPerBulan as $key => $sisaKuota)
@@ -105,18 +112,7 @@
                                                         @endforeach
                                                     </ul>
                                                 </div>
-                                                <div id="kuotaDisplay" class="mt-3">
-                                                    <div class="card">
-                                                        <div class="card-body">
-                                                            <div class="font-weight-medium" id="kuotaBulan">
-                                                                Pilih bulan untuk melihat sisa kuota.
-                                                            </div>
-                                                            <div class="text-secondary" id="kuotaSisa">
-                                                                <!-- Sisa kuota akan ditampilkan di sini -->
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+
                                             </div>
                                         </div>
                                     </div>

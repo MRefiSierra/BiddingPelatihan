@@ -29,7 +29,7 @@
                     <div class="col-auto">
                         <form action="" method="GET">
                             <div class="input-group">
-                                <input type="text" name="keyword" class="form-control" placeholder="Cari pelatihan...">
+                                <input type="text" name="keyword" class="form-control" placeholder="Cari user...">
                                 <button type="submit" class="btn btn-primary">Cari</button>
                             </div>
                         </form>
