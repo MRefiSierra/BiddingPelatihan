@@ -53,7 +53,7 @@ class PelatihanController extends Controller
         $currentYear = date('Y');
 
         $pelatihans = Pelatihans::with('relasiDenganRangeTanggal')
-        ->where('nama', 'LIKE', '%' . $keyword . '%')
+            ->where('nama', 'LIKE', '%' . $keyword . '%')
             // ->whereHas('relasiDenganRangeTanggal', function ($query) use ($currentMonth, $currentYear) {
             //     $query->whereMonth('tanggal_mulai', $currentMonth)
             //         ->whereYear('tanggal_mulai', $currentYear);
