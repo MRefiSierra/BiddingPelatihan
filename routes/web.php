@@ -24,6 +24,7 @@ Route::get('/logout', [Controller::class, 'logout'])->name('logout')->middleware
 
 Route::get('/dashboard', [Controller::class, 'dashboard'])->name('dashboard');
 Route::get('/pelatihan-aktif', [Controller::class, 'pelatihanAktif'])->name('pelatihan-aktif');
+Route::get('pelatihan-history', [Controller::class, 'pelatihanHistory'])->name('pelatihan-history');
 
 route::get('/dashboard-admin', function () {
     return view('admin.dashboard-admin');
