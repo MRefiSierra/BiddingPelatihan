@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\pelatihanInstruktur;
+use App\Models\Pelatihans;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -122,6 +123,13 @@ class Controller extends BaseController
 
         $allBid = pelatihanInstruktur::withTrashed()->where('id_instruktur', $user->id)->count();
 
+        $pelatihans = Pelatihans::whereHas('relasiDenganInstruktur', function ($query) use ($user) {
+            $query->where('id_instruktur', $user->id);
+        })
+            ->with(['relasiDenganRangeTanggal', 'relasiDenganInstruktur.user'])
+            ->take(3)
+            ->get();
+
         $allPelatihan = pelatihanInstruktur::where('id_instruktur', $user->id)
             ->whereYear('tanggal_bid', $tahunIni)
             ->count();
@@ -130,7 +138,28 @@ class Controller extends BaseController
             'sisaKuotaBidPerBulan' => $sisaKuotaBidPerBulan,
             'allBid' => $allBid,
             'allPelatihan' => $allPelatihan
-        ]);
+        ], compact('pelatihans'));
+    }
+
+    public function pelatihanAktif()
+    {
+        $user = Auth::user();
+        $pelatihans = Pelatihans::whereHas('relasiDenganInstruktur', function ($query) use ($user) {
+            $query->where('id_instruktur', $user->id);
+        })
+            ->with(['relasiDenganRangeTanggal', 'relasiDenganInstruktur.user'])
+            ->get();
+
+        return view('pelatihan-aktif', compact('pelatihans'));
+    }
+    private function hitungSisaKuota($instrukturId, $bulan, $tahun, $kuotaPerBulan)
+    {
+        $totalBid = pelatihanInstruktur::where('id_instruktur', $instrukturId)
+            ->whereYear('tanggal_bid', $tahun)
+            ->whereMonth('tanggal_bid', $bulan)
+            ->count();
+
+        return $kuotaPerBulan - $totalBid;
     }
     private function hitungSisaKuota($instrukturId, $bulan, $tahun, $kuotaPerBulan)
     {

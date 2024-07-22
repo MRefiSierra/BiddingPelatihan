@@ -51,13 +51,13 @@
                                     <td>{{ $pelatihan->nama }}</td>
                                     <td class="text-secondary">
                                         @if (is_null($pelatihan->relasiDenganRangeTanggal))
-                                                <p>Belum ada</p>
-                                            @else
-                                                {{ \Carbon\Carbon::parse(optional($pelatihan->relasiDenganRangeTanggal)->tanggal_mulai)->format('d F') }}
-                                                -
-                                                {{ \Carbon\Carbon::parse(optional($pelatihan->relasiDenganRangeTanggal)->tanggal_selesai)->format('d F Y') }}
-                                            @endif
-                                    
+                                            <p>Belum ada</p>
+                                        @else
+                                            {{ \Carbon\Carbon::parse(optional($pelatihan->relasiDenganRangeTanggal)->tanggal_mulai)->format('d F') }}
+                                            -
+                                            {{ \Carbon\Carbon::parse(optional($pelatihan->relasiDenganRangeTanggal)->tanggal_selesai)->format('d F Y') }}
+                                        @endif
+
                                     </td>
                                     <td class="text-secondary">{{ $pelatihan->lokasi }}</td>
                                     <td class="text-secondary">{{ $pelatihan->kuota }}</td>
@@ -67,7 +67,7 @@
                                             method="POST">
                                             @csrf
                                             <input type="hidden" name="pelatihan_id" value="{{ $pelatihan->id }}">
-                                            @if ($pelatihan->sudahBid)
+                                            @if ($pelatihan->sudahBid && $pelatihan->kuota_instruktur != 0)
                                                 <p class="btn btn-sm btn-secondary rounded" href="#">Terpilih</p>
                                             @elseif ($pelatihan->sudahBid == 0)
                                                 <button class="btn btn-sm btn-primary rounded" type="submit">Pilih
