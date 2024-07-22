@@ -130,6 +130,18 @@ class PelatihanController extends Controller
     {
         return view('admin.input-pelatihan');
     }
+    public function edit(Request $request, $id)
+    {
+
+        $pelatihan = Pelatihans::findOrFail($id);
+        $pelatihan->Nama = $request->input('nama');
+        $pelatihan->PRL = $request->input('prl');
+        $pelatihan->Lokasi = $request->input('lokasi');
+        $pelatihan->KuotaInstruktur = $request->input('kuota_instruktur');
+        $pelatihan->Kuota = $request->input('kuota');
+
+        return view('admin.edit-pelatihan');
+    }
 
     // Input Pelatihan Store
     public function store(Request $request)
