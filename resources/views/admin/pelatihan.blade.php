@@ -3,6 +3,13 @@
 @section('title', 'Input Pelatihan')
 
 @section('content')
+    <style>
+        td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
     <div class="page-wrapper">
         <div class="page-header d-print-none">
             <div class="container-xl">
@@ -141,12 +148,12 @@
 
                                     <td>
                                         <div class="d-flex gap-1">
-                                            {{-- <a href="/user-detail/delete/"
+                                            <a href="/edit-pelatihan/{{ $pelatihan->id }}"
                                                 class="align-items-center d-flex text-decoration-none">
                                                 <button class="btn btn-sm btn-warning py-1">
                                                     <i class="ti ti-edit"></i>
                                                 </button>
-                                            </a> --}}
+                                            </a>
                                             <a href="{{ route('pelatihan.delete.store', ['id' => $pelatihan->id]) }}"
                                                 class="align-items-center d-flex text-decoration-none">
                                                 <button class="btn btn-sm btn-danger py-1">
