@@ -128,9 +128,9 @@
                                                 <h3 class="card-title">{{ $pelatihan->nama }}</h3>
                                                 <p class="text-secondary">
                                                     Tanggal:
-                                                    {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->first()->tanggal_mulai)->format('d') }}
+                                                    {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_mulai)->format('d') }}
                                                     -
-                                                    {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->first()->tanggal_selesai)->format('d F Y') }}
+                                                    {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_selesai)->format('d F Y') }}
                                                     <br>
                                                     Lokasi: {{ $pelatihan->lokasi }} <br>
                                                     PRL: {{ $pelatihan->prl }}
