@@ -55,7 +55,11 @@ Route::get('/pelatihan/delete/{id}', [PelatihanController::class, 'deletePelatih
 //     return view('admin.add-user');
 // });
 
+// Export excel pelatihan
 Route::get('/export-excel', [PelatihanController::class,'exportExcel'])->name('exportExcel.store');
+
+// Export excel Instruktur
+Route::get('/export-excel/{id}', [PelatihanController::class, 'exportExcelInstruktur'])->name('exportExcelInstruktur.store');
 
 Route::get('/user-detail/{id}', [AdminController::class, 'userDetail']);
 Route::get('/user-detail/delete/{id}', [AdminController::class, 'deleteInstruktur'])->name('deleteInstrukturPelatihan.store');

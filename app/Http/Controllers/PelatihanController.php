@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\InstrukturPelatihanExport;
 use App\Exports\PelatihanInstrukturExport;
 use Carbon\Carbon;
 use App\Models\User;
@@ -124,6 +125,12 @@ class PelatihanController extends Controller
     {
         $bulan = $request->input('bulan');
         return Excel::download(new PelatihanInstrukturExport($bulan), 'data-pelatihan-bulan-' . Carbon::now()->month . '-' . Carbon::now()->timestamp . '.xlsx');
+    }
+
+    public function exportExcelInstruktur($id)
+    {
+        $instruktur = User::find($id);
+        return Excel::download(new InstrukturPelatihanExport($id), 'data-pelatihan-' . $instruktur->name . '.xlsx');
     }
 
     public function create()
