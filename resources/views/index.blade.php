@@ -126,13 +126,16 @@
                                             <div class="card-status-top bg-info"></div>
                                             <div class="card-body">
                                                 <h3 class="card-title">{{ $pelatihan->nama }}</h3>
-                                                <p class="text-secondary">
+                                                <p class="text-secondary m-0">
                                                     Tanggal:
-                                                    {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->first()->tanggal_mulai)->format('d') }}
+                                                    {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_mulai)->format('d F') }}
                                                     -
-                                                    {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->first()->tanggal_selesai)->format('d F Y') }}
-                                                    <br>
+                                                    {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_selesai)->format('d F Y') }}
+                                                </p>
+                                                <p class="text-secondary m-0 d-block text-truncate">
                                                     Lokasi: {{ $pelatihan->lokasi }} <br>
+                                                </p>
+                                                <p class="text-secondary m-0">
                                                     PRL: {{ $pelatihan->prl }}
                                                 </p>
                                             </div>
