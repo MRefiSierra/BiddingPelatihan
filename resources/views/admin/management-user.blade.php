@@ -63,10 +63,14 @@
                                     <td class="text-secondary">{{ $user->email }}</td>
                                     <td class="text-secondary">{{ $user->role }}</td>
                                     <td class="d-flex gap-1">
-                                        <a class="btn btn-sm btn-success rounded"
-                                            href="{{ route('managementUser.view.form.edit', ['id' => $user->id]) }}">Edit</button>
-                                            <a class="btn btn-sm btn-danger rounded"
-                                                href="{{ route('managementUser.delete', ['id' => $user->id]) }}">Delete</button>
+                                        <a class="btn btn-sm btn-primary rounded"
+                                            href="{{ route('managementUser.view.form.edit', ['id' => $user->id]) }}">Edit</a>
+                                        <a class="btn btn-sm btn-danger rounded"
+                                            href="{{ route('managementUser.delete', ['id' => $user->id]) }}">Delete</a>
+                                        @if ($user->role == 'instruktur')
+                                            <a class="btn btn-sm btn-success rounded" href="{{ route('exportExcelInstruktur.store', $user->id)}}"><i
+                                                    class="ti ti-file-spreadsheet"></i></a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
