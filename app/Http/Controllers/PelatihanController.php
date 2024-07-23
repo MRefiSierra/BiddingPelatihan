@@ -267,9 +267,12 @@ class PelatihanController extends Controller
         $tahunPelatihan = Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_mulai)->year;
 
         // Hitung total bid instruktur untuk bulan dan tahun yang sama
-        $totalBid = pelatihanInstruktur::where('id_instruktur', $user->id)
-            ->whereYear('tanggal_bid', $tahunPelatihan)
-            ->whereMonth('tanggal_bid', $bulanPelatihan)
+        $totalBid = DB::table('pelatihan_instruktur')
+            ->join('pelatihans', 'pelatihan_instruktur.id_pelatihan', '=', 'pelatihans.id')
+            ->join('range_tanggal', 'pelatihans.id_range_tanggal', '=', 'range_tanggal.id')
+            ->where('pelatihan_instruktur.id_instruktur', $user->id)
+            ->whereYear('range_tanggal.tanggal_mulai', $tahunPelatihan)
+            ->whereMonth('range_tanggal.tanggal_mulai', $bulanPelatihan)
             ->count();
 
         $kuotaPerBulan = 3;
