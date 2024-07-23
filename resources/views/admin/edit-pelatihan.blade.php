@@ -1,6 +1,6 @@
 @extends('main-layout.main-layout')
 
-@section('title', 'Input Pelatihan')
+@section('title', 'Edit Pelatihan')
 
 @section('content')
 
@@ -10,9 +10,10 @@
                 <div class="container py-4">
                     <div class="card w-100">
                         <div class="card-body shadow">
-                            <p class="fs-1 fw-semibold text-center mb-4">Input Pelatihan</p>
-                            <form method="POST" action="{{ route('storePelatihan') }}">
+                            <p class="fs-1 fw-semibold text-center mb-4">Edit Pelatihan {{ $pelatihan->nama }}</p>
+                            <form method="POST" action="{{ route('Pelatihan.update.store', $pelatihan->id) }}">
                                 @csrf
+                                @method('PUT')
                                 {{-- <div class="mb-3">
                                     <label class="form-label fs-3">PRL</label>
                                     <input type="text" class="form-control fs-4" name="PRL"
@@ -22,9 +23,9 @@
                                     <div class="has-validation">
                                         <label class="form-label fs-3">Nama</label>
                                         <input type="text" class="form-control @error('Nama') is-invalid @enderror"
-                                            name="Nama" placeholder="Masukkan nama pelatihan"
-                                            value="{{ old('Nama') }}" />
-                                        @error('Nama')
+                                            name="nama" placeholder="Masukkan nama pelatihan"
+                                            value="{{ $pelatihan->nama }}" />
+                                        @error('nama')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -35,7 +36,7 @@
                                         <input type="date" id="TanggalMulai"
                                             class="form-control @error('TanggalMulai') is-invalid @enderror"
                                             name="TanggalMulai" placeholder="Input placeholder" min="{{ date('Y-m-d') }}"
-                                            value="{{ old('TanggalMulai') }}" />
+                                            value="{{ $pelatihan->relasiDenganRangeTanggal->tanggal_mulai }}" />
                                         @error('TanggalMulai')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -45,7 +46,7 @@
                                         <input type="date" id="TanggalAkhir"
                                             class="form-control @error('TanggalAkhir') is-invalid @enderror"
                                             name="TanggalAkhir" placeholder="Input placeholder"
-                                            value="{{ old('TanggalAkhir') }}" />
+                                            value="{{ $pelatihan->relasiDenganRangeTanggal->tanggal_selesai }}" />
                                         @error('TanggalAkhir')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -55,17 +56,17 @@
                                     <div class="d-flex gap-3">
                                         <div class="col">
                                             <label class="form-label fs-3">Kuota Instruktur</label>
-                                            <input type="text"
+                                            <input type="number"
                                                 class="form-control @error('KuotaInstruktur') is-invalid @enderror"
-                                                name="KuotaInstruktur" placeholder="Masukkan Kuota Instruktur" />
+                                                name="KuotaInstruktur" placeholder="Masukkan Kuota Instruktur" value="{{ $pelatihan->kuota_instruktur }}" min="1" max="2" />
                                             @error('KuotaInstruktur')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
                                         <div class="col">
                                             <label class="form-label fs-3">Kuota</label>
-                                            <input type="text" class="form-control @error('Kuota') is-invalid @enderror"
-                                                name="Kuota" placeholder="Masukkan Kuota" value="{{ old('Kuota') }}" />
+                                            <input type="number" class="form-control @error('Kuota') is-invalid @enderror"
+                                                name="Kuota" placeholder="Masukkan Kuota" value="{{ $pelatihan->kuota }}" />
                                             @error('Kuota')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -77,7 +78,7 @@
                                         <div class="col">
                                             <label class="form-label fs-3">Lokasi</label>
                                             <input type="text" class="form-control @error('Lokasi') is-invalid @enderror"
-                                                name="Lokasi" placeholder="Masukkan Lokasi" />
+                                                name="Lokasi" placeholder="Masukkan Lokasi" value="{{ $pelatihan->lokasi }}" />
                                             @error('Lokasi')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -85,7 +86,7 @@
                                         <div class="col">
                                             <label class="form-label fs-3">PRL</label>
                                             <input type="text" class="form-control @error('PRL') is-invalid @enderror"
-                                                name="PRL" placeholder="Masukkan PRL" />
+                                                name="PRL" placeholder="Masukkan PRL" value="{{ $pelatihan->prl }}" />
                                             @error('PRL')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -121,4 +122,3 @@
     </script>
 
 @endsection
-    
