@@ -37,16 +37,7 @@
                                             <div class="col-auto">
                                                 <span
                                                     class="bg-primary text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="icon">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path
-                                                            d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2">
-                                                        </path>
-                                                        <path d="M12 3v3m0 12v3"></path>
-                                                    </svg>
+                                                    <i class="ti ti-briefcase fs-1"></i>
                                                 </span>
                                             </div>
                                             <div class="col">
@@ -66,17 +57,9 @@
                                     <div class="card-body">
                                         <div class="row align-items-center">
                                             <div class="col-auto">
-                                                <span class="bg-green text-white avatar">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="icon">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
-                                                        <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
-                                                        <path d="M17 17h-11v-14h-2"></path>
-                                                        <path d="M6 5l14 1l-1 7h-13"></path>
-                                                    </svg>
+                                                <span
+                                                    class="bg-success text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
+                                                    <i class="ti ti-refresh fs-1"></i>
                                                 </span>
                                             </div>
                                             <div class="col d-flex justify-content-between align-items-center">
@@ -89,7 +72,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="dropdown">
-                                                    <button class="btn dropdown-toggle py-3 px-4" type="button"
+                                                    <button class="btn dropdown-toggle p-1" type="button"
                                                         id="dropdownMenuButton" data-bs-toggle="dropdown"
                                                         aria-expanded="false">
                                                     </button>
@@ -113,35 +96,6 @@
                                                     </ul>
                                                 </div>
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class=" col">
-                                <div class="card card-sm">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            <div class="col-auto">
-                                                <span
-                                                    class="bg-x text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/brand-x -->
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="icon">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
-                                                        <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
-                                                    </svg>
-                                                </span>
-                                            </div>
-                                            <div class="col">
-                                                <div class="font-weight-medium">
-                                                    Jumlah Pelatihan
-                                                </div>
-                                                <div class="text-secondary">
-                                                    {{ $allPelatihan }}
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -214,8 +168,7 @@
                                     <p><strong>Instruktur:</strong> <span id="instrukturList"></span></p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>

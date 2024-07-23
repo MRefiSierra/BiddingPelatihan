@@ -26,15 +26,13 @@
                             Management User
                         </h2>
                     </div>
-                    <div class="col-auto">
+                    <div class="col d-flex text-end align-items-center justify-content-end gap-2">
                         <form action="" method="GET">
                             <div class="input-group">
                                 <input type="text" name="keyword" class="form-control" placeholder="Cari user...">
                                 <button type="submit" class="btn btn-primary">Cari</button>
                             </div>
                         </form>
-                    </div>
-                    <div class="col text-end align-items-center">
                         <a class="btn btn-large btn-success" href="{{ route('managementUser.view.form') }}">
                             <i class="ti ti-plus pe-2 fs-2"></i>
                             Tambah User
