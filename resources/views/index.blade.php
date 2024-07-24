@@ -30,8 +30,8 @@
                 <div class="container-xl">
                     @if (Auth::user()->role == 'instruktur')
                         <div class="row row-cards mb-3">
-                            <div class="col">
-                                <div class="card card-sm">
+                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                                <div class="card card-sm shadow-sm">
                                     <div class="card-body">
                                         <div class="row align-items-center">
                                             <div class="col-auto">
@@ -52,8 +52,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="card card-sm">
+                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                                <div class="card card-sm shadow-sm">
                                     <div class="card-body">
                                         <div class="row align-items-center">
                                             <div class="col-auto">
@@ -106,12 +106,12 @@
                             <div class="row row-cards mb-3">
                                 <div class="page-header d-print-none">
                                     <div class="row justify-content-between align-items-center">
-                                        <div class="col-2">
+                                        <div class="col-6 col-lg-8">
                                             <p class="page-title fs-1">
                                                 Pelatihan Aktif
                                             </p>
                                         </div>
-                                        <div class="col-2">
+                                        <div class="col-6 col-lg-3 col-md-3 col-sm-6 d-flex justify-content-end">
                                             <a href="/pelatihan-aktif" class="text-decoration-none text-secondary">
                                                 <p class="page-title fs-4">
                                                     Lihat Selengkapnya...
@@ -121,8 +121,8 @@
                                     </div>
                                 </div>
                                 @foreach ($pelatihans as $pelatihan)
-                                    <div class="col-4">
-                                        <div class="card">
+                                    <div class="col-12 col-lg-4 col-md-12 col-sm-12">
+                                        <div class="card shadow-sm rounded">
                                             <div class="card-status-top bg-info"></div>
                                             <div class="card-body">
                                                 <h3 class="card-title">{{ $pelatihan->nama }}</h3>

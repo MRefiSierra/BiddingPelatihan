@@ -25,16 +25,21 @@
                         <h2>{{ $bulan }}</h2>
                         <div class="row mb-3">
                             @foreach ($pelatihans as $pelatihan)
-                                <div class="col-3 mb-3">
+                                <div class="col-12 col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3">
                                     <div class="card">
-                                        <div class="card-status-top bg-secondary"></div>
+                                        <div class="card-status-top bg-info"></div>
                                         <div class="card-body">
                                             <h3 class="card-title">{{ $pelatihan->nama }}</h3>
-                                            <p class="text-secondary">
-                                                Tanggal: {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_mulai)->format('d') }} -
+                                            <p class="text-secondary m-0">
+                                                Tanggal:
+                                                {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_mulai)->format('d') }}
+                                                -
                                                 {{ \Carbon\Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_selesai)->format('d F Y') }}
-                                                <br>
-                                                Lokasi: {{ $pelatihan->lokasi }} <br>
+                                            </p>
+                                            <p class="m-0 d-block text-truncate">
+                                                Lokasi: {{ $pelatihan->lokasi }}
+                                            </p>
+                                            <p class="m-0">
                                                 PRL: {{ $pelatihan->prl }}
                                             </p>
                                         </div>

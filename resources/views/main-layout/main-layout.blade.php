@@ -19,6 +19,14 @@
 
 </head>
 
+<style>
+    .ps-sm-2 {
+        @media screen and (max-width: 576px) {
+            padding-left: 4px
+        }
+    }
+</style>
+
 <body>
 
     <!-- Sidebar -->
@@ -35,16 +43,6 @@
                 {{-- <h3 class="text-center">Selamat datang {{ Auth::user()->name }}!</h3>
                 <h5 class="text-center">Kamu login sebagai {{ Auth::user()->role }}</h5> --}}
             </h1>
-            <div class="d-flex justify-content-center my-3">
-                <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown"
-                    aria-label="Open user menu" aria-expanded="false">
-                    <i class="ti ti-user-filled border border-1 rounded-circle p-1 bg-body-tertiary text-dark-emphasis" style="font-size: 2.5rem"></i>
-                    <div class="d-none d-xl-block ps-2">
-                        <div>{{ Auth::user()->name }}</div>
-                        <div class="mt-1 small text-secondary">{{ ucfirst(Auth::user()->role) }}</div>
-                    </div>
-                </a>
-            </div>
             {{-- <div class="navbar-brand navbar-brand-autodark">
                 <a href="{{ route('dashboard') }}">
                     <h1>Bid Pelatihan</h1>
@@ -59,6 +57,16 @@
                 </a>
             </div> --}}
             <div class="collapse navbar-collapse" id="sidebar-menu">
+                <div class="d-sm-flex pt-sm-2 justify-content-center my-3 ps-sm-2">
+                    <a href="#" class="nav-link d-flex lh-1 text-reset p-0">
+                        <i
+                            class="ti ti-user-filled border border-1 rounded-circle p-1 bg-body-tertiary text-dark-emphasis fs-1"></i>
+                        <div class="ps-2">
+                            <div>{{ Auth::user()->name }}</div>
+                            <div class="mt-1 small text-secondary">{{ ucfirst(Auth::user()->role) }}</div>
+                        </div>
+                    </a>
+                </div>
                 <ul class="navbar-nav pt-lg-3">
                     <li class="nav-item {{ Request::route()->named('dashboard') ? 'active' : '' }}">
                         <a class="nav-link" href="/">

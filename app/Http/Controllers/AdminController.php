@@ -15,9 +15,14 @@ class AdminController extends Controller
     public function managementUser(Request $request)
     {
         $keyword = $request->input('keyword');
-        $users = User::where('name', 'LIKE', '%'.$keyword.'%')->paginate(10);
+        $users = User::where('name', 'LIKE', '%' . $keyword . '%')->paginate(10);
+        if ($users->isEmpty()) {
+            return redirect()->back()->with('error', 'Tidak ada hasil yang ditemukan untuk pencarian "' . $keyword . '".');
+        }
         return view('admin.management-user', ['users' => $users]);
     }
+
+
 
     public function inputUser()
     {

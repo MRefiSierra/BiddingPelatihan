@@ -65,6 +65,10 @@ class PelatihanController extends Controller
             // })
             ->paginate(10);
 
+        if ($pelatihans->isEmpty()) {
+            return redirect()->back()->with('error', 'Tidak ada hasil yang ditemukan untuk pencarian "' . $keyword . '".');
+        }
+
         $user = Auth::user();
 
         foreach ($pelatihans as $pelatihan) {
