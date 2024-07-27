@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use ZipArchive;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log; // Import the Log facade
+
 
 
 class PelatihanController extends Controller
@@ -131,24 +133,13 @@ class PelatihanController extends Controller
 
     public function exportExcel(Request $request)
     {
-        // $bulan = $request->input('bulan');
-        // return Excel::download(new PelatihanInstrukturExport($bulan), 'data-pelatihan-bulan-' . Carbon::now()->month . '-' . Carbon::now()->timestamp . '.xlsx');
-
-        // $exportType = $request->input('exportType');
-
-        // if ($exportType === 'month') {
-        //     $months = $request->input('months');
-        //     $year = $request->input('year');
-        //     return Excel::download(new PelatihanInstrukturExport($months, $year), 'data-pelatihan-' . implode('-', $months) . '-' . $year . '.xlsx');
-        // } elseif ($exportType === 'instructor') {
-        //     $instructors = $request->input('instructors');
-        //     return Excel::download(new InstrukturPelatihanExport($instructors), 'data-pelatihan-instruktur-' . implode('-', $instructors) . '.xlsx');
-        // }
-
-        // // Default action or error handling
-        // return redirect()->back()->withErrors('Silahkan pilih jenis ekspor.');
-
         $exportType = $request->input('exportType');
+
+        $tempPath = storage_path('app/temp/');
+
+        if (!file_exists($tempPath)) {
+            mkdir($tempPath, 0777, true);
+        }
 
         if ($exportType === 'month') {
             $months = $request->input('months', []);
@@ -211,16 +202,15 @@ class PelatihanController extends Controller
             }
 
             $zip->close();
-        }
-        if ($zipFileName) {
-            $response = response()->download($tempPath . $zipFileName);
 
-            // Remove the temp directory and files after sending the response
-            File::cleanDirectory($tempPath); // Remove all files and folders in temp directory
-            rmdir($tempPath); // Remove the temp directory itself
-
-            return $response->deleteFileAfterSend(true);
+            return response()->download($tempPath . $zipFileName)->deleteFileAfterSend(true);
         }
+
+        // Bersihkan folder temporary jika kosong
+        if (file_exists($tempPath) && count(glob($tempPath . '*')) === 0) {
+            rmdir($tempPath);
+        }
+
 
         return redirect()->back()->withErrors('Silahkan pilih jenis ekspor.');
     }
