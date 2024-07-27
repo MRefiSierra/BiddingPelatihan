@@ -38,7 +38,7 @@
             }
 
             @media screen and (min-width: 575px) {
-                /* display: none */
+                display: none
             }
         }
     </style>
