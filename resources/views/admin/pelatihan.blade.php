@@ -26,7 +26,7 @@
             }
 
             @media screen and (min-width: 575px) {
-                display: none
+                /* display: none */
             }
         }
 
@@ -61,13 +61,15 @@
                         </h2>
                     </div>
                     <div class="col d-lg-flex justify-content-end gap-3">
-                        <div class="row">
+                        <div class="row pt-lg-0 pt-2">
                             <!-- Tombol untuk membuka modal -->
-                            <button type="button" class="btn btn-large btn-success" data-bs-toggle="modal"
-                                data-bs-target="#exportModal">
-                                <i class="ti ti-file-excel pe-2 fs-2"></i>
-                                Export Excel
-                            </button>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-large btn-success w-100" data-bs-toggle="modal"
+                                    data-bs-target="#exportModal">
+                                    <i class="ti ti-file-excel pe-2 fs-2"></i>
+                                    Export Excel
+                                </button>
+                            </div>
                         </div>
                         <div class="row pt-lg-0 pt-2">
                             <div class=" text-center">
