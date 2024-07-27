@@ -37,7 +37,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <h1 class="navbar-brand navbar-brand-autodark">
-                <a href="{{ route('dashboard') }}">
+                <a href="{{ route('dashboard') }}" class="navbar-brand">
                     <h1>Bid Pelatihan</h1>
                 </a>
                 {{-- <h3 class="text-center">Selamat datang {{ Auth::user()->name }}!</h3>
