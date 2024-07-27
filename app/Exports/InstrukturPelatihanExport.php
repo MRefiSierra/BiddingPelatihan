@@ -14,12 +14,13 @@ class InstrukturPelatihanExport implements FromCollection, WithHeadings, WithMap
      * @return \Illuminate\Support\Collection
      */
 
-    protected $id;
+    protected $instructors;
 
-    public function __construct($id)
+    public function __construct($instructors)
     {
-        $this->id = $id;
+        $this->instructors = $instructors;
     }
+
 
     public function collection()
     {
@@ -34,10 +35,11 @@ class InstrukturPelatihanExport implements FromCollection, WithHeadings, WithMap
                 $query->whereBetween('tanggal_mulai', [$start, $end]);
             })
             ->whereHas('relasiDenganInstruktur', function ($query) {
-                $query->where('id_instruktur', $this->id);
+                $query->whereIn('id_instruktur', $this->instructors);
             })
             ->get();
     }
+
 
     public function headings(): array
     {
@@ -64,7 +66,6 @@ class InstrukturPelatihanExport implements FromCollection, WithHeadings, WithMap
             optional($pelatihan->relasiDenganRangeTanggal)->tanggal_selesai ? Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_selesai)->format('d F Y') : '',
             $pelatihan->lokasi,
             $pelatihan->kuota,
-            // $pelatihan->kuota_instruktur,
             optional($instruktur1)->user->name ?? '',
             optional($instruktur2)->user->name ?? '',
         ];

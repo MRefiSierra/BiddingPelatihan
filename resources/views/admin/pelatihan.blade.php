@@ -29,6 +29,13 @@
                 display: none
             }
         }
+
+        #selectAllMonthsButton,
+        #deselectAllMonthsButton,
+        #selectAllInstructorsButton,
+        #deselectAllInstructorsButton {
+            cursor: pointer;
+        }
     </style>
     <div class="page-wrapper">
         <div class="page-header d-print-none">
@@ -53,19 +60,14 @@
                             Listing Pelatihan
                         </h2>
                     </div>
-                    <div class="col d-lg-flex justify-content-end gap-2">
+                    <div class="col d-lg-flex justify-content-end gap-3">
                         <div class="row">
-                            <div class=" text-center">
-                                <form action="{{ route('exportExcel.store') }}" method="GET" class="d-inline-block w-100">
-                                    <div class="input-group">
-                                        <input type="month" name="bulan" class="form-control">
-                                        <button type="submit" class="btn btn-large btn-success">
-                                            <i class="ti ti-file-excel pe-2 fs-2"></i>
-                                            Print Excel
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
+                            <!-- Tombol untuk membuka modal -->
+                            <button type="button" class="btn btn-large btn-success" data-bs-toggle="modal"
+                                data-bs-target="#exportModal">
+                                <i class="ti ti-file-excel pe-2 fs-2"></i>
+                                Export Excel
+                            </button>
                         </div>
                         <div class="row pt-lg-0 pt-2">
                             <div class=" text-center">
@@ -82,6 +84,197 @@
                 </div>
             </div>
         </div>
+
+        <div class="text-center">
+            <!-- Modal -->
+            <!-- Modal Export -->
+            <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exportModalLabel">Export Excel</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="exportForm" action="{{ route('exportExcel.store') }}" method="GET">
+                                <!-- Tab Navigation -->
+                                <ul class="nav nav-tabs" id="exportTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link active" id="month-tab" data-bs-toggle="tab" href="#month"
+                                            role="tab">Bulan dan Tahun</a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="instructor-tab" data-bs-toggle="tab" href="#instructor"
+                                            role="tab">Instruktur</a>
+                                    </li>
+                                </ul>
+
+                                <!-- Tab Content -->
+                                <div class="tab-content mt-3" id="exportTabsContent">
+                                    <!-- Tab Bulan dan Tahun -->
+                                    <div class="tab-pane fade show active" id="month" role="tabpanel"
+                                        aria-labelledby="month-tab">
+                                        <input type="hidden" name="exportType" id="exportTypeMonth" value="month">
+                                        <div class="gap-3">
+                                            <div class="mb-3 col">
+                                                <label for="year" class="form-label">Tahun:</label>
+                                                <input class="form-control" type="number" id="year" name="year"
+                                                    min="2000" max="3000" step="1"
+                                                    value="{{ \Carbon\Carbon::now()->year }}"
+                                                    placeholder="Masukkan Tahun" />
+                                            </div>
+                                            <div class="mb-3 col">
+                                                <label for="months" class="form-label">Bulan:</label>
+                                                <div id="monthsWrapper" class="form-control text-start"
+                                                    style="height: 200px; overflow-y: auto;">
+                                                    @for ($i = 1; $i <= 12; $i++)
+                                                        <div class="form-check text-start">
+                                                            <input type="checkbox" id="month{{ $i }}"
+                                                                value="{{ $i }}" class="form-check-input">
+                                                            <label class="form-check-label"
+                                                                for="month{{ $i }}">{{ \Carbon\Carbon::create()->month($i)->format('F') }}</label>
+                                                        </div>
+                                                    @endfor
+                                                </div>
+                                                <div class="d-flex mt-2">
+                                                    <p id="selectAllMonthsButton"
+                                                        class="text-secondary text-decoration-underline mb-2 m-1">Pilih
+                                                        semua</p>
+                                                    <p id="deselectAllMonthsButton"
+                                                        class="text-secondary text-decoration-underline mb-2 m-1">Jangan
+                                                        pilih semua</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Tab Instruktur -->
+                                    <div class="tab-pane fade" id="instructor" role="tabpanel"
+                                        aria-labelledby="instructor-tab">
+                                        <input type="hidden" name="exportType" id="exportTypeInstructor"
+                                            value="instructor">
+                                        <div class="mb-3 col">
+                                            <label for="searchInstructor" class="form-label">Cari Instruktur:</label>
+                                            <input type="text" id="searchInstructor" class="form-control"
+                                                placeholder="Cari instruktur...">
+                                        </div>
+                                        <div class="mb-3 col">
+                                            <label for="instructors" class="form-label">Instruktur:</label>
+                                            <div id="instructorsWrapper" class="form-control text-start"
+                                                style="height: 250px; overflow-y: auto;">
+                                                @foreach ($instructors as $instructor)
+                                                    <div class="form-check text-start">
+                                                        <input type="checkbox" id="instructor{{ $instructor->id }}"
+                                                            value="{{ $instructor->id }}" class="form-check-input"
+                                                            name="instructors[]">
+                                                        <label class="form-check-label"
+                                                            for="instructor{{ $instructor->id }}">{{ $instructor->name }}</label>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            <div class="d-flex mt-2">
+                                                <p id="selectAllInstructorsButton"
+                                                    class="text-secondary text-decoration-underline mb-2 m-1">Pilih semua
+                                                </p>
+                                                <p id="deselectAllInstructorsButton"
+                                                    class="text-secondary text-decoration-underline mb-2 m-1">Jangan pilih
+                                                    semua</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tombol Submit -->
+                                <button type="submit" class="btn btn-success mt-3">Export</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Script untuk menampilkan form berdasarkan jenis ekspor yang dipilih -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const form = document.getElementById('exportForm');
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+
+                    const activeTab = document.querySelector('.nav-link.active').getAttribute('href');
+                    let url = form.action + '?';
+                    const params = new URLSearchParams();
+
+                    if (activeTab === '#month') {
+                        const year = document.getElementById('year').value;
+                        const months = Array.from(document.querySelectorAll(
+                            '#monthsWrapper .form-check-input:checked')).map(cb => cb.value);
+
+                        if (months.length > 0) {
+                            params.append('exportType', 'month');
+                            params.append('year', year);
+                            months.forEach(month => params.append('months[]', month));
+
+                            url += params.toString();
+
+                            window.location.href = url;
+                        }
+                    } else if (activeTab === '#instructor') {
+                        const instructors = Array.from(document.querySelectorAll(
+                            '#instructorsWrapper .form-check-input:checked')).map(cb => cb.value);
+
+                        if (instructors.length > 0) {
+                            params.append('exportType', 'instructor');
+                            instructors.forEach(instructor => params.append('instructors[]', instructor));
+
+                            url += params.toString();
+
+                            window.location.href = url;
+                        }
+                    }
+                });
+
+                // Implementasi seleksi dan deselect semua checkbox
+                const checkboxesMonths = document.querySelectorAll('#monthsWrapper .form-check-input');
+                const selectAllMonthsButton = document.getElementById('selectAllMonthsButton');
+                const deselectAllMonthsButton = document.getElementById('deselectAllMonthsButton');
+
+                selectAllMonthsButton.addEventListener('click', function() {
+                    checkboxesMonths.forEach(function(checkbox) {
+                        checkbox.checked = true;
+                    });
+                });
+
+                deselectAllMonthsButton.addEventListener('click', function() {
+                    checkboxesMonths.forEach(function(checkbox) {
+                        checkbox.checked = false;
+                    });
+                });
+
+                const checkboxesInstructors = document.querySelectorAll('#instructorsWrapper .form-check-input');
+                const selectAllInstructorsButton = document.getElementById('selectAllInstructorsButton');
+                const deselectAllInstructorsButton = document.getElementById('deselectAllInstructorsButton');
+
+                selectAllInstructorsButton.addEventListener('click', function() {
+                    checkboxesInstructors.forEach(function(checkbox) {
+                        checkbox.checked = true;
+                    });
+                });
+
+                deselectAllInstructorsButton.addEventListener('click', function() {
+                    checkboxesInstructors.forEach(function(checkbox) {
+                        checkbox.checked = false;
+                    });
+                });
+            });
+        </script>
+
+
+
+
+
+
+
+
         <div class="page-body">
             <div class="container-xl">
                 {{-- mobile --}}

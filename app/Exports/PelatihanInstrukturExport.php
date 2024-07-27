@@ -15,19 +15,22 @@ class PelatihanInstrukturExport implements FromCollection, WithHeadings, WithMap
      * @return \Illuminate\Support\Collection
      */
 
-    protected $bulan;
+    protected $months;
+    protected $year;
 
-    public function __construct($bulan)
+    public function __construct($months, $year)
     {
-        $this->bulan = $bulan;
+        $this->months = $months;
+        $this->year = $year;
     }
+
 
     public function collection()
     {
-        $tanggal = Carbon::create($this->bulan . '-01');
-        $start = $tanggal->startOfMonth()->toDateString();
-        $end = $tanggal->endOfMonth()->toDateString();
+        $start = Carbon::create($this->year . '-' . $this->months[0] . '-01')->startOfMonth()->toDateString();
+        $end = Carbon::create($this->year . '-' . $this->months[count($this->months) - 1] . '-01')->endOfMonth()->toDateString();
 
+        // Mengubah query untuk mencakup semua bulan yang dipilih
         return Pelatihans::with(['relasiDenganRangeTanggal', 'relasiDenganInstruktur' => function ($query) {
             $query->whereNull('deleted_at')->with('user');
         }])
@@ -36,6 +39,7 @@ class PelatihanInstrukturExport implements FromCollection, WithHeadings, WithMap
             })
             ->get();
     }
+
 
     public function headings(): array
     {
@@ -55,7 +59,7 @@ class PelatihanInstrukturExport implements FromCollection, WithHeadings, WithMap
     {
         $instruktur1 = $pelatihan->relasiDenganInstruktur->sortBy('id')->first();
         $instruktur2 = $pelatihan->relasiDenganInstruktur->sortBy('id')->skip(1)->first();
-
+    
         return [
             $pelatihan->nama,
             optional($pelatihan->relasiDenganRangeTanggal)->tanggal_mulai ? Carbon::parse($pelatihan->relasiDenganRangeTanggal->tanggal_mulai)->format('d F Y') : '',
@@ -67,4 +71,5 @@ class PelatihanInstrukturExport implements FromCollection, WithHeadings, WithMap
             optional($instruktur2)->user->name ?? '',
         ];
     }
+    
 }

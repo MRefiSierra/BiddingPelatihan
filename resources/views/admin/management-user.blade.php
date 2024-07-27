@@ -104,11 +104,11 @@
                                             <a class="btn btn-sm btn-danger rounded 
                                             @if ($user->role == 'instruktur') w-50 @else w-100 @endif  "
                                                 href="{{ route('managementUser.delete', ['id' => $user->id]) }}">Delete</a>
-                                            @if ($user->role == 'instruktur')
+                                            {{-- @if ($user->role == 'instruktur')
                                                 <a class="btn btn-sm btn-success rounded w-50"
                                                     href="{{ route('exportExcelInstruktur.store', $user->id) }}"><i
                                                         class="ti ti-file-spreadsheet"></i></a>
-                                            @endif
+                                            @endif --}}
                                         </div>
                                     </div>
                                 </div>
@@ -145,11 +145,11 @@
                                                 href="{{ route('managementUser.view.form.edit', ['id' => $user->id]) }}">Edit</a>
                                             <a class="btn btn-sm btn-danger rounded"
                                                 href="{{ route('managementUser.delete', ['id' => $user->id]) }}">Delete</a>
-                                            @if ($user->role == 'instruktur')
+                                            {{-- @if ($user->role == 'instruktur')
                                                 <a class="btn btn-sm btn-success rounded"
                                                     href="{{ route('exportExcelInstruktur.store', $user->id) }}"><i
                                                         class="ti ti-file-spreadsheet"></i></a>
-                                            @endif
+                                            @endif --}}
                                         </td>
                                     </tr>
                                 @endforeach

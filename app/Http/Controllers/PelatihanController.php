@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\DB;
 use App\Models\pelatihanInstruktur;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use ZipArchive;
+use Illuminate\Support\Facades\File;
+
 
 class PelatihanController extends Controller
 {
@@ -120,22 +123,113 @@ class PelatihanController extends Controller
         // }
         // return view('admin.pelatihan', ['pelatihans' => $pelatihans, 'instruktur' => $instruktur]);
 
+        $instructors = User::all();
         // Mengambil data pelatihan beserta relasi tanggal dan instruktur
         $pelatihans = Pelatihans::with(['relasiDenganRangeTanggal', 'relasiDenganInstruktur.user'])->paginate(10);
-        return view('admin.pelatihan', compact('pelatihans'));
+        return view('admin.pelatihan', compact('pelatihans', 'instructors'));
     }
 
     public function exportExcel(Request $request)
     {
-        $bulan = $request->input('bulan');
-        return Excel::download(new PelatihanInstrukturExport($bulan), 'data-pelatihan-bulan-' . Carbon::now()->month . '-' . Carbon::now()->timestamp . '.xlsx');
+        // $bulan = $request->input('bulan');
+        // return Excel::download(new PelatihanInstrukturExport($bulan), 'data-pelatihan-bulan-' . Carbon::now()->month . '-' . Carbon::now()->timestamp . '.xlsx');
+
+        // $exportType = $request->input('exportType');
+
+        // if ($exportType === 'month') {
+        //     $months = $request->input('months');
+        //     $year = $request->input('year');
+        //     return Excel::download(new PelatihanInstrukturExport($months, $year), 'data-pelatihan-' . implode('-', $months) . '-' . $year . '.xlsx');
+        // } elseif ($exportType === 'instructor') {
+        //     $instructors = $request->input('instructors');
+        //     return Excel::download(new InstrukturPelatihanExport($instructors), 'data-pelatihan-instruktur-' . implode('-', $instructors) . '.xlsx');
+        // }
+
+        // // Default action or error handling
+        // return redirect()->back()->withErrors('Silahkan pilih jenis ekspor.');
+
+        $exportType = $request->input('exportType');
+
+        if ($exportType === 'month') {
+            $months = $request->input('months', []);
+            $year = $request->input('year');
+            $zipFileName = 'data-pelatihan-' . implode('-', $months) . '-' . $year . '.zip';
+            $zip = new ZipArchive();
+            $tempPath = storage_path('app/temp/');
+
+            if (!file_exists($tempPath)) {
+                mkdir($tempPath, 0777, true);
+            }
+
+            $zip->open($tempPath . $zipFileName, ZipArchive::CREATE);
+
+            foreach ($months as $month) {
+                $fileName = 'data-pelatihan-' . $month . '-' . $year . '.xlsx';
+                $export = new PelatihanInstrukturExport([$month], $year);
+
+                $excelFilePath = $tempPath . $fileName;
+                Excel::store($export, $fileName, 'local');
+
+                if (file_exists(storage_path('app/' . $fileName))) {
+                    rename(storage_path('app/' . $fileName), $excelFilePath);
+                }
+
+                $zip->addFile($excelFilePath, $fileName);
+            }
+
+            $zip->close();
+
+            return response()->download($tempPath . $zipFileName)->deleteFileAfterSend(true);
+        } elseif ($exportType === 'instructor') {
+            $instructorIds = $request->input('instructors', []);
+            $zipFileName = 'data-pelatihan-instruktur.zip';
+            $zip = new ZipArchive();
+            $tempPath = storage_path('app/temp/');
+
+            if (!file_exists($tempPath)) {
+                mkdir($tempPath, 0777, true);
+            }
+
+            $zip->open($tempPath . $zipFileName, ZipArchive::CREATE);
+
+            foreach ($instructorIds as $id) {
+                $instructor = User::find($id);
+                if ($instructor) {
+                    $instructorName = $instructor->name; // Ambil nama instruktur
+                    $fileName = 'data-pelatihan-instruktur-' . $instructorName . '.xlsx';
+                    $export = new InstrukturPelatihanExport([$id]);
+
+                    $excelFilePath = $tempPath . $fileName;
+                    Excel::store($export, $fileName, 'local');
+
+                    if (file_exists(storage_path('app/' . $fileName))) {
+                        rename(storage_path('app/' . $fileName), $excelFilePath);
+                    }
+
+                    $zip->addFile($excelFilePath, $fileName);
+                }
+            }
+
+            $zip->close();
+        }
+        if ($zipFileName) {
+            $response = response()->download($tempPath . $zipFileName);
+
+            // Remove the temp directory and files after sending the response
+            File::cleanDirectory($tempPath); // Remove all files and folders in temp directory
+            rmdir($tempPath); // Remove the temp directory itself
+
+            return $response->deleteFileAfterSend(true);
+        }
+
+        return redirect()->back()->withErrors('Silahkan pilih jenis ekspor.');
     }
 
-    public function exportExcelInstruktur($id)
-    {
-        $instruktur = User::find($id);
-        return Excel::download(new InstrukturPelatihanExport($id), 'data-pelatihan-' . $instruktur->name . '.xlsx');
-    }
+    // public function exportExcelInstruktur($id)
+    // {
+    //     $instruktur = User::find($id);
+    //     return Excel::download(new InstrukturPelatihanExport($id), 'data-pelatihan-' . $instruktur->name . '.xlsx');
+    // }
 
     public function create()
     {
