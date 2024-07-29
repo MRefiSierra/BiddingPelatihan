@@ -153,36 +153,41 @@
                                     <!-- Tab Instruktur -->
                                     <div class="tab-pane fade" id="instructor" role="tabpanel"
                                         aria-labelledby="instructor-tab">
-                                        <input type="hidden" name="exportType" id="exportTypeInstructor"
-                                            value="instructor">
-                                        <div class="mb-3 col">
-                                            <label for="searchInstructor" class="form-label">Cari Instruktur:</label>
-                                            <input type="text" id="searchInstructor" class="form-control"
-                                                placeholder="Cari instruktur...">
-                                        </div>
-                                        <div class="mb-3 col">
-                                            <label for="instructors" class="form-label">Instruktur:</label>
-                                            <div id="instructorsWrapper" class="form-control text-start"
-                                                style="height: 250px; overflow-y: auto;">
-                                                @foreach ($instructors as $instructor)
-                                                    <div class="form-check text-start">
-                                                        <input type="checkbox" id="instructor{{ $instructor->id }}"
-                                                            value="{{ $instructor->id }}" class="form-check-input"
-                                                            name="instructors[]">
-                                                        <label class="form-check-label"
-                                                            for="instructor{{ $instructor->id }}">{{ $instructor->name }}</label>
-                                                    </div>
-                                                @endforeach
+                                        <!-- Tambahkan script Alpine.js -->
+                                        {{-- <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script> --}}
+
+                                        <div x-data="{ search: '' }">
+                                            <div class="mb-3 col">
+                                                <label for="searchInstructor" class="form-label">Cari Instruktur:</label>
+                                                <input type="text" id="searchInstructor" class="form-control"
+                                                    placeholder="Cari instruktur..." x-model="search">
                                             </div>
-                                            <div class="d-flex mt-2">
-                                                <p id="selectAllInstructorsButton"
-                                                    class="text-secondary text-decoration-underline mb-2 m-1">Pilih semua
-                                                </p>
-                                                <p id="deselectAllInstructorsButton"
-                                                    class="text-secondary text-decoration-underline mb-2 m-1">Jangan pilih
-                                                    semua</p>
+                                            <div class="mb-3 col">
+                                                <label for="instructors" class="form-label">Instruktur:</label>
+                                                <div id="instructorsWrapper" class="form-control text-start"
+                                                    style="height: 250px; overflow-y: auto;">
+                                                    @foreach ($instructors as $instructor)
+                                                        <div class="form-check text-start"
+                                                            x-show="search === '' || '{{ $instructor->name }}'.toLowerCase().includes(search.toLowerCase())">
+                                                            <input type="checkbox" id="instructor{{ $instructor->id }}"
+                                                                value="{{ $instructor->id }}" class="form-check-input"
+                                                                name="instructors[]">
+                                                            <label class="form-check-label"
+                                                                for="instructor{{ $instructor->id }}">{{ $instructor->name }}</label>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                                <div class="d-flex mt-2">
+                                                    <p id="selectAllInstructorsButton"
+                                                        class="text-secondary text-decoration-underline mb-2 m-1">Pilih
+                                                        semua</p>
+                                                    <p id="deselectAllInstructorsButton"
+                                                        class="text-secondary text-decoration-underline mb-2 m-1">Jangan
+                                                        pilih semua</p>
+                                                </div>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
 
